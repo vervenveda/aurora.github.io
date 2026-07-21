@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evening Ember — Gentle Nightly Reflection</title>
+  <style>
+    :root{
+      --bg-top:#050816;
+      --bg-bottom:#190f2a;
+      --card:#fdf8f2;
+      --ink:#2a2018;
+      --muted:#7a6857;
+      --accent:#5b6fd6;
+      --accent-soft:#dde3ff;
+      --border:#e0d3c4;
+      --glow:#f7e1b8;
+    }
+    *{box-sizing:border-box;}
+
+    html,body{
+      margin:0;
+      padding:0;
+      height:100%;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--ink);
+    }
+    body{
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding:18px 10px 26px;
+      background:radial-gradient(circle at 10% 0%, #1c2440 0%, var(--bg-top) 32%, var(--bg-bottom) 100%);
+    }
+
+    .ember-app{
+      width:100%;
+      max-width:440px;
+      background:var(--card);
+      border-radius:18px;
+      padding:16px 16px 18px;
+      box-shadow:
+        0 18px 40px rgba(0,0,0,0.35),
+        0 0 0 1px rgba(255,255,255,0.5);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .ember-app::before{
+      content:"";
+      position:absolute;
+      inset:auto auto -70px -70px;
+      width:180px;height:180px;
+      background:radial-gradient(circle,#ffe7b7 0%,rgba(255,231,183,0) 70%);
+      opacity:0.45;
+      pointer-events:none;
+    }
+
+    header{
+      text-align:center;
+      margin-bottom:10px;
+      position:relative;
+      z-index:1;
+    }
+    header h1{
+      margin:0 0 3px;
+      font-size:1.5rem;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      color:#3b2d22;
+    }
+    header .tagline{
+      margin:0;
+      font-size:0.9rem;
+      color:var(--muted);
+    }
+    .tonight-label{
+      margin-top:4px;
+      font-size:0.8rem;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      color:#a18463;
+    }
+
+    .section{
+      background:#fdf9f4;
+      border-radius:14px;
+      border:1px solid var(--border);
+      padding:10px 10px 12px;
+      margin-bottom:10px;
+      position:relative;
+      z-index:1;
+    }
+    .section-title{
+      font-size:0.82rem;
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      color:#8a6e52;
+      margin:0 0 6px;
+    }
+
+    .question-box{
+      padding:9px 10px 10px;
+      border-radius:11px;
+      background:#f4eee4;
+      border:1px solid #e2d4c3;
+      font-size:0.96rem;
+      line-height:1.4;
+      color:#3b2c1f;
+    }
+
+    .question-extra-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:6px;
+      font-size:0.78rem;
+      color:var(--muted);
+    }
+
+    .pill-btn{
+      border-radius:999px;
+      border:1px solid #c9b497;
+      background:#f6ebdd;
+      color:#5a4736;
+      padding:4px 10px;
+      font-size:0.78rem;
+      cursor:pointer;
+    }
+    .pill-btn:hover{
+      filter:brightness(0.97);
+    }
+
+    .mode-row{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      font-size:0.88rem;
+      color:#4a3624;
+    }
+    .mode-row label{
+      display:flex;
+      align-items:flex-start;
+      gap:6px;
+      cursor:pointer;
+    }
+    .mode-row input[type="radio"]{
+      margin-top:2px;
+      accent-color:var(--accent);
+    }
+
+    .journal-label{
+      font-size:0.83rem;
+      font-weight:600;
+      color:#7a6654;
+      margin-bottom:4px;
+    }
+    textarea{
+      width:100%;
+      min-height:130px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      padding:8px;
+      font-size:0.95rem;
+      resize:vertical;
+      background:#fffdfa;
+      color:var(--ink);
+    }
+    textarea:focus{
+      outline:none;
+      border-color:var(--accent-soft);
+      box-shadow:0 0 0 1px var(--accent-soft);
+    }
+
+    .button-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:8px;
+      align-items:center;
+    }
+    .btn{
+      border:none;
+      border-radius:999px;
+      padding:7px 16px;
+      font-size:0.9rem;
+      cursor:pointer;
+      font-weight:500;
+    }
+    .btn-primary{
+      background:var(--accent);
+      color:#ffffff;
+      box-shadow:0 4px 12px rgba(68,83,178,0.35);
+    }
+    .btn-primary:hover{
+      filter:brightness(0.97);
+    }
+    .btn-secondary{
+      background:#eee0cf;
+      color:#4d392a;
+    }
+    .btn-secondary:hover{
+      filter:brightness(0.97);
+    }
+
+    .status-text{
+      font-size:0.78rem;
+      color:#3e6a3a;
+    }
+
+    .blessing-text{
+      margin:4px 0 0;
+      font-size:0.9rem;
+      color:#4c3827;
+      line-height:1.4;
+    }
+
+    .history-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      font-size:0.8rem;
+    }
+
+    #historyList{
+      list-style:none;
+      padding:0;
+      margin:6px 0 0;
+      max-height:140px;
+      overflow-y:auto;
+    }
+    #historyList li{
+      padding:4px 6px;
+      border-radius:7px;
+      background:#f5eee4;
+      border:1px solid #e4d5c2;
+      margin-bottom:4px;
+      font-size:0.8rem;
+      display:flex;
+      justify-content:space-between;
+      gap:6px;
+      cursor:pointer;
+    }
+    #historyList li span.meta{
+      color:#6c5744;
+    }
+    #historyList li span.snip{
+      color:#a28970;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width:180px;
+    }
+    #historyEmpty{
+      font-size:0.8rem;
+      color:#8e7a67;
+      margin-top:4px;
+    }
+
+    .preview-box{
+      margin-top:7px;
+      padding:6px 7px;
+      border-radius:9px;
+      background:#f8f1e9;
+      border:1px dashed #d9c7b1;
+    }
+    .preview-title{
+      font-size:0.8rem;
+      font-weight:600;
+      color:#7b5f46;
+      margin-bottom:3px;
+    }
+    .preview-meta{
+      font-size:0.78rem;
+      color:#8b7560;
+      margin-bottom:4px;
+    }
+    .preview-body{
+      font-size:0.86rem;
+      white-space:pre-wrap;
+      color:#453427;
+      max-height:120px;
+      overflow-y:auto;
+    }
+
+    footer{
+      margin-top:8px;
+      text-align:center;
+      font-size:0.75rem;
+      color:#9a816e;
+      position:relative;
+      z-index:1;
+    }
+
+    @media (max-width:480px){
+      body{
+        padding:10px 8px 16px;
+      }
+      .ember-app{
+        padding:13px 12px 16px;
+        border-radius:16px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="ember-app">
+  <header>
+    <h1>Evening Ember</h1>
+    <p class="tagline">A gentle place to lay down the day.</p>
+    <div class="tonight-label" id="dateLabel"></div>
+  </header>
+
+  <!-- Tonight's Question -->
+  <section class="section">
+    <p class="section-title">Tonight's question</p>
+    <div class="question-box" id="questionText"></div>
+    <div class="question-extra-row">
+      <span>Let one question be enough.</span>
+      <button type="button" class="pill-btn" id="shuffleQuestionBtn">New question</button>
+    </div>
+  </section>
+
+  <!-- Keep vs Release -->
+  <section class="section">
+    <p class="section-title">What would you like to do with this page?</p>
+    <div class="mode-row">
+      <label>
+        <input type="radio" name="mode" value="keep" id="modeKeep" checked />
+        <span><strong>Keep this entry</strong> — save it quietly on this device so you can revisit it later.</span>
+      </label>
+      <label>
+        <input type="radio" name="mode" value="release" id="modeRelease" />
+        <span><strong>Release to the night</strong> — nothing will be saved; your words will rise and dissolve.</span>
+      </label>
+    </div>
+  </section>
+
+  <!-- Journal -->
+  <section class="section">
+    <div class="journal-label">Your reflection</div>
+    <textarea id="entryText" placeholder="Let your thoughts arrive as they are. No need to fix them."></textarea>
+    <div class="button-row">
+      <button type="button" class="btn btn-primary" id="saveBtn">Save this night</button>
+      <button type="button" class="btn btn-secondary" id="clearBtn">Clear page</button>
+      <span class="status-text" id="statusText"></span>
+    </div>
+  </section>
+
+  <!-- Blessing -->
+  <section class="section">
+    <p class="section-title">Tonight's blessing</p>
+    <p class="blessing-text" id="blessingText"></p>
+  </section>
+
+  <!-- History -->
+  <section class="section">
+    <div class="history-header">
+      <p class="section-title" style="margin-bottom:0;">Kept nights (on this device)</p>
+      <button type="button" class="pill-btn" id="clearHistoryBtn" style="font-size:0.75rem;">Clear history</button>
+    </div>
+    <ul id="historyList"></ul>
+    <div id="historyEmpty">No saved nights yet. When you choose “Keep this entry”, it will appear here.</div>
+    <div class="preview-box" id="previewBox" style="display:none;">
+      <div class="preview-title">Selected night</div>
+      <div class="preview-meta" id="previewMeta"></div>
+      <div class="preview-body" id="previewBody"></div>
+    </div>
+  </section>
+
+  <footer>
+    Local & offline only. Your words stay on this device.
+  </footer>
+</div>
+
+<script>
+(function(){
+  const $  = id => document.getElementById(id);
+
+  const CURRENT_KEY = "eveningEmber_v1_current";
+  const ENTRIES_KEY = "eveningEmber_v1_entries";
+
+  const QUESTIONS = [
+    "What is one small kindness you witnessed or offered today?",
+    "Where did your body feel safe or at ease at any moment today?",
+    "What weighed heaviest on your heart, and what would you like to hand over for the night?",
+    "Which moment today felt the most like you were truly yourself?",
+    "What is one thing you are proud of yourself for, no matter how small?",
+    "Who crossed your mind today that you’d like to quietly bless?",
+    "What did you learn about yourself today?",
+    "Where did you notice beauty today, even for a second?",
+    "What would you like tomorrow-you to remember from this day?",
+    "What are you ready to forgive yourself for, even a little bit?",
+    "What did your heart need today that it didn’t quite receive?",
+    "If your nervous system could talk, what would it say right now?",
+    "Where did you show courage today, even if nobody saw it?",
+    "What story about yourself are you gently ready to soften?",
+    "What brought you a sense of wonder, curiosity, or quiet joy today?",
+    "What can you thank your body for, just for getting you here?",
+    "What is one boundary you honored or wished you had honored?",
+    "What part of you most needs a hug or reassurance right now?"
+  ];
+
+  const BLESSINGS = [
+    "May the pieces of today settle softly, and may your heart remember that it is already enough.",
+    "May your nervous system unwind like a ribbon, and may Rest find you without you needing to chase it.",
+    "May every sharp edge of the day be rounded with mercy as you lay it down tonight.",
+    "May you feel held by more than you can see, and accompanied even when you feel alone.",
+    "May the questions that ache in you find room to breathe, without needing answers yet.",
+    "May your heart be met with the same gentleness you so often offer to others.",
+    "May the parts of you that feel tired be wrapped in a quiet, wordless kindness.",
+    "May your sleep be a small sanctuary where nothing is demanded of you.",
+    "May whatever is too heavy to carry be set down for now, without guilt or explanation.",
+    "May the Light that knows you best stay close, even in the places that feel dim or unfinished.",
+    "May you feel permission to be exactly as you are tonight, not one inch more polished.",
+    "May the ember of hope within you glow just bright enough to greet tomorrow.",
+    "May your tears, spoken or unspoken, be received as a sacred language.",
+    "May every breath tonight remind you that your existence is already a quiet miracle.",
+    "May rest come to you like a soft tide, and may worry loosen its grip for a while.",
+    "May the child-part of you feel safe, seen, and allowed to sleep.",
+    "May any harsh words you turned inward today be replaced with a gentler truth.",
+    "May love, in whatever way you understand it, sit beside your bed and keep watch."
+  ];
+
+  let currentQuestionIndex = 0;
+
+  function safeLoad(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if (!raw) return fallback;
+      const parsed = JSON.parse(raw);
+      return (parsed === null || parsed === undefined) ? fallback : parsed;
+    }catch(e){
+      return fallback;
+    }
+  }
+
+  function safeSave(key, value){
+    try{
+      localStorage.setItem(key, JSON.stringify(value));
+    }catch(e){
+      // ignore storage errors (quota, private mode, etc.)
+    }
+  }
+
+  function showStatus(msg){
+    const el = $("statusText");
+    if (!el) return;
+    el.textContent = msg;
+    if (showStatus._timer){
+      clearTimeout(showStatus._timer);
+    }
+    showStatus._timer = setTimeout(() => {
+      el.textContent = "";
+    }, 3500);
+  }
+
+  function formatPrettyDate(iso){
+    if (!iso) return "";
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return iso;
+    return d.toLocaleString(undefined,{
+      weekday:"short",
+      year:"numeric",
+      month:"short",
+      day:"numeric",
+      hour:"2-digit",
+      minute:"2-digit"
+    });
+  }
+
+  function initDateLabel(){
+    const label = $("dateLabel");
+    if (!label) return;
+    const now = new Date();
+    label.textContent = now.toLocaleDateString(undefined,{
+      weekday:"long",
+      month:"long",
+      day:"numeric",
+      year:"numeric"
+    });
+  }
+
+  function pickQuestionForToday(){
+    const todayStr = new Date().toISOString().slice(0,10); // YYYY-MM-DD
+    let sum = 0;
+    for (let i=0;i<todayStr.length;i++){
+      sum += todayStr.charCodeAt(i);
+    }
+    currentQuestionIndex = sum % QUESTIONS.length;
+    setQuestionText();
+  }
+
+  function setQuestionText(){
+    const qEl = $("questionText");
+    if (!qEl) return;
+    const q = QUESTIONS[currentQuestionIndex] || QUESTIONS[0] || "";
+    qEl.textContent = q;
+  }
+
+  function shuffleQuestion(){
+    currentQuestionIndex = (currentQuestionIndex + 1) % QUESTIONS.length;
+    setQuestionText();
+    saveCurrentDraft(); // remember which question we’re on (for keep mode)
+  }
+
+  function getMode(){
+    const keep = $("modeKeep");
+    const release = $("modeRelease");
+    if (release && release.checked) return "release";
+    return "keep";
+  }
+
+  function onModeChange(){
+    const mode = getMode();
+    if (mode === "release"){
+      // In release mode we don't keep drafts.
+      try{ localStorage.removeItem(CURRENT_KEY); }catch(e){}
+      showStatus("Release mode: nothing will be stored after you clear or leave.");
+    }else{
+      saveCurrentDraft();
+    }
+  }
+
+  function saveCurrentDraft(){
+    if (getMode() === "release") return; // do not store drafts in release mode
+    const text = $("entryText") ? $("entryText").value : "";
+    const data = {
+      questionIndex: currentQuestionIndex,
+      question: QUESTIONS[currentQuestionIndex] || "",
+      text: text || "",
+      date: new Date().toISOString()
+    };
+    safeSave(CURRENT_KEY, data);
+  }
+
+  function handleEntryInput(){
+    if (getMode() === "keep"){
+      saveCurrentDraft();
+    }
+  }
+
+  function handleClearPage(){
+    const area = $("entryText");
+    if (!area) return;
+    if (area.value.trim() && !confirm("Clear this page? This does not affect any already-saved nights.")){
+      return;
+    }
+    area.value = "";
+    if (getMode() === "keep"){
+      saveCurrentDraft();
+    }else{
+      try{ localStorage.removeItem(CURRENT_KEY); }catch(e){}
+    }
+    showStatus("Page cleared.");
+  }
+
+  function handleSaveNight(){
+    const area = $("entryText");
+    if (!area) return;
+    const text = area.value.trim();
+    const mode = getMode();
+
+    if (!text && !confirm("This page is empty. Save anyway?")){
+      return;
+    }
+
+    if (mode === "release"){
+      // Do not store; clear and reassure.
+      area.value = "";
+      try{ localStorage.removeItem(CURRENT_KEY); }catch(e){}
+      showStatus("Released. Nothing was saved; the night received it.");
+      return;
+    }
+
+    // Keep mode: add to history.
+    const entries = safeLoad(ENTRIES_KEY, []);
+    const now = new Date();
+    const entry = {
+      id: now.getTime(),
+      date: now.toISOString(),
+      questionIndex: currentQuestionIndex,
+      question: QUESTIONS[currentQuestionIndex] || "",
+      text: text
+    };
+    entries.unshift(entry);
+    if (entries.length > 400){ entries.length = 400; }
+    safeSave(ENTRIES_KEY, entries);
+    saveCurrentDraft();
+    renderHistory();
+    showStatus("Saved quietly to your jar of nights.");
+  }
+
+  function renderHistory(){
+    const list = $("historyList");
+    const emptyMsg = $("historyEmpty");
+    const previewBox = $("previewBox");
+    if (!list || !emptyMsg) return;
+
+    const entries = safeLoad(ENTRIES_KEY, []);
+    list.innerHTML = "";
+
+    if (!entries.length){
+      emptyMsg.style.display = "block";
+      if (previewBox) previewBox.style.display = "none";
+      return;
+    }
+    emptyMsg.style.display = "none";
+
+    entries.forEach(function(entry, idx){
+      if (!entry) return;
+      const li = document.createElement("li");
+      li.dataset.index = idx.toString();
+
+      const meta = document.createElement("span");
+      meta.className = "meta";
+      meta.textContent = formatPrettyDate(entry.date);
+
+      const snip = document.createElement("span");
+      snip.className = "snip";
+      const firstLine = (entry.text || "").split(/\r?\n/)[0];
+      snip.textContent = firstLine || (entry.question || "(no text)");
+
+      li.appendChild(meta);
+      li.appendChild(snip);
+
+      li.addEventListener("click", function(){
+        showHistoryPreview(idx);
+      });
+
+      list.appendChild(li);
+    });
+  }
+
+  function showHistoryPreview(index){
+    const entries = safeLoad(ENTRIES_KEY, []);
+    const entry = entries[index];
+    const box = $("previewBox");
+    const metaEl = $("previewMeta");
+    const bodyEl = $("previewBody");
+    if (!entry || !box || !metaEl || !bodyEl) return;
+
+    box.style.display = "block";
+    const dateStr = formatPrettyDate(entry.date);
+    metaEl.textContent = (entry.question ? "Q: " + entry.question + " — " : "") + dateStr;
+    bodyEl.textContent = entry.text || "(no text captured that night)";
+  }
+
+  function clearHistory(){
+    if (!confirm("Clear all kept nights on this device? This cannot be undone.")){
+      return;
+    }
+    try{ localStorage.removeItem(ENTRIES_KEY); }catch(e){}
+    const box = $("previewBox");
+    if (box) box.style.display = "none";
+    renderHistory();
+    showStatus("History cleared from this device.");
+  }
+
+  function initBlessing(){
+    const el = $("blessingText");
+    if (!el) return;
+    const dayIndex = Math.floor(Date.now() / 86400000); // days since epoch
+    const idx = dayIndex % BLESSINGS.length;
+    el.textContent = BLESSINGS[idx] || "";
+  }
+
+  function restoreCurrentDraftOrNew(){
+    const saved = safeLoad(CURRENT_KEY, null);
+    const area = $("entryText");
+    if (!area) return;
+
+    if (saved && typeof saved === "object"){
+      if (typeof saved.questionIndex === "number" && QUESTIONS[saved.questionIndex]){
+        currentQuestionIndex = saved.questionIndex;
+      }else{
+        pickQuestionForToday();
+      }
+      setQuestionText();
+      area.value = saved.text || "";
+    }else{
+      pickQuestionForToday();
+      area.value = "";
+    }
+  }
+
+  function wireEvents(){
+    const shuffleBtn = $("shuffleQuestionBtn");
+    if (shuffleBtn){
+      shuffleBtn.addEventListener("click", shuffleQuestion);
+    }
+    const entry = $("entryText");
+    if (entry){
+      entry.addEventListener("input", handleEntryInput);
+    }
+    const saveBtn = $("saveBtn");
+    if (saveBtn){
+      saveBtn.addEventListener("click", handleSaveNight);
+    }
+    const clearBtn = $("clearBtn");
+    if (clearBtn){
+      clearBtn.addEventListener("click", handleClearPage);
+    }
+    const keep = $("modeKeep");
+    const release = $("modeRelease");
+    if (keep) keep.addEventListener("change", onModeChange);
+    if (release) release.addEventListener("change", onModeChange);
+
+    const clearHistoryBtn = $("clearHistoryBtn");
+    if (clearHistoryBtn){
+      clearHistoryBtn.addEventListener("click", clearHistory);
+    }
+  }
+
+  function init(){
+    initDateLabel();
+    initBlessing();
+    restoreCurrentDraftOrNew();
+    renderHistory();
+    wireEvents();
+  }
+
+  if (document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", init);
+  }else{
+    init();
+  }
+})();
+</script>
+</body>
+</html>
