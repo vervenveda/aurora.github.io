@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Breath & Reset Timer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(120deg, #52bfd9 0%, #50f4d9 100%);
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin: 0;
+      color: #184a57;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0;
+    }
+    .container {
+      margin-top: 44px;
+      background: rgba(255,255,255,0.20);
+      border-radius: 36px;
+      padding: 40px 28px 30px 28px;
+      box-shadow: 0 10px 32px #55f6ef30, 0 2px 8px #16303314;
+      max-width: 440px;
+      width: 98vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .breath-circle {
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: linear-gradient(140deg, #a1e6ee 0%, #44d9c1 100%);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 32px #45b9cc4b;
+      margin-bottom: 18px;
+      transition: transform 3s cubic-bezier(.19,1,.22,1);
+      will-change: transform;
+    }
+    .breath-text {
+      position: absolute;
+      top: 75px;
+      width: 100%;
+      text-align: center;
+      font-size: 1.35em;
+      color: #116e7d;
+      letter-spacing: .7px;
+      font-weight: 600;
+      user-select: none;
+      text-shadow: 0 2px 16px #fff8, 0 1px 2px #66d1b580;
+      pointer-events: none;
+      transition: opacity 0.7s;
+    }
+    .controls {
+      margin: 10px 0 23px 0;
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+    }
+    .controls label, .controls select {
+      font-size: 1.07em;
+    }
+    .btn {
+      background: #3ccac9;
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 10px 28px;
+      font-size: 1.12em;
+      font-weight: 600;
+      box-shadow: 0 2px 12px #44d9c140;
+      margin-top: 6px;
+      cursor: pointer;
+      transition: background 0.17s;
+      font-family: inherit;
+      margin-right: 0;
+    }
+    .btn:hover { background: #238fa7; }
+    .toggle {
+      display: flex; align-items: center; gap: 7px;
+      margin-top: 3px;
+    }
+    .toggle input[type="checkbox"] {
+      accent-color: #36b9b1;
+      width: 19px; height: 19px;
+      vertical-align: middle;
+    }
+    .music-box {
+      margin-top: 38px;
+      background: rgba(255,255,255,0.22);
+      border-radius: 18px;
+      box-shadow: 0 3px 18px #45c1b620;
+      padding: 18px 18px 10px 18px;
+      width: 100%;
+      max-width: 360px;
+    }
+    .music-box h3 {
+      margin: 0 0 8px 0; font-size: 1.13em; color: #178c91;
+      letter-spacing: .5px;
+    }
+    .music-row {
+      display: flex; gap: 8px; margin-bottom: 8px;
+      align-items: center;
+    }
+    .music-row input[type="text"] {
+      flex: 1 1 0;
+      font-size: 0.97em;
+      padding: 6px 8px;
+      border-radius: 7px;
+      border: 1.2px solid #7ceee0;
+      background: #faffff;
+      color: #184a57;
+      margin-right: 0;
+    }
+    .music-row button {
+      background: #38dfd5;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.07em;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: background .13s;
+    }
+    .music-row button:hover { background: #2aaba1; }
+    .song-list {
+      list-style: none; padding: 0; margin: 0;
+    }
+    .song-list li {
+      margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+    }
+    .song-list .del {
+      background: none; border: none; color: #ed4b3e;
+      font-size: 1.07em; margin-left: 2px; cursor: pointer;
+    }
+    audio {
+      vertical-align: middle; margin-right: 4px;
+      width: 80%;
+    }
+    @media (max-width: 600px) {
+      .container, .music-box { padding: 4vw; }
+      .breath-circle { width: 88vw; height: 88vw; max-width:220px; max-height:220px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 style="margin:0 0 12px 0; color:#168a9b; letter-spacing:.6px;">AuraenSpire Breath Timer</h2>
+    <div class="controls">
+      <label for="minutes">Minutes:</label>
+      <select id="minutes">
+        <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+      </select>
+      <div class="toggle">
+        <input type="checkbox" id="voiceToggle" checked>
+        <label for="voiceToggle">Voice Guidance</label>
+      </div>
+    </div>
+    <div class="breath-circle" id="breathCircle"></div>
+    <div class="breath-text" id="breathText"></div>
+    <button class="btn" id="startBtn">Start</button>
+    <button class="btn" id="stopBtn" style="display:none;">Stop</button>
+    <!-- Music Box -->
+    <div class="music-box">
+      <h3>🌊 Your Meditation Playlist</h3>
+      <div class="music-row">
+        <input id="musicUrl" type="text" placeholder="Paste song or audio URL (mp3, YouTube, etc)"/>
+        <button onclick="addSong()">Add</button>
+      </div>
+      <ul class="song-list" id="songList"></ul>
+    </div>
+  </div>
+  <script>
+    // ===== Breath Timer =====
+    const breathCircle = document.getElementById('breathCircle');
+    const breathText = document.getElementById('breathText');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const minutesSel = document.getElementById('minutes');
+    const voiceToggle = document.getElementById('voiceToggle');
+
+    // Breath phases (seconds, label)
+    const PHASES = [
+      {label: "Breathe In", secs: 4},
+      {label: "Hold", secs: 3},
+      {label: "Breathe Out", secs: 5},
+      {label: "Hold", secs: 3}
+    ];
+    let timer = null, phaseIdx = 0, left = 0, tEnd = 0, totalSecs = 0, isActive = false;
+
+    function setCircle(scale) {
+      breathCircle.style.transform = `scale(${scale})`;
+    }
+    function speak(txt) {
+  if(!voiceToggle.checked) return;
+  if(window.speechSynthesis) {
+    let voices = window.speechSynthesis.getVoices();
+    // Try to find the gentlest available option:
+    // Prefer "Jenny", "Aria", "Samantha", "Google", or a female/neutral voice
+    let preferNames = ["Jenny", "Aria", "Samantha", "Google", "Natural", "Female"];
+    let selected = voices.find(v =>
+      preferNames.some(name => v.name.toLowerCase().includes(name.toLowerCase())) && v.lang.startsWith('en')
+    ) || voices.find(v => v.lang.startsWith('en') && v.gender !== 'male')
+      || voices.find(v => v.lang.startsWith('en'));
+    const u = new SpeechSynthesisUtterance(txt);
+    if(selected) u.voice = selected;
+    u.rate = 0.88;   // Gentle, slow
+    u.pitch = 1.01;  // Slightly soft
+    u.volume = 0.87; // Gentle
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+  }
+}
+
+    function nextPhase() {
+      if(!isActive) return;
+      const {label, secs} = PHASES[phaseIdx];
+      breathText.textContent = label;
+      speak(label);
+      setCircle(label === "Breathe In" ? 1.19 : (label === "Breathe Out" ? 0.78 : 1.0));
+      left = secs;
+      phaseIdx = (phaseIdx + 1) % PHASES.length;
+      timer = setTimeout(nextPhase, secs*1000);
+      totalSecs -= secs;
+      if(totalSecs <= 0) stopTimer();
+    }
+    function startTimer() {
+      isActive = true;
+      startBtn.style.display = "none";
+      stopBtn.style.display = "";
+      phaseIdx = 0;
+      totalSecs = parseInt(minutesSel.value)*60;
+      nextPhase();
+    }
+    function stopTimer() {
+      isActive = false;
+      clearTimeout(timer);
+      breathText.textContent = "Ready?";
+      setCircle(1.0);
+      startBtn.style.display = "";
+      stopBtn.style.display = "none";
+      if(window.speechSynthesis) speechSynthesis.cancel();
+    }
+    startBtn.onclick = startTimer;
+    stopBtn.onclick = stopTimer;
+
+    // ===== Music Playlist =====
+    const musicUrl = document.getElementById('musicUrl');
+    const songList = document.getElementById('songList');
+    let songs = [];
+    // Load from localStorage
+    function loadSongs() {
+      try {
+        songs = JSON.parse(localStorage.getItem('meditation_songs')||'[]');
+      } catch { songs = []; }
+      renderSongs();
+    }
+    function saveSongs() {
+      localStorage.setItem('meditation_songs', JSON.stringify(songs));
+    }
+    function renderSongs() {
+      songList.innerHTML = "";
+      songs.forEach((url,i)=>{
+        let isAudio = url.match(/\.(mp3|wav|ogg)($|\?)/i);
+        let isYT = url.match(/(youtu\.be|youtube\.com)/i);
+        let li = document.createElement('li');
+        if(isAudio) {
+          li.innerHTML = `<audio src="${url}" controls></audio>`;
+        } else if(isYT) {
+          // Youtube embed (autoplay off, controls on)
+          let ytId = url.split("v=")[1]||url.split("/").pop();
+          if(ytId&&ytId.indexOf("&")!==-1) ytId = ytId.split("&")[0];
+          li.innerHTML = `<iframe width="150" height="34" style="vertical-align:middle;" 
+            src="https://www.youtube.com/embed/${ytId}?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+        } else {
+          li.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+        }
+        li.innerHTML += `<button class="del" title="Delete" onclick="delSong(${i})">&times;</button>`;
+        songList.appendChild(li);
+      });
+    }
+    function addSong() {
+      let url = musicUrl.value.trim();
+      if(url.length < 6) return;
+      songs.push(url);
+      saveSongs();
+      musicUrl.value = "";
+      renderSongs();
+    }
+    function delSong(idx) {
+      songs.splice(idx,1);
+      saveSongs();
+      renderSongs();
+    }
+    window.addSong = addSong;
+    window.delSong = delSong;
+    loadSongs();
+  </script>
+</body>
+</html>
