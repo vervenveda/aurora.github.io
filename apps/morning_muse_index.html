@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Morning Muse — Sovereign Prompt Sanctuary</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --midnight:#0a0a14;
+  --midnight-soft:#191b2a;
+  --gold:#d9b878;
+  --gold-deep:#b89252;
+  --ink:#fdfaf3;
+  --ink-soft:#e9e2d3;
+  --radius:21px;
+  --shadow:0 24px 72px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:"Cormorant Garamond",serif;
+  background:radial-gradient(circle at 50% -10%,#191b2a 0%,#0a0a14 100%);
+  color:var(--ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  padding:24px;
+}
+
+/* translucent auric panel */
+.muse-card{
+  background:rgba(25,27,42,0.7);
+  border:1px solid rgba(217,184,120,0.4);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  max-width:640px;
+  width:100%;
+  padding:36px 28px 30px;
+  text-align:center;
+  backdrop-filter:blur(8px);
+  animation:fadeIn 1.4s ease;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+h1{
+  font-family:"Cinzel",serif;
+  font-size:28px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:4px;
+}
+.tag{
+  font-size:15px;
+  letter-spacing:.12em;
+  color:var(--ink-soft);
+  margin-bottom:24px;
+}
+.prompt-box{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(217,184,120,0.25);
+  border-radius:var(--radius);
+  padding:22px 18px;
+  line-height:1.7;
+  font-size:19px;
+  color:var(--ink-soft);
+  min-height:90px;
+  transition:opacity .4s;
+  margin-bottom:24px;
+}
+.prompt-fade{opacity:0;}
+.prompt-source{
+  margin-top:8px;
+  font-size:15px;
+  color:var(--gold);
+}
+.buttons{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:14px;
+  margin-bottom:16px;
+}
+button{
+  font-family:"Cinzel",serif;
+  font-size:14px;
+  text-transform:uppercase;
+  border:none;
+  border-radius:999px;
+  padding:10px 22px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  color:#050713;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,.5);
+  transition:transform .2s,box-shadow .2s;
+}
+button:hover{transform:translateY(-1px);box-shadow:0 9px 21px rgba(0,0,0,.6);}
+.saved{
+  margin-top:20px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(217,184,120,0.2);
+  border-radius:var(--radius);
+  padding:14px 16px;
+  max-height:200px;
+  overflow:auto;
+}
+.saved h2{
+  font-family:"Cinzel",serif;
+  font-size:16px;
+  color:var(--gold);
+  margin-bottom:8px;
+}
+.saved ul{list-style:none;padding:0;margin:0;}
+.saved li{
+  border-bottom:1px solid rgba(217,184,120,0.12);
+  padding:5px 0;
+  font-size:15px;
+  color:var(--ink-soft);
+}
+footer{
+  margin-top:20px;
+  font-size:13px;
+  color:var(--ink-soft);
+  text-align:center;
+  border-top:1px solid rgba(217,184,120,0.2);
+  padding-top:10px;
+}
+</style>
+</head>
+
+<body>
+  <div class="muse-card">
+    <h1>Morning Muse</h1>
+    <div class="tag">ARSHIF · Daily Art & Poetry Prompt</div>
+
+    <div id="promptBox" class="prompt-box">Loading your first inspiration...</div>
+
+    <div class="buttons">
+      <button id="newBtn">🎲 New Prompt</button>
+      <button id="saveBtn">❤️ Save Prompt</button>
+      <button id="clearBtn">🧹 Clear Saved</button>
+    </div>
+
+    <div class="saved" id="savedSection">
+      <h2>Saved Prompts</h2>
+      <ul id="savedList"></ul>
+    </div>
+
+    <footer>PLERA · Morning Muse — Sovereign Prompt Sanctuary © 2026</footer>
+  </div>
+
+<script>
+// ===============================================
+// MORNING MUSE — Sovereign Prompt Sanctuary
+// ===============================================
+
+// --- Prompt Library (blend of art + poetry) ---
+const PROMPTS = [
+  // Art
+  "Paint the sound of a candle being blown out.",
+  "Create a collage from torn pages that whisper to you.",
+  "Sketch the silence between two notes of music.",
+  "Draw the reflection of the moon on glass, not water.",
+  "Photograph something that looks like forgiveness.",
+  "Use only shades of blue to express a secret.",
+  "Sculpt an emotion you have never spoken aloud.",
+  "Design a pattern based on your heartbeat.",
+  "Paint with your non-dominant hand and name the result ‘truth.’",
+  "Capture the shadow of something invisible.",
+  // Poetry
+  "Write a poem that begins and ends with the same word.",
+  "Describe the color of time as it moves through morning.",
+  "Compose four lines about something that no longer exists.",
+  "Write to your future self as if they were your child.",
+  "Find a word you’ve never used and build a stanza around it.",
+  "Write a haiku for an object you’ve forgotten to love.",
+  "Describe dawn without using the word ‘light.’",
+  "Write a letter to silence and wait for its reply.",
+  "Tell a story in seven words about release.",
+  "Write about the scent of memory.",
+  // More blend
+  "Paint what gratitude feels like in winter.",
+  "Compose a poem using only verbs of tenderness.",
+  "Draw a single circle; fill it with intention.",
+  "Capture a fleeting moment and stretch it across a page.",
+  "Write about a sound you miss.",
+  "Illustrate the space between thought and breath.",
+  "Create a poem with no nouns—only movement.",
+  "Paint your favorite line of music.",
+  "Describe the world as seen by a candle flame.",
+  "Draw what you would say if words were colors."
+];
+
+// --- State & Elements ---
+let currentPrompt = "";
+const box = document.getElementById("promptBox");
+const listEl = document.getElementById("savedList");
+
+// Load saved prompts
+let saved = JSON.parse(localStorage.getItem("muse_saved")||"[]");
+
+// --- Helper Functions ---
+function pickPrompt(seed=false){
+  if(seed){
+    const d = new Date();
+    const daySeed = d.getFullYear()*1000 + (d.getMonth()+1)*40 + d.getDate();
+    return PROMPTS[daySeed % PROMPTS.length];
+  } else {
+    return PROMPTS[Math.floor(Math.random()*PROMPTS.length)];
+  }
+}
+function renderPrompt(text){
+  box.classList.add("prompt-fade");
+  setTimeout(()=>{
+    box.textContent = text;
+    box.classList.remove("prompt-fade");
+  },200);
+}
+function renderSaved(){
+  listEl.innerHTML = "";
+  if(saved.length===0){
+    const li=document.createElement("li");
+    li.textContent="No prompts saved yet.";
+    listEl.appendChild(li);
+    return;
+  }
+  saved.forEach((p)=>{
+    const li=document.createElement("li");
+    li.textContent=p;
+    listEl.appendChild(li);
+  });
+}
+
+// --- Button Handlers ---
+document.getElementById("newBtn").onclick = ()=>{
+  currentPrompt = pickPrompt(false);
+  renderPrompt(currentPrompt);
+};
+document.getElementById("saveBtn").onclick = ()=>{
+  if(currentPrompt && !saved.includes(currentPrompt)){
+    saved.unshift(currentPrompt);
+    localStorage.setItem("muse_saved",JSON.stringify(saved));
+    renderSaved();
+  }
+};
+document.getElementById("clearBtn").onclick = ()=>{
+  if(confirm("Clear all saved prompts?")){
+    saved=[];
+    localStorage.removeItem("muse_saved");
+    renderSaved();
+  }
+};
+
+// --- Init ---
+currentPrompt = pickPrompt(true);
+renderPrompt(currentPrompt);
+renderSaved();
+</script>
+</body>
+</html>
