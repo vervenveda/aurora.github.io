@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Morning Sanctum — ARSHIF Gold Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@400;600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --parchment:#f9f3e3;
+  --midnight:#070914;
+  --gold:#d9b878;
+  --gold-deep:#b89252;
+  --ink:#fdfaf3;
+  --ink-soft:#f0e9dc;
+  --radius-main:21px;
+  --radius-soft:14px;
+  --shadow-main:0 24px 72px rgba(0,0,0,0.65);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  min-height:100vh;
+  background:radial-gradient(circle at top,#f9f3e3 0%,#e6d6b3 38%,#cfb68b 72%,#b89c6f 100%);
+  font-family:'Poppins',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+}
+.morning-shell{width:100%;max-width:720px;margin:21px auto;padding:0 12px;}
+.morning-card{
+  background:linear-gradient(180deg,#191b2a 0%,#050713 70%);
+  border-radius:var(--radius-main);
+  border:1px solid rgba(60,43,18,0.55);
+  box-shadow:var(--shadow-main);
+  padding:24px 21px 27px;text-align:center;color:var(--ink);
+}
+.morning-title{
+  font-family:'Cinzel','Times New Roman',serif;
+  font-size:24px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:6px;
+}
+.morning-tag{
+  font-size:13px;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:12px;
+}
+.morning-intro{
+  font-family:'Cormorant Garamond','Georgia',serif;
+  font-size:17px;line-height:1.7;color:var(--ink-soft);
+  max-width:540px;margin:0 auto 18px;
+}
+.morning-tabs{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin-bottom:18px;
+}
+.morning-tab-btn{
+  border:1px solid rgba(217,184,120,0.55);
+  border-radius:777px;
+  padding:7px 18px;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;
+  background:rgba(255,255,255,0.06);color:var(--ink);
+  cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
+  transition:background .18s,transform .18s,box-shadow .18s;
+}
+.morning-tab-btn.active{
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  color:#050713;box-shadow:0 7px 21px rgba(0,0,0,0.6);
+}
+.morning-tab-btn:hover{transform:translateY(-1px);}
+.morning-panel{
+  background:rgba(9,11,26,0.9);
+  border-radius:var(--radius-soft);
+  border:1px solid rgba(247,243,234,0.16);
+  padding:18px 16px 16px;margin-bottom:16px;
+  transition:opacity .35s ease;
+}
+.morning-panel.fade-out{opacity:0;}
+.morning-label{
+  font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:8px;
+}
+.morning-text-ar{
+  font-family:'Scheherazade New','Amiri',serif;
+  font-size:24px;color:var(--ink);margin-bottom:6px;
+}
+.morning-text-main{font-size:18px;line-height:1.7;color:var(--ink-soft);margin-bottom:6px;}
+.morning-source{font-size:13px;color:var(--gold);}
+.morning-bottom{
+  display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:8px;
+}
+.morning-focus{flex:1 1 260px;min-width:260px;max-width:360px;text-align:left;}
+.morning-focus-label{
+  font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:6px;
+}
+.morning-focus-text{font-size:15px;line-height:1.6;color:var(--ink-soft);}
+.morning-breath{flex:0 0 auto;min-width:210px;text-align:left;}
+.morning-breath button{
+  border:none;border-radius:777px;padding:8px 18px;
+  font-size:13px;letter-spacing:0.12em;text-transform:uppercase;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  color:#050713;cursor:pointer;border:1px solid rgba(0,0,0,0.4);
+  box-shadow:0 7px 21px rgba(0,0,0,0.6);
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+}
+.morning-breath small{display:block;margin-top:6px;font-size:12px;color:var(--ink-soft);}
+@keyframes haloPulse{
+  0%{box-shadow:0 0 0 rgba(217,184,120,0.0);}
+  50%{box-shadow:0 0 24px rgba(217,184,120,0.55);}
+  100%{box-shadow:0 0 0 rgba(217,184,120,0.0);}
+}
+.morning-breath button.pulsing{animation:haloPulse 3s ease-out infinite;}
+@media (max-width:640px){
+  .morning-card{padding:21px 16px 24px;}
+  .morning-title{font-size:21px;}
+  .morning-intro{font-size:15px;}
+}
+@media (max-width:400px){
+  .morning-text-main{font-size:16px;}
+  .morning-intro{font-size:14px;}
+}
+</style>
+</head>
+<body>
+<div class="morning-shell">
+  <section class="morning-card" aria-label="Morning Sanctum">
+    <h1 class="morning-title">Morning Sanctum</h1>
+    <p class="morning-tag">ARSHIF · Quiet Start to the Day</p>
+    <p class="morning-intro">
+      Take a moment before the world begins. One line of scripture or wisdom,
+      one small focus, and three gentle breaths <br>
+      can realign a whole day.
+    </p>
+
+    <div class="morning-tabs">
+      <button type="button" class="morning-tab-btn" data-mode="scripture">Scripture</button>
+      <button type="button" class="morning-tab-btn" data-mode="wisdom">Wisdom</button>
+      <button type="button" class="morning-tab-btn" data-mode="gratitude">Gratitude</button>
+    </div>
+
+    <div class="morning-panel" id="panel">
+      <div class="morning-label" id="msLabel">Scripture for this morning</div>
+      <div class="morning-text-ar" id="msTextAr"></div>
+      <div class="morning-text-main" id="msTextMain"></div>
+      <div class="morning-source" id="msSource"></div>
+    </div>
+
+    <div class="morning-bottom">
+      <div class="morning-focus">
+        <div class="morning-focus-label">Today’s focus</div>
+        <div class="morning-focus-text" id="msFocus">
+          Let your first words be gentle — to yourself, to the people in your home, to the One who gave you this breath.
+        </div>
+      </div>
+      
+        <small id="breathHint">Inhale for 4 · hold 4 · exhale 6 — repeat three times.</small>
+      </div>
+    </div>
+  </section>
+</div>
+
+<noscript><p style="text-align:center;color:#fff;">Please enable JavaScript to view the morning reflection.</p></noscript>
+
+<script>
+const morningData={scripture:[{ar:"اللَّهُ نُورُ السَّمَاوَاتِ وَالْأَرْضِ",text:"Allah is the Light of the heavens and the earth.",src:"Qur’an 24:35 (part)",focus:"Move through this morning as if you are walking in light — noticing small mercies, not just problems."},{ar:"",text:"Be still, and know that I am God.",src:"Psalm 46:10 (KJV)",focus:"Before you answer any notifications, take one still minute and remember you are held."},{ar:"",text:"Love is patient and kind; it does not insist on its own way.",src:"1 Corinthians 13 (adapted)",focus:"Choose one interaction today where you will slow down and listen instead of rushing to respond."}],
+wisdom:[{text:"Walk gently; every person you meet is carrying a story you cannot see.",src:"ARSHIF · Living Wisdom",focus:"As you move through the day, imagine each soul as a fragile manuscript — worthy of care."},{text:"You do not have to fix the whole world today. You are entrusted with only this small corner and this single sunrise.",src:"ARSHIF · Morning Note",focus:"Ask yourself: what is the one kind thing that is truly mine to do before noon?"},{text:"Knowledge is a light; it grows clearer when it is shared without arrogance or fear.",src:"ARSHIF · Study Room",focus:"Share one insight today as a gift, not a weapon — gently, without needing to win."}],
+gratitude:[{text:"Name three quiet blessings in this moment — something you see, something you feel, something you hope for.",src:"Gratitude Prompt",focus:"Write them down or whisper them. Tiny acknowledgements tilt the heart toward contentment."},{text:"Think of one person who carried you in a hard season. Hold them in your prayer or send a small message of thanks.",src:"Gratitude Prompt",focus:"Let gratitude be an action, not just a feeling — even a single line of appreciation is enough."},{text:"Notice one part of your body that is working quietly for you — lungs, hands, eyes, feet — and thank it.",src:"Gratitude Prompt",focus:"Move slower for a moment, honoring that you are not just a mind; you are beautifully embodied."}]};
+
+const labelMap={scripture:"Scripture for this morning",wisdom:"Wisdom for this morning",gratitude:"Gratitude for this morning"};
+const textArEl=document.getElementById('msTextAr');
+const textMainEl=document.getElementById('msTextMain');
+const sourceEl=document.getElementById('msSource');
+const labelEl=document.getElementById('msLabel');
+const focusEl=document.getElementById('msFocus');
+const tabButtons=document.querySelectorAll('.morning-tab-btn');
+const panel=document.getElementById('panel');
+const saved=localStorage.getItem('morningMode');
+let currentMode=saved||'scripture';
+
+function pickItem(list){
+  const t=new Date();
+  const seed=t.getFullYear()*1000+(t.getMonth()+1)*40+t.getDate();
+  return list[seed%list.length];
+}
+
+function renderMode(mode){
+  panel.classList.add('fade-out');
+  setTimeout(()=>{
+    currentMode=mode;
+    localStorage.setItem('morningMode',mode);
+    tabButtons.forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
+    const list=morningData[mode]||[];
+    if(!list.length)return;
+    const item=pickItem(list);
+    labelEl.textContent=labelMap[mode]||"For this morning";
+    textArEl.textContent=item.ar||"";
+    textArEl.style.display=item.ar?"block":"none";
+    textArEl.lang=item.ar?"ar":"";
+    textArEl.dir=item.ar?"rtl":"ltr";
+    textMainEl.textContent=item.text||"";
+    sourceEl.textContent=item.src||"";
+    focusEl.textContent=item.focus||"";
+    panel.classList.remove('fade-out');
+  },200);
+}
+
+tabButtons.forEach(b=>b.addEventListener('click',()=>renderMode(b.dataset.mode)));
+
+const breathBtn=document.getElementById('breathBtn');
+const breathHint=document.getElementById('breathHint');
+let breathTimer=null;
+breathBtn.addEventListener('click',()=>{
+  breathBtn.classList.add('pulsing');
+  breathHint.textContent="Inhale 4 · hold 4 · exhale 6 — follow the glow for three gentle rounds.";
+  clearTimeout(breathTimer);
+  breathTimer=setTimeout(()=>{
+    breathBtn.classList.remove('pulsing');
+    breathHint.textContent="Inhale for 4 · hold for 4 · exhale 6 — repeat three times.";
+  },21000);
+});
+
+renderMode(currentMode);
+</script>
+</body>
+</html>
