@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Night Prayer — Little Sovereign App</title>
+<style>
+  :root{
+    --bg1:#0b1020;
+    --bg2:#111b3a;
+    --card:rgba(255,255,255,0.08);
+    --card2:rgba(255,255,255,0.12);
+    --text:#f4f6ff;
+    --muted:rgba(244,246,255,0.75);
+    --gold:#ffd36b;
+    --gold2:#ffb84d;
+    --radius:7px;
+    --shadow:0 18px 33px rgba(0,0,0,0.35);
+  }
+
+  html,body{height:88%;margin:7px;font-family: "Georgia", "Times New Roman", serif;}
+  body{
+    display:flex;align-items:center;justify-content:center;
+    padding:14px;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255,211,107,0.12), transparent 45%),
+      radial-gradient(circle at 80% 30%, rgba(128,222,234,0.10), transparent 45%),
+      linear-gradient(180deg, var(--bg1), var(--bg2));
+    color:var(--text);
+    overflow-x:hidden;
+  }
+
+  .app{
+    width:min(666px, 99%);
+    border-radius:calc(var(--radius) + 11px);
+    background:linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06));
+    box-shadow:var(--shadow);
+    border:1px solid rgba(255,255,255,0.14);
+    padding:33px;
+  }
+
+  header{
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    padding:11px 14px 7px;
+  }
+
+  .brand{
+    display:flex;align-items:center;gap:14px;
+  }
+  .moon{
+    width:46px;height:46px;border-radius:16px;
+    display:grid;place-items:center;
+    background:linear-gradient(180deg, rgba(255,211,107,0.24), rgba(255,211,107,0.10));
+    border:1px solid rgba(255,211,107,0.35);
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+    font-size:22px;
+  }
+  h1{
+    margin:0;
+    font-size:22px;
+    letter-spacing:.4px;
+  }
+  .sub{
+    margin:2px 0 0;
+    font-size:14px;
+    color:var(--muted);
+  }
+
+  .chip{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 12px;
+    border-radius:999px;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.12);
+    color:var(--muted);
+    font-size:13px;
+    white-space:nowrap;
+  }
+  .dot{
+    width:8px;height:8px;border-radius:999px;
+    background:var(--gold);
+    box-shadow:0 0 14px rgba(255,211,107,0.45);
+  }
+
+  .card{
+    margin-top:14px;
+    padding:24px;
+    border-radius:var(--radius);
+    background:linear-gradient(180deg, var(--card), rgba(255,255,255,0.06));
+    border:1px solid rgba(255,255,255,0.12);
+  }
+
+  .prayer{
+    font-size:24px;
+    line-height:1.35;
+    margin:7px;
+    text-align:center;
+    text-shadow:0 7px 14px rgba(0,0,0,0.35);
+  }
+
+  .meta{
+    margin-top:14px;
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+    justify-content:center;
+    color:var(--muted);
+    font-size:14px;
+  }
+
+  .row{
+    display:flex;gap:14px;flex-wrap:wrap;justify-content:center;
+    margin-top:14px;
+  }
+
+  button{
+    appearance:none;
+    border:none;
+    cursor:pointer;
+    padding:14px 14px;
+    border-radius:11px;
+    font-size:14px;
+    font-weight:666;
+    color:#0b1020;
+    box-shadow:0 11px 24px rgba(0,0,0,0.28);
+    transition:transform .11s ease, filter .11s ease;
+    touch-action:manipulation;
+  }
+  button:active{transform:scale(0.98);}
+  .btn-primary{
+    background:linear-gradient(90deg, var(--gold), var(--gold2));
+  }
+  .btn-ghost{
+    background:rgba(255,255,255,0.10);
+    color:var(--text);
+    border:1px solid rgba(255,255,255,0.14);
+    box-shadow:none;
+  }
+
+  .small{
+    font-size:11px;color:var(--muted);text-align:center;margin:14px 0 0;
+  }
+
+  /* subtle fade when prayer changes */
+  .fade{
+    animation:fadeIn .36s ease;
+  }
+  @keyframes fadeIn{
+    from{opacity:0; transform:translateY(6px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  /* responsive */
+  @media (max-width:444px){
+    .prayer{font-size:24px;}
+    header{flex-direction:column;align-items:flex-start;}
+    .chip{align-self:flex-end;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app" role="application" aria-label="Night Prayer App">
+  <header>
+    <div class="brand">
+      <div class="moon" aria-hidden="true">🌙</div>
+      <div>
+        <h1>Night Prayer</h1>
+        <div class="sub">One small nightly prayer at a time.</div>
+      </div>
+    </div>
+    <div class="chip" title="Saved locally on this device">
+      <span class="dot" aria-hidden="true"></span>
+      <span id="streakText">Tonight's Prayer</span>
+    </div>
+  </header>
+
+  <section class="card">
+    <p class="prayer" id="prayerText"></p>
+    <div class="meta">
+      <span id="prayerIndex"></span>
+      <span>•</span>
+      <span id="lastSeen"></span>
+    </div>
+
+    <div class="row">
+      <button class="btn-primary" id="refreshBtn">🔄 Refresh Prayer</button>
+      <button class="btn-ghost" id="speakBtn">🕯️ Read Aloud</button>
+      <button class="btn-ghost" id="copyBtn">📋 Copy</button>
+    </div>
+
+    <p class="small">Tip: This app remembers your last prayer on this device.</p>
+  </section>
+</div>
+
+<script>
+/* =========================
+   Night Prayer — Sovereign
+   Single-file, Wix-friendly
+   ========================= */
+
+const PRAYERS = [
+  "Creator, thank You for carrying me through today. Grant me quiet rest and gentle dreams. Amen.",
+   "Thank you for today and all the little moments that made me smile. Please watch over me as I rest.",
+  "Thank you for my body, my breath, and my heart. Help me sleep in peace tonight.",
+  "I am grateful for the people who love me. Please keep them safe and warm.",
+  "Thank you for helping me learn today. Tomorrow, help me learn again.",
+  "As the day ends, I let go of my worries. I trust that I am safe.",
+  "Thank you for the sun, the sky, and the stars. Please guide me through the night.",
+  "If I made mistakes today, help me forgive myself and do better tomorrow.",
+  "Thank you for laughter, kindness, and care. Let my dreams be gentle.",
+  "I am thankful for my home and my bed. Help me rest deeply.",
+  "Please bring peace to my thoughts and calm to my heart.",
+  "Thank you for my family, chosen or given. Please surround us with love.",
+  "As I close my eyes, I release today. Tomorrow will come when it is ready.",
+  "Thank you for helping me try, even when things were hard.",
+  "May my sleep be quiet and my dreams be kind.",
+  "I am grateful for all that I am becoming.",
+  "Please protect those who feel lonely tonight. Let them feel comfort.",
+  "Thank you for the lessons hidden in today.",
+  "I rest knowing I did my best.",
+  "Please help my mind slow down and my body relax.",
+  "Thank you for giving me another day to grow.",
+  "Thank you for my toys, my books, and my play.",
+  "Please help me wake up happy and ready tomorrow.",
+  "Thank you for hugs, smiles, and kind words.",
+  "I am safe. I am loved. I am enough.",
+  "Please watch over my dreams tonight.",
+  "Thank you for helping me be brave today.",
+  "I send love to everyone sleeping tonight.",
+  "Please help me remember good things when I wake.",
+  "Thank you for the quiet of the night.",
+  "I am thankful for this moment of rest.",
+  "Tonight, I choose peace over worry.",
+  "I let go of what I cannot change.",
+  "I am thankful for what today taught me.",
+  "I trust that tomorrow will meet me gently.",
+  "I rest in gratitude.",
+  "I welcome calm into my sleep.",
+  "I am held, even when I sleep.",
+  "I end this day with kindness in my heart.",
+  "May love be the last thing I feel tonight.",
+  "Thank you for this quiet ending.",
+  
+  "May peace settle over this home tonight, and may my heart be safe in Your care. Amen.",
+  "I release today into Your hands. Restore what was spent and heal what was heavy. Amen.",
+  "Guard my sleep, steady my mind, and wake me with new mercy in the morning. Amen.",
+  "Thank You for small joys, hidden help, and unseen protection. Keep watch tonight. Amen.",
+  "Let forgiveness wash over me—toward myself and others—so I can rest in peace. Amen.",
+  "Cover my loved ones with safety and calm. Surround them with light. Amen.",
+  "Quiet my thoughts, soften my worries, and let my breath become a prayer. Amen.",
+  "Where I was strong today, thank You. Where I was weak, meet me with grace. Amen.",
+  "Bless this night with stillness. Let my body rest and my spirit be renewed. Amen.",
+  "If I missed something today, guide me tomorrow. If I did well, keep me humble. Amen.",
+  "Let fear loosen its grip. Let hope remain. Let love be the final word tonight. Amen.",
+  "Thank You for the lessons of today. Plant them gently in me without heaviness. Amen.",
+  "Bring comfort to those who feel alone tonight. Let them be held in Your peace. Amen.",
+  "Give me a clean heart, a quiet mind, and a safe place to rest. Amen.",
+  "Bless my home with protection, my family with kindness, and my sleep with peace. Amen.",
+  "I lay down the burdens I cannot solve. You are able. I will rest. Amen.",
+  "May my dreams be gentle and my morning be kind. Keep me through the night. Amen.",
+  "Thank You for breath in my lungs and love in my life. I rest with gratitude. Amen.",
+  "Hold me in the dark hours. Be near. Be steady. Be peace. Amen."
+];
+
+const prayerText = document.getElementById('prayerText');
+const prayerIndex = document.getElementById('prayerIndex');
+const lastSeen = document.getElementById('lastSeen');
+const streakText = document.getElementById('streakText');
+
+const refreshBtn = document.getElementById('refreshBtn');
+const speakBtn = document.getElementById('speakBtn');
+const copyBtn = document.getElementById('copyBtn');
+
+const KEY_LAST = "nightPrayer:lastIndex";
+const KEY_DATE = "nightPrayer:lastDate";
+
+function pad2(n){ return String(n).padStart(2,'0'); }
+function formatDate(d){
+  const yy = d.getFullYear();
+  const mm = pad2(d.getMonth()+1);
+  const dd = pad2(d.getDate());
+  return `${yy}-${mm}-${dd}`;
+}
+function formatFriendly(d){
+  // simple friendly: "Dec 13"
+  return d.toLocaleDateString(undefined, { month:"short", day:"numeric" });
+}
+
+function randIndex(except){
+  if(PRAYERS.length <= 1) return 0;
+  let i = Math.floor(Math.random() * PRAYERS.length);
+  if(typeof except === "number" && PRAYERS.length > 1){
+    while(i === except) i = Math.floor(Math.random() * PRAYERS.length);
+  }
+  return i;
+}
+
+function setPrayer(i, reason=""){
+  const now = new Date();
+  const today = formatDate(now);
+
+  // UI
+  prayerText.classList.remove('fade');
+  void prayerText.offsetWidth; // restart animation
+  prayerText.classList.add('fade');
+
+  prayerText.textContent = PRAYERS[i];
+  prayerIndex.textContent = `Prayer ${i+1} of ${PRAYERS.length}`;
+  lastSeen.textContent = `Tonight • ${formatFriendly(now)}`;
+
+  // persist
+  localStorage.setItem(KEY_LAST, String(i));
+  localStorage.setItem(KEY_DATE, today);
+
+  // status chip
+  streakText.textContent = reason ? `Tonight: ${reason}` : `Tonight: saved`;
+}
+
+function loadPrayer(){
+  const saved = parseInt(localStorage.getItem(KEY_LAST), 10);
+  const savedDate = localStorage.getItem(KEY_DATE);
+  const today = formatDate(new Date());
+
+  if(Number.isFinite(saved) && saved >= 0 && saved < PRAYERS.length){
+    // If it's a new day, offer a fresh prayer automatically
+    if(savedDate && savedDate !== today){
+      const i = randIndex(saved);
+      setPrayer(i, "fresh");
+    } else {
+      setPrayer(saved, "ready");
+    }
+  } else {
+    setPrayer(randIndex(), "welcome");
+  }
+}
+
+/* Read aloud (optional) */
+function speak(text){
+  try{
+    if(!('speechSynthesis' in window)) return;
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-US";
+    u.rate = 0.92;
+    u.pitch = 1.05;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+/* Copy */
+async function copyToClipboard(text){
+  try{
+    await navigator.clipboard.writeText(text);
+    streakText.textContent = "Copied ✅";
+    setTimeout(()=>{ streakText.textContent = "Tonight: saved"; }, 900);
+  }catch(e){
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); }catch(err){}
+    ta.remove();
+    streakText.textContent = "Copied ✅";
+    setTimeout(()=>{ streakText.textContent = "Tonight: saved"; }, 900);
+  }
+}
+
+/* Events */
+refreshBtn.addEventListener('click', ()=>{
+  const current = parseInt(localStorage.getItem(KEY_LAST), 10);
+  const i = randIndex(Number.isFinite(current) ? current : undefined);
+  setPrayer(i, "refreshed");
+});
+
+speakBtn.addEventListener('click', ()=>{
+  speak(prayerText.textContent);
+  streakText.textContent = "Reading… 🕯️";
+  setTimeout(()=>{ streakText.textContent = "Tonight: saved"; }, 1100);
+});
+
+copyBtn.addEventListener('click', ()=>{
+  copyToClipboard(prayerText.textContent);
+});
+
+/* Init */
+loadPrayer();
+</script>
+</body>
+</html>
+
+
+
+
+
+
