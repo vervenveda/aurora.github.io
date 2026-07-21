@@ -1,0 +1,882 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Starlight Jar — Kids Night Reflections</title>
+  <style>
+    :root{
+      --bg-top:#060922;
+      --bg-bottom:#11153a;
+      --card:#fffdf5;
+      --ink:#2a2330;
+      --muted:#7c728a;
+      --accent:#4f7ee6;
+      --accent-soft:#dde7ff;
+      --border:#e3d8c7;
+      --chip:#f4ecff;
+      --chip-border:#cabaf1;
+      --mood-good:#8ad28a;
+      --mood-great:#ffd15c;
+      --mood-okay:#ffe6a8;
+      --mood-hard:#ffb2a8;
+      --mood-ouch:#ff8196;
+    }
+    *{box-sizing:border-box;}
+
+    html,body{
+      margin:0;
+      padding:0;
+      height:100%;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--ink);
+    }
+    body{
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding:16px 10px 22px;
+      background:radial-gradient(circle at 10% 0%, #28376c 0%, var(--bg-top) 35%, var(--bg-bottom) 100%);
+    }
+
+    .app{
+      width:100%;
+      max-width:460px;
+      background:var(--card);
+      border-radius:20px;
+      padding:16px 16px 18px;
+      box-shadow:
+        0 18px 40px rgba(0,0,0,0.38),
+        0 0 0 1px rgba(255,255,255,0.7);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .app::before{
+      content:"";
+      position:absolute;
+      inset:auto -40px -90px auto;
+      width:180px;height:180px;
+      background:radial-gradient(circle,#ffe7ae 0%,rgba(255,231,174,0) 70%);
+      opacity:0.6;
+      pointer-events:none;
+    }
+    .app::after{
+      content:"✶";
+      position:absolute;
+      right:20px;
+      top:16px;
+      font-size:1.5rem;
+      color:#f6e3aa;
+      text-shadow:0 0 8px rgba(255,255,200,0.8);
+    }
+
+    header{
+      text-align:center;
+      margin-bottom:10px;
+      position:relative;
+      z-index:1;
+    }
+    header h1{
+      margin:0 0 4px;
+      font-size:1.5rem;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      color:#352843;
+    }
+    header .tagline{
+      margin:0;
+      font-size:0.9rem;
+      color:var(--muted);
+    }
+    .date-label{
+      margin-top:4px;
+      font-size:0.78rem;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      color:#9c8aa8;
+    }
+
+    .section{
+      background:#fdf8f0;
+      border-radius:14px;
+      border:1px solid var(--border);
+      padding:10px 10px 12px;
+      margin-bottom:10px;
+      position:relative;
+      z-index:1;
+    }
+    .section-title{
+      font-size:0.82rem;
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      color:#8b6f5b;
+      margin:0 0 6px;
+    }
+
+    .question-box{
+      padding:9px 10px 10px;
+      border-radius:11px;
+      background:#f6efe4;
+      border:1px solid #e6d7c5;
+      font-size:0.98rem;
+      line-height:1.4;
+      color:#3a2832;
+    }
+    .question-row-bottom{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:6px;
+      font-size:0.78rem;
+      color:var(--muted);
+    }
+    .pill-btn{
+      border-radius:999px;
+      border:1px solid #ccb8e1;
+      background:var(--chip);
+      color:#4d4072;
+      padding:4px 11px;
+      font-size:0.78rem;
+      cursor:pointer;
+    }
+    .pill-btn:hover{
+      filter:brightness(0.97);
+    }
+
+    /* Mood row */
+    .mood-row{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      font-size:0.86rem;
+      color:#4a3741;
+    }
+    .mood-label{
+      font-size:0.83rem;
+      color:#7b6777;
+    }
+    .mood-buttons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+    .mood-btn{
+      border-radius:999px;
+      border:1px solid #d6c5f1;
+      background:#f2ecff;
+      color:#43345e;
+      padding:4px 8px 4px 6px;
+      font-size:0.8rem;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:4px;
+      min-width:0;
+    }
+    .mood-emoji{
+      font-size:1.1rem;
+    }
+    .mood-btn span.label{
+      white-space:nowrap;
+    }
+    .mood-btn.selected{
+      color:#201428;
+      border-color:#a890ff;
+      box-shadow:0 0 0 1px rgba(168,144,255,0.4);
+    }
+    .mood-btn.selected[data-mood="great"]{ background:var(--mood-great); }
+    .mood-btn.selected[data-mood="good"]{ background:var(--mood-good); }
+    .mood-btn.selected[data-mood="okay"]{ background:var(--mood-okay); }
+    .mood-btn.selected[data-mood="hard"]{ background:var(--mood-hard); }
+    .mood-btn.selected[data-mood="ouch"]{ background:var(--mood-ouch); }
+
+    /* Mode choice */
+    .mode-row{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      font-size:0.88rem;
+      color:#47352e;
+    }
+    .mode-row label{
+      display:flex;
+      align-items:flex-start;
+      gap:6px;
+      cursor:pointer;
+    }
+    .mode-row input[type="radio"]{
+      margin-top:2px;
+      accent-color:var(--accent);
+    }
+
+    .journal-label{
+      font-size:0.83rem;
+      font-weight:600;
+      color:#7b6458;
+      margin-bottom:4px;
+    }
+    textarea{
+      width:100%;
+      min-height:120px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      padding:8px;
+      font-size:0.95rem;
+      resize:vertical;
+      background:#fffdf9;
+      color:var(--ink);
+    }
+    textarea:focus{
+      outline:none;
+      border-color:var(--accent-soft);
+      box-shadow:0 0 0 1px var(--accent-soft);
+    }
+
+    .button-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:8px;
+      align-items:center;
+    }
+    .btn{
+      border:none;
+      border-radius:999px;
+      padding:7px 16px;
+      font-size:0.9rem;
+      cursor:pointer;
+      font-weight:500;
+    }
+    .btn-primary{
+      background:var(--accent);
+      color:#ffffff;
+      box-shadow:0 4px 12px rgba(68,90,186,0.35);
+    }
+    .btn-primary:hover{
+      filter:brightness(0.97);
+    }
+    .btn-secondary{
+      background:#eee0cf;
+      color:#4d392a;
+    }
+    .btn-secondary:hover{
+      filter:brightness(0.97);
+    }
+
+    .status-text{
+      font-size:0.78rem;
+      color:#376b34;
+    }
+
+    /* Goodnight wish */
+    .wish-text{
+      margin:4px 0 0;
+      font-size:0.9rem;
+      color:#4a3545;
+      line-height:1.4;
+    }
+
+    /* History */
+    .history-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      font-size:0.8rem;
+    }
+    #historyKidList{
+      list-style:none;
+      padding:0;
+      margin:6px 0 0;
+      max-height:140px;
+      overflow-y:auto;
+    }
+    #historyKidList li{
+      padding:4px 6px;
+      border-radius:8px;
+      background:#f4ecdf;
+      border:1px solid #e0d1c0;
+      margin-bottom:4px;
+      font-size:0.8rem;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:6px;
+      cursor:pointer;
+    }
+    #historyKidList li .meta{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      color:#6c5744;
+    }
+    .history-mood{
+      width:22px;height:22px;
+      border-radius:999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1rem;
+      background:#f7e9ff;
+    }
+    #historyKidList li .snip{
+      color:#a28970;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width:170px;
+    }
+    #historyKidEmpty{
+      font-size:0.8rem;
+      color:#95816f;
+      margin-top:4px;
+    }
+
+    .preview-box{
+      margin-top:7px;
+      padding:7px 8px;
+      border-radius:9px;
+      background:#f8f1ea;
+      border:1px dashed #d9c7b1;
+    }
+    .preview-title{
+      font-size:0.8rem;
+      font-weight:600;
+      color:#7b5f46;
+      margin-bottom:3px;
+    }
+    .preview-meta{
+      font-size:0.78rem;
+      color:#8b7560;
+      margin-bottom:4px;
+    }
+    .preview-body{
+      font-size:0.86rem;
+      white-space:pre-wrap;
+      color:#453427;
+      max-height:120px;
+      overflow-y:auto;
+    }
+
+    footer{
+      margin-top:6px;
+      text-align:center;
+      font-size:0.75rem;
+      color:#a28a96;
+      position:relative;
+      z-index:1;
+    }
+
+    @media (max-width:480px){
+      body{
+        padding:10px 8px 16px;
+      }
+      .app{
+        padding:13px 12px 16px;
+        border-radius:18px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Starlight Jar</h1>
+    <p class="tagline">A place to talk about your day.</p>
+    <div class="date-label" id="kidDateLabel"></div>
+  </header>
+
+  <!-- Tonight's Question -->
+  <section class="section">
+    <p class="section-title">Tonight's question</p>
+    <div class="question-box" id="kidQuestionText"></div>
+    <div class="question-row-bottom">
+      <span>Just one question is enough.</span>
+      <button type="button" class="pill-btn" id="kidShuffleBtn">New question</button>
+    </div>
+  </section>
+
+  <!-- Mood Row -->
+  <section class="section">
+    <p class="section-title">How did today feel?</p>
+    <div class="mood-row">
+      <div class="mood-label">Tap one face that feels closest to your day.</div>
+      <div class="mood-buttons" id="kidMoodRow">
+        <button type="button" class="mood-btn" data-mood="great">
+          <span class="mood-emoji">🤩</span>
+          <span class="label">Amazing</span>
+        </button>
+        <button type="button" class="mood-btn" data-mood="good">
+          <span class="mood-emoji">😊</span>
+          <span class="label">Pretty good</span>
+        </button>
+        <button type="button" class="mood-btn" data-mood="okay">
+          <span class="mood-emoji">😐</span>
+          <span class="label">Okay</span>
+        </button>
+        <button type="button" class="mood-btn" data-mood="hard">
+          <span class="mood-emoji">😕</span>
+          <span class="label">A bit hard</span>
+        </button>
+        <button type="button" class="mood-btn" data-mood="ouch">
+          <span class="mood-emoji">😢</span>
+          <span class="label">Ouch day</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mode Choice -->
+  <section class="section">
+    <p class="section-title">What happens to this page?</p>
+    <div class="mode-row">
+      <label>
+        <input type="radio" name="kidMode" value="save" id="kidModeSave" checked />
+        <span><strong>Keep it in the jar</strong> — save it on this device so you can peek at it later.</span>
+      </label>
+      <label>
+        <input type="radio" name="kidMode" value="stars" id="kidModeStars" />
+        <span><strong>Send it to the stars</strong> — when you clear the page, it won't be saved.</span>
+      </label>
+    </div>
+  </section>
+
+  <!-- Journal -->
+  <section class="section">
+    <div class="journal-label">Write or draw with words</div>
+    <textarea id="kidEntryText" placeholder="You can write a few sentences, a little story, or just words that match your day."></textarea>
+    <div class="button-row">
+      <button type="button" class="btn btn-primary" id="kidSaveBtn">Save this night</button>
+      <button type="button" class="btn btn-secondary" id="kidClearBtn">Clear page</button>
+      <span class="status-text" id="kidStatusText"></span>
+    </div>
+  </section>
+
+  <!-- Goodnight Wish -->
+  <section class="section">
+    <p class="section-title">Goodnight wish</p>
+    <p class="wish-text" id="kidWishText"></p>
+  </section>
+
+  <!-- History (for kids & grownups) -->
+  <section class="section">
+    <div class="history-header">
+      <p class="section-title" style="margin-bottom:0;">Nights inside the jar</p>
+      <button type="button" class="pill-btn" id="kidClearHistoryBtn" style="font-size:0.75rem;">Clear jar</button>
+    </div>
+    <ul id="historyKidList"></ul>
+    <div id="historyKidEmpty">When you choose “Keep it in the jar”, your nights will show up here (only on this device).</div>
+
+    <div class="preview-box" id="kidPreviewBox" style="display:none;">
+      <div class="preview-title">Peek inside this night</div>
+      <div class="preview-meta" id="kidPreviewMeta"></div>
+      <div class="preview-body" id="kidPreviewBody"></div>
+    </div>
+  </section>
+
+  <footer>
+    Local & offline only. Nothing leaves this device. Grownups can help kids read past nights.
+  </footer>
+</div>
+
+<script>
+(function(){
+  const $  = id => document.getElementById(id);
+
+  const KID_CURRENT_KEY = "starlightJarKids_v1_current";
+  const KID_ENTRIES_KEY = "starlightJarKids_v1_entries";
+
+  const KID_QUESTIONS = [
+    "What was your favorite part of today?",
+    "Did anyone make you smile today? What happened?",
+    "Was there anything that felt tricky or confusing today?",
+    "When did you feel the most calm or cozy today?",
+    "What is one thing you did today that you feel proud of?",
+    "Did you help someone today, or did someone help you?",
+    "What is one thing you wish had gone differently today?",
+    "When did you laugh today, even just a little?",
+    "Was there a moment you felt really brave?",
+    "If today was a weather forecast, what would it be and why?",
+    "Is there anything from today you’d like to say sorry to yourself for?",
+    "What is one small thing you are thankful for tonight?"
+  ];
+
+  const KID_WISHES = [
+    "May your heart feel snug like a blanket, and may your thoughts get to rest their feet for a while.",
+    "May every turbulent moment from today turn soft as you fall asleep.",
+    "May your brave heart remember that it never has to be perfect to be loved.",
+    "May your worries and your hope glow like the moon.",
+    "May you feel proud of the ways you kept going, even when things were a bit hard.",
+    "May your dreams be kind, colorful, and full of gentleness .",
+    "May all the feelings from today, transmute into blessings.",
+    "May you feel wrapped in love tonight, exactly as you are.",
+    "May your body feel safe, your mind feel calmer, and your heart feel hugged.",
+    "May tomorrow bring one new reason to smile, even if it’s small."
+  ];
+
+  const MOOD_EMOJI = {
+    great:"🤩",
+    good:"😊",
+    okay:"😐",
+    hard:"😕",
+    ouch:"😢"
+  };
+  const MOOD_LABEL = {
+    great:"Amazing",
+    good:"Pretty good",
+    okay:"Okay",
+    hard:"A bit hard",
+    ouch:"Ouch day"
+  };
+
+  let kidQuestionIndex = 0;
+  let kidSelectedMood = null;
+
+  function safeLoad(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if (!raw) return fallback;
+      const parsed = JSON.parse(raw);
+      return (parsed === null || parsed === undefined) ? fallback : parsed;
+    }catch(e){
+      return fallback;
+    }
+  }
+
+  function safeSave(key, value){
+    try{
+      localStorage.setItem(key, JSON.stringify(value));
+    }catch(e){
+      // ignore storage errors
+    }
+  }
+
+  function showStatus(msg){
+    const el = $("kidStatusText");
+    if (!el) return;
+    el.textContent = msg;
+    if (showStatus._t){
+      clearTimeout(showStatus._t);
+    }
+    showStatus._t = setTimeout(() => {
+      el.textContent = "";
+    }, 3500);
+  }
+
+  function prettyDate(iso){
+    if (!iso) return "";
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return iso;
+    return d.toLocaleString(undefined,{
+      weekday:"short",
+      month:"short",
+      day:"numeric",
+      hour:"2-digit",
+      minute:"2-digit"
+    });
+  }
+
+  function initDateLabel(){
+    const el = $("kidDateLabel");
+    if (!el) return;
+    const now = new Date();
+    el.textContent = now.toLocaleDateString(undefined,{
+      weekday:"long",
+      month:"long",
+      day:"numeric",
+      year:"numeric"
+    });
+  }
+
+  function pickQuestionForToday(){
+    const todayStr = new Date().toISOString().slice(0,10);
+    let sum = 0;
+    for(let i=0;i<todayStr.length;i++){
+      sum += todayStr.charCodeAt(i);
+    }
+    kidQuestionIndex = sum % KID_QUESTIONS.length;
+    setQuestionText();
+  }
+
+  function setQuestionText(){
+    const qEl = $("kidQuestionText");
+    if (!qEl) return;
+    const q = KID_QUESTIONS[kidQuestionIndex] || KID_QUESTIONS[0] || "";
+    qEl.textContent = q;
+  }
+
+  function shuffleQuestion(){
+    kidQuestionIndex = (kidQuestionIndex + 1) % KID_QUESTIONS.length;
+    setQuestionText();
+    saveCurrentDraft();
+  }
+
+  function getMode(){
+    const save = $("kidModeSave");
+    const stars = $("kidModeStars");
+    if (stars && stars.checked) return "stars";
+    return "save";
+  }
+
+  function onModeChange(){
+    const mode = getMode();
+    if (mode === "stars"){
+      try{ localStorage.removeItem(KID_CURRENT_KEY); }catch(e){}
+      showStatus("Star mode: when you clear the page, it won't stay in the jar.");
+    }else{
+      saveCurrentDraft();
+      showStatus("Jar mode: this page will stay on this device.");
+    }
+  }
+
+  function updateMoodSelection(mood){
+    kidSelectedMood = mood || null;
+    const row = $("kidMoodRow");
+    if (!row) return;
+    const buttons = row.querySelectorAll(".mood-btn");
+    buttons.forEach(btn => {
+      if (btn.dataset.mood === kidSelectedMood){
+        btn.classList.add("selected");
+      }else{
+        btn.classList.remove("selected");
+      }
+    });
+    saveCurrentDraft();
+  }
+
+  function handleMoodClick(e){
+    const btn = e.target.closest(".mood-btn");
+    if (!btn) return;
+    const mood = btn.dataset.mood;
+    if (!mood) return;
+    if (kidSelectedMood === mood){
+      updateMoodSelection(null); // toggle off
+    }else{
+      updateMoodSelection(mood);
+    }
+  }
+
+  function saveCurrentDraft(){
+    if (getMode() === "stars") return;
+    const text = $("kidEntryText") ? $("kidEntryText").value : "";
+    const draft = {
+      questionIndex:kidQuestionIndex,
+      question:KID_QUESTIONS[kidQuestionIndex] || "",
+      text:text || "",
+      mood:kidSelectedMood || null,
+      date:new Date().toISOString()
+    };
+    safeSave(KID_CURRENT_KEY, draft);
+  }
+
+  function handleEntryInput(){
+    if (getMode() === "save"){
+      saveCurrentDraft();
+    }
+  }
+
+  function handleClearPage(){
+    const area = $("kidEntryText");
+    if (!area) return;
+    if (area.value.trim() && !confirm("Clear this page? Saved nights in the jar will stay.")){
+      return;
+    }
+    area.value = "";
+    updateMoodSelection(null);
+
+    if (getMode() === "save"){
+      saveCurrentDraft();
+    }else{
+      try{ localStorage.removeItem(KID_CURRENT_KEY); }catch(e){}
+    }
+    showStatus("Page cleared.");
+  }
+
+  function handleSaveNight(){
+    const area = $("kidEntryText");
+    if (!area) return;
+    const text = area.value.trim();
+    const mode = getMode();
+
+    if (!text && !confirm("This page is empty. Save this night anyway?")){
+      return;
+    }
+
+    if (mode === "stars"){
+      area.value = "";
+      updateMoodSelection(null);
+      try{ localStorage.removeItem(KID_CURRENT_KEY); }catch(e){}
+      showStatus("Sent to the stars. Nothing was kept in the jar.");
+      return;
+    }
+
+    const entries = safeLoad(KID_ENTRIES_KEY, []);
+    const now = new Date();
+    const entry = {
+      id: now.getTime(),
+      date: now.toISOString(),
+      questionIndex: kidQuestionIndex,
+      question: KID_QUESTIONS[kidQuestionIndex] || "",
+      text: text,
+      mood: kidSelectedMood || null
+    };
+    entries.unshift(entry);
+    if (entries.length > 400){ entries.length = 400; }
+    safeSave(KID_ENTRIES_KEY, entries);
+    saveCurrentDraft();
+    renderHistory();
+    showStatus("This night is now safely in the jar.");
+  }
+
+  function renderHistory(){
+    const list = $("historyKidList");
+    const empty = $("historyKidEmpty");
+    const preview = $("kidPreviewBox");
+    if (!list || !empty) return;
+
+    const entries = safeLoad(KID_ENTRIES_KEY, []);
+    list.innerHTML = "";
+
+    if (!entries.length){
+      empty.style.display = "block";
+      if (preview) preview.style.display = "none";
+      return;
+    }
+    empty.style.display = "none";
+
+    entries.forEach((entry, idx) => {
+      if (!entry) return;
+      const li = document.createElement("li");
+      li.dataset.index = String(idx);
+
+      const meta = document.createElement("div");
+      meta.className = "meta";
+
+      const moodSpan = document.createElement("div");
+      moodSpan.className = "history-mood";
+      const mood = entry.mood;
+      moodSpan.textContent = mood ? (MOOD_EMOJI[mood] || "⭐") : "⭐";
+
+      const dateSpan = document.createElement("span");
+      dateSpan.textContent = prettyDate(entry.date);
+
+      meta.appendChild(moodSpan);
+      meta.appendChild(dateSpan);
+
+      const snip = document.createElement("div");
+      snip.className = "snip";
+      const firstLine = (entry.text || "").split(/\r?\n/)[0];
+      snip.textContent = firstLine || (entry.question || "(no words)");
+
+      li.appendChild(meta);
+      li.appendChild(snip);
+
+      li.addEventListener("click", function(){
+        showHistoryPreview(idx);
+      });
+
+      list.appendChild(li);
+    });
+  }
+
+  function showHistoryPreview(index){
+    const entries = safeLoad(KID_ENTRIES_KEY, []);
+    const entry = entries[index];
+    const box = $("kidPreviewBox");
+    const metaEl = $("kidPreviewMeta");
+    const bodyEl = $("kidPreviewBody");
+    if (!entry || !box || !metaEl || !bodyEl) return;
+
+    box.style.display = "block";
+    const mood = entry.mood;
+    const moodPart = mood ? (MOOD_EMOJI[mood] + " " + (MOOD_LABEL[mood] || "") + " — ") : "";
+    metaEl.textContent = moodPart + prettyDate(entry.date) + (entry.question ? " — Q: " + entry.question : "");
+    bodyEl.textContent = entry.text || "(no text saved this night)";
+  }
+
+  function clearHistory(){
+    if (!confirm("Clear every night in the jar on this device? This cannot be undone.")){
+      return;
+    }
+    try{ localStorage.removeItem(KID_ENTRIES_KEY); }catch(e){}
+    const box = $("kidPreviewBox");
+    if (box) box.style.display = "none";
+    renderHistory();
+    showStatus("The jar has been emptied on this device.");
+  }
+
+  function initWish(){
+    const el = $("kidWishText");
+    if (!el) return;
+    const dayIndex = Math.floor(Date.now() / 86400000);
+    const idx = dayIndex % KID_WISHES.length;
+    el.textContent = KID_WISHES[idx] || "";
+  }
+
+  function restoreDraftOrNew(){
+    const saved = safeLoad(KID_CURRENT_KEY, null);
+    const area = $("kidEntryText");
+    if (!area) return;
+
+    if (saved && typeof saved === "object"){
+      if (typeof saved.questionIndex === "number" && KID_QUESTIONS[saved.questionIndex]){
+        kidQuestionIndex = saved.questionIndex;
+      }else{
+        pickQuestionForToday();
+      }
+      setQuestionText();
+      area.value = saved.text || "";
+      kidSelectedMood = saved.mood || null;
+      updateMoodSelection(kidSelectedMood);
+    }else{
+      pickQuestionForToday();
+      area.value = "";
+      kidSelectedMood = null;
+      updateMoodSelection(null);
+    }
+  }
+
+  function wireEvents(){
+    const shuffle = $("kidShuffleBtn");
+    if (shuffle) shuffle.addEventListener("click", shuffleQuestion);
+
+    const moodRow = $("kidMoodRow");
+    if (moodRow) moodRow.addEventListener("click", handleMoodClick);
+
+    const entry = $("kidEntryText");
+    if (entry) entry.addEventListener("input", handleEntryInput);
+
+    const saveBtn = $("kidSaveBtn");
+    if (saveBtn) saveBtn.addEventListener("click", handleSaveNight);
+
+    const clearBtn = $("kidClearBtn");
+    if (clearBtn) clearBtn.addEventListener("click", handleClearPage);
+
+    const modeSave = $("kidModeSave");
+    const modeStars = $("kidModeStars");
+    if (modeSave) modeSave.addEventListener("change", onModeChange);
+    if (modeStars) modeStars.addEventListener("change", onModeChange);
+
+    const clearHistoryBtn = $("kidClearHistoryBtn");
+    if (clearHistoryBtn) clearHistoryBtn.addEventListener("click", clearHistory);
+  }
+
+  function init(){
+    initDateLabel();
+    initWish();
+    restoreDraftOrNew();
+    renderHistory();
+    wireEvents();
+  }
+
+  if (document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", init);
+  }else{
+    init();
+  }
+})();
+</script>
+</body>
+</html>
