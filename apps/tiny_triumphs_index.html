@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tiny Triumphs — 365 Days of Organization</title>
+  <style>
+    :root {
+      --bg: #1a2740;
+      --card: #eef9fb;
+      --aqua: #4fd2c3;
+      --gold: #ffe066;
+      --button: #28536b;
+      --button-hover: #4fd2c3;
+      --text: #253245;
+      --tracker: #c3f5e6;
+      --tracker-done: #ffe066;
+    }
+    body {
+      background: linear-gradient(135deg, var(--bg), #36526e 100%);
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0; padding: 0;
+      min-height: 100vh;
+      color: var(--text);
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+    }
+    .app-wrap {
+      max-width: 333px;
+      margin: 33px auto 0;
+      background: var(--card);
+      border-radius: 22px;
+      box-shadow: 0 8px 28px #0007;
+      padding: 30px 24px 20px 24px;
+      text-align: center;
+      border: 4px solid #f8f4fa;
+      position: relative;
+    }
+    h1 {
+      color: var(--aqua);
+      letter-spacing: 1.5px;
+      font-size: 1.7em;
+      font-weight: 700;
+      margin-bottom: 0.5em;
+      text-shadow: 1px 1px 0 #fff9;
+    }
+    .tagline {
+      color: #347d99;
+      font-size: 1.08em;
+      margin-bottom: 1em;
+    }
+    #task-box {
+      background: #fff;
+      border-radius: 7px;
+      padding: 7px 7px 7px 7px;
+      box-shadow: 0 1.5px 7px #c3f5e636;
+      font-size: 1.14em;
+      min-height: 66px;
+      margin-bottom: 1em;
+      color: var(--text);
+    }
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      margin-bottom: 1.1em;
+    }
+    button {
+      background: var(--button);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 7px 7px;
+      font-size: 1em;
+      font-weight: 555;
+      box-shadow: 0 2px 7px #add;
+      cursor: pointer;
+      transition: background 0.18s, color 0.14s;
+    }
+    button:hover {
+      background: var(--button-hover);
+      color: var(--bg);
+    }
+    .progress-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3px;
+      margin: 3px;
+    }
+    .dot {
+      width: 3px; height: 11px;
+      border-radius: 50%;
+      background: var(--tracker);
+      display: flex;
+      transition: background 0.18s;
+      border: 2px solid #c2eae6;
+    }
+    .dot.done { background: var(--tracker-done); border-color: #ffe066; }
+    .celebrate {
+      color: var(--gold);
+      font-size: 1.19em;
+      margin-top: 0.6em;
+      letter-spacing: 1.2px;
+      font-weight: 600;
+      text-shadow: 0 1px 2px #fff, 0 1.5px 0 #fd0a;
+      display: none;
+    }
+    footer {
+      color: #a2b8be;
+      margin: 21px 0 0 0;
+      font-size: .95em;
+      letter-spacing: 0.2px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <h1>Tiny Triumphs</h1>
+    <div class="tagline">A daily nudge towards clarity & joy. Organize one thing, every day.</div>
+    <div id="task-box">Loading your first Tiny Triumph…</div>
+    <div class="button-row">
+      <button id="prevBtn" title="Yesterday">⏪</button>
+      <button id="nextBtn" title="Next task">⏩</button>
+      <button id="randBtn" style="background:var(--aqua);color:var(--bg);">🎲 Surprise Me</button>
+    </div>
+    <div class="progress-bar" id="progress"></div>
+    <div class="celebrate" id="celebrateMsg">✨ You did it! ✨</div>
+  </div>
+  <footer>
+    Tiny Triumphs &copy; 2025 — Brought to life by My Art Gallery & Khaemenes Academy
+  </footer>
+  <script>
+    // 30 sample tasks for demo; add your own to 365+
+    const TASKS = [
+      "Make your bed neatly and open the curtains to let light in.",
+"Write down three things you’re grateful for.",
+"Water your plants or tend to a small garden.",
+"Organize a single shelf in your closet.",
+       "Open the curtains and greet the soft light of day.",
+  "Make your bed slowly, smoothing away yesterday.",
+  "Light a candle or open a window to fresh air.",
+  "Wipe your bathroom mirror until you can see your calm reflection.",
+  "Pour yourself a glass of water and drink it with gratitude.",
+  "Start a gentle stretch to wake your body kindly.",
+  "Water the plants that share your home.",
+  "Wipe down the kitchen counter and notice its quiet shine.",
+  "Place yesterday’s dishes in order and begin anew.",
+  "Feed your pet and whisper them a good morning.",
+  "Tidy your bedside table — clear space for peaceful thoughts.",
+  "Fold a blanket, breathing deeply as you do.",
+  "Write one sentence in your journal about what you hope for today.",
+  "Open a window and listen for birds.",
+  "Wipe a doorknob or handle — small care for shared things.",
+  "Brush your hair slowly, grounding yourself in the rhythm.",
+  "Make a warm drink and savor its steam.",
+  "Wipe the bathroom sink clean and thank yourself for doing it.",
+  "Arrange something beautiful on your table — a flower, a fruit, a stone.",
+  "Take three deep breaths before checking your phone.",
+  "Sweep a small corner of your home — a quiet reset.",
+  "Sort your mail or papers into a neat pile.",
+  "Wipe a mirror or glass surface until it sparkles.",
+  "Make a list of three things you are grateful for today.",
+  "Wash a cup or plate by hand, enjoying the simple warmth of the water.",
+  "Feed yourself a healthy breakfast, slowly and mindfully.",
+  "Shake out the rug by the door and welcome the new day in.",
+  "Refill your water bottle or carafe.",
+  "Take a walk to the mailbox or the end of the street.",
+  "Tidy one drawer while listening to soft music.",
+  "Make your to-do list with kindness, not pressure.",
+  "Check your plants — trim, mist, or whisper thanks.",
+  "Dust a shelf that has waited patiently.",
+  "Take a moment to tidy your workspace or desk.",
+  "Stretch your arms toward the ceiling and smile.",
+  "Sweep the entryway — let the path feel clear.",
+  "Wipe down the kitchen sink until it gleams.",
+  "Sort a small pile of laundry or fold what’s clean.",
+  "Wipe your phone screen — care for what you touch often.",
+  "Light incense or diffuse a scent that calms you.",
+  "Take a moment to tidy your shoes by the door.",
+  "Write one kind thought to carry through the day.",
+  "Make a small act of care for someone else — a note, a text, a smile.",
+  "Wipe a window ledge and notice the view beyond.",
+  "Put on calm music as you prepare breakfast.",
+  "Check your calendar gently, with no rush.",
+  "Make your favorite corner cozy and ready for evening rest.",
+  "Fold a towel neatly and breathe slowly as you do.",
+  "Pick up one thing that’s out of place and return it home.",
+  "Pause, look around, and feel grateful for this space you care for.",
+"Sort and tidy your nightstand drawer.",
+"Wipe down your bathroom mirror until it shines.",
+"Take five deep breaths before checking your phone.",
+"Plan your meals for the day.",
+"Declutter your workspace or desk.",
+"Start a load of laundry.",
+"Make a fresh cup of tea or coffee and enjoy it without multitasking.",
+"Write a kind note to yourself and place it where you’ll see it later.",
+"Take a short walk outside, even if just to your mailbox.",
+"Fold and put away clean laundry from yesterday.",
+"Review your top three priorities for the day.",
+"Change your bedsheets for a fresh start.",
+"Delete five unnecessary files or emails from your computer.",
+"Stretch for five minutes while focusing on your breathing.",
+"Refill your water bottle and drink a full glass.",
+"Write one encouraging message to a friend or coworker.",
+"Clean out your purse, wallet, or backpack.",
+"Open a window and let fresh air in.",
+"Spend two minutes straightening your bookshelf.",
+"Set out your clothes for tomorrow.",
+"Put away dishes from the drying rack.",
+"Spend five minutes journaling your thoughts.",
+"Light a candle or diffuse essential oils to refresh your space.",
+"Feed your body a nourishing breakfast.",
+"Take a photo of something beautiful around you.",
+"Organize your refrigerator shelf or drawer.",
+"Do one small act of kindness for someone at home.",
+"Wipe down your phone screen and keyboard.",
+"Organize your skincare or grooming products.",
+"Make a quick list of errands for the week.",
+"Revisit one of your goals and note your progress.",
+"Clean the inside of your car or wipe down the dashboard.",
+"Declutter one folder on your computer or phone.",
+"Spend five minutes sitting quietly with no distractions.",
+"Replace one negative thought with a positive one.",
+"Sort through your mail and recycle what you don’t need.",
+"Take a mindful shower — notice the warmth and the scent.",
+"Clean out your coffee or tea area.",
+"Spend a moment visualizing a calm, productive day.",
+"Update your calendar or planner.",
+"Give thanks for your home and the safety it provides.",
+"Clean a window or mirror to let more light in.",
+"Take time to stretch your neck and shoulders.",
+"Do one small creative thing — doodle, write, or hum a tune.",
+"Wipe down your kitchen counters.",
+"Smile at yourself in the mirror and mean it.",
+"Straighten a messy corner of your home.",
+      "Organize a single shelf in your closet.",
+      "Sort and tidy your nightstand drawer.",
+      "Wipe and declutter your kitchen counters.",
+      "Group books by color, size, or genre.",
+      "Set up a cozy reading corner.",
+      "File away old papers in your workspace.",
+      "Sort your phone photos for 5 minutes.",
+      "Clear out expired pantry items.",
+      "Untangle and store spare cables neatly.",
+      "Polish a favorite mirror or frame.",
+      "Arrange a tiny display stones.",
+      "Organize just your sock or underwear drawer.",
+      "Gather stray pens/pencils into one jar.",
+      "Clean out your purse or backpack.",
+      "Pick one corner to make inspiring.",
+      "Recycle or toss 3 things you never use.",
+      "Refresh a windowsill: clean, decorate, enjoy.",
+      "Wipe down your main door (inside/out).",
+      "Dust a lamp and swap to a soft bulb.",
+      "Organize your favorite recipes.",
+      "Make a “relax kit” (book, tea, blanket).",
+      "Clear your bathroom counter of extras.",
+      "Arrange 3-5 favorite photos somewhere visible.",
+      "Tidy a game shelf or art supply box.",
+      "Pick one small step towards a big goal.",
+      "Organize hair accessories/jewelry.",
+      "Make a music or podcast playlist for cleaning.",
+      "Wipe down all your light switches.",
+      "Place a motivational note somewhere.",
+      "Refresh a desktop background or phone lockscreen.",
+        "Gently shake out your pillows and breathe in the freshness.",
+  "Polish a mirror until it catches the morning light.",
+  "Fold yesterday’s clothes and give thanks for their comfort.",
+  "Empty the trash in one small room — make space for new energy.",
+  "Wipe your coffee table clean and place something simple on it.",
+  "Take a slow walk through your home, noticing what feels peaceful.",
+  "Make your bed with intention, smoothing away yesterday’s stories.",
+  "Wipe the sink faucet until it gleams like sunlight on water.",
+  "Open your curtains fully and let brightness flood the room.",
+  "Set a gentle timer and tidy for five quiet minutes.",
+  "Dust one picture frame and remember the moment it holds.",
+  "Water the plants and whisper, ‘grow well today.’",
+  "Sort the shoes by the door and thank them for the journeys they’ve carried you on.",
+  "Stack the books that rest beside your bed.",
+  "Put fresh water out for your pet or for the flowers on the table.",
+  "Start a load of laundry while thinking of renewal.",
+  "Wipe the handles of your fridge or cupboard — little places of touch.",
+  "Pick one forgotten corner to care for today.",
+  "Breathe as you fold a towel; notice the texture and warmth.",
+  "Light a small candle to mark the start of a calm morning.",
+  "Brush away crumbs from the table — welcome a clean slate.",
+  "Sort the fruit bowl and admire the colors of nourishment.",
+  "Hang one thing neatly that has waited too long.",
+  "Tidy a windowsill and look at the day beyond it.",
+  "Sweep a small space while humming softly.",
+  "Clean a mirror and smile at your reflection.",
+  "Place one object where it truly belongs.",
+  "Wipe down your kitchen counter after breakfast — closure brings calm.",
+  "Check on your indoor herbs or flowers — touch the soil, feel life.",
+  "Organize the items beside your sink — a small act of order.",
+  "Gently fold your favorite blanket and set it where it belongs.",
+  "Spritz a little scent into the air — lavender, citrus, or pine.",
+  "Lay out your outfit for the day, appreciating your choices.",
+  "Empty a single drawer and give it breath again.",
+  "Wipe your bathroom counter and place a fresh towel nearby.",
+  "Open your journal and write three gentle words for the day ahead.",
+  "Take a few deep breaths by an open window.",
+  "Place fresh fruit in a bowl — color your morning.",
+  "Clean your glasses or screens for clear sight and mind.",
+  "Organize a small shelf — simplicity feels light.",
+  "Stretch your arms wide and thank your body for waking.",
+  "Dust one lamp and notice how it softens the light.",
+  "Sort a basket or bin that has gathered small forgotten things.",
+  "Shake out a rug — let the dust of yesterday fall away.",
+  "Refill your soap dish or dispenser — a symbol of care.",
+  "Put your favorite mug by the coffee pot, ready for warmth.",
+  "Polish a doorknob until it shines like a small sun.",
+  "Straighten a picture frame — see how harmony returns.",
+  "Close your eyes and take a single slow breath of gratitude.",
+  "Write a short intention: ‘Today, I care gently for what I love.’",
+  "Look around your room and smile at what you’ve made peaceful.",
+      "Open a window and listen — the morning has its own song.",
+  "Replace one burnt-out bulb and bring a bit more light inside.",
+  "Shake out the welcome mat and whisper, ‘come in, good energy.’",
+  "Wipe a doorknob, a small act of invisible care.",
+  "Put fresh sheets on your bed and breathe in their promise.",
+  "Straighten your bookshelf — give your thoughts clear places to rest.",
+  "Empty your pockets from yesterday and start fresh.",
+  "Rinse your reusable bottle and fill it for the day ahead.",
+  "Sweep your porch or balcony; let the air move freely.",
+  "Set one plant in the sunlight and watch it stretch.",
+  "Gently wipe fingerprints from glass and mirrors.",
+  "Gather scattered papers into a tidy pile — your mind will follow.",
+  "Change the hand towel for one that feels fresh and soft.",
+  "Clean the handles of your fridge and smile at the shine.",
+  "Place a small bowl of fruit in the center of your table — color as comfort.",
+  "Water the plants with patient hands, like morning rain.",
+  "Fluff the couch cushions; it’s small, but it feels like kindness.",
+  "Light incense or diffuse a drop of essential oil — a quiet offering.",
+  "Pick one drawer to organize, and do it slowly, with grace.",
+  "Take a soft cloth to your favorite object — gratitude in motion.",
+  "Open your planner or notebook and trace today’s date with care.",
+  "Gather stray socks and let them find their pairs again.",
+  "Fold a towel neatly — let simplicity bring peace.",
+  "Clean one windowpane and see how the light dances differently.",
+  "Refill your sugar jar, your teapot, or your morning ritual.",
+  "Sweep your steps or entryway — a gesture of welcome to the day.",
+  "Replace your pillowcase — fresh beginnings feel lovely.",
+  "Straighten your bedside items — calm follows order.",
+  "Wipe down the kitchen sink until it sparkles.",
+  "Place one flower or leaf in a glass — nature’s reminder to pause.",
+  "Check your pantry and remove one thing you no longer need.",
+  "Light a candle for clarity, then blow it out softly — the day has begun.",
+  "Polish your favorite mug — it will hold warmth soon.",
+  "Gently clean your phone screen — see clearly again.",
+  "Hang a fresh towel and smooth its edges.",
+  "Sweep the floor beneath your favorite chair.",
+  "Put away any dishes left from yesterday — the cycle of care continues.",
+  "Write a kind note to yourself and place it somewhere visible.",
+  "Wash your hands slowly, feeling the water like a morning prayer.",
+  "Shake out a blanket and fold it with calm precision.",
+  "Tidy your workspace and set one beautiful object nearby.",
+  "Clean the handles of doors — small glimmers of attention.",
+  "Sort your mail or papers — find simplicity within the stack.",
+  "Place a cushion on your chair and sit for one quiet breath.",
+  "Wash out a vase or small jar and imagine what it might hold.",
+  "Brush away cobwebs — let the corners breathe again.",
+  "Organize one shelf in the fridge — clarity and freshness return.",
+  "Smooth the covers of a book that once gave you peace.",
+  "Place your keys in a bowl where they belong — small order, big calm.",
+  "Look out the window and greet the sky — a clean beginning.", "Write one kind sentence about yourself on a scrap of paper.",
+  "Open a window and let new air replace the old.",
+  "Tidy your shoes by the door — steps begin in order.",
+  "Draw a quick doodle of how the morning feels.",
+  "Polish a mirror and look into it with kindness.",
+  "Fold a piece of clothing slowly, like a small meditation.",
+  "Change the water in a vase — the flowers notice.",
+  "Pick one surface and clear it completely — space invites peace.",
+  "Wipe down a light switch, a touch of quiet care.",
+  "Arrange a small breakfast beautifully — beauty in the ordinary.",
+  "Write a short note to someone you appreciate.",
+  "Take out the trash and thank it for carrying what’s done.",
+  "Organize your keys — the day opens easily when they shine.",
+  "Add a pinch of salt to your sink scrub — alchemy in action.",
+  "Make your bed and smooth the blankets like calm waves.",
+  "Open your blinds and let the light find you.",
+  "Wipe the front of your refrigerator — little gestures matter.",
+  "Replace a burnt-out candle — light invites light.",
+  "Straighten a picture frame and notice the quiet symmetry.",
+  "Put on music that feels like sunshine and tidy one shelf.",
+  "Write one intention for today and place it under a stone.",
+  "Rinse your teacup from yesterday — start with freshness.",
+  "Dust a bookshelf — stories love to breathe.",
+  "Wipe the faucet until it gleams — clarity begins with reflection.",
+  "Set out a bowl for fruit, nuts, or bright color.",
+  "Put away a jacket or bag that’s resting out of place.",
+  "Sweep the front step — a morning ritual of welcome.",
+  "Wipe crumbs from the counter — goodbye to yesterday.",
+  "Clean one drawer, no rush, just gentle attention.",
+  "Water a houseplant and whisper thanks for the oxygen.",
+  "Polish your favorite pen or tool — it serves your ideas.",
+  "Clean your glasses or screen — vision renewed.",
+  "Set your favorite mug beside your notebook — quiet companionship.",
+  "Brush your hair slowly, as though greeting yourself kindly.",
+  "Wipe the inside of your microwave or oven — hidden peace.",
+  "Put fresh flowers or herbs by your sink.",
+  "Fold laundry with a rhythm that feels like breathing.",
+  "Clean the handle of your kettle — the little details shine.",
+  "Organize your workspace — creativity loves calm.",
+  "Shake out the bathroom mat — goodbye to yesterday’s dust.",
+  "Spray your pillow with lavender — serenity awaits your return.",
+  "Fold a blanket neatly at the edge of your bed.",
+  "Refill a jar, bottle, or bowl — give abundance a home.",
+  "Sort through old receipts — release what’s already served.",
+  "Clean one window and watch the light change tone.",
+  "Polish the knobs of your drawers — shine in the small things.",
+  "Place one item of clutter in its true home.",
+  "Write a single word that captures your morning mood.",
+  "Take three deep breaths while standing by your door.",
+  "Thank your space for sheltering you another day.",
+       "Open the window and listen — what sound greets you first?",
+  "Wipe down your doorknob — touch becomes a blessing.",
+  "Place one small object that inspires you near your workspace.",
+  "Sweep or vacuum a single corner; honor its quiet purpose.",
+  "Light a candle or incense and notice the change in air.",
+  "Arrange a few books by color — let harmony guide you.",
+  "Polish your favorite piece of jewelry or keepsake.",
+  "Clean the handle of your refrigerator; small touches count.",
+  "Bring a leaf or stone inside — nature belongs everywhere.",
+  "Shake out a rug and feel the air move.",
+  "Rinse a reusable water bottle and fill it fresh.",
+  "Move one chair or lamp slightly — create new flow.",
+  "Write a word that feels like peace on a sticky note.",
+  "Clear the entryway; let your space breathe.",
+  "Fold a scarf neatly and place it where morning light falls.",
+  "Dust a lamp shade — light shines better when cared for.",
+  "Hang one photo or drawing that reminds you of calm.",
+  "Collect coins or buttons scattered around and store them mindfully.",
+  "Put a small bowl by the door for keys or wishes.",
+  "Wipe the window sill and feel the air with your fingertips.",
+  "Polish a handle, hinge, or switch plate until it gleams.",
+  "Place a plant or flower near where you sit most often.",
+  "Refold a towel so it stacks perfectly.",
+  "Arrange a color theme on your desk — a quiet palette.",
+  "Spray a calming scent near your reading space.",
+  "Tidy your bedside table; rest loves simplicity.",
+  "Collect five items that no longer serve you — prepare to release them.",
+  "Straighten a picture frame and smile at its balance.",
+  "Clean your phone screen — clarity in the palm of your hand.",
+  "Organize your art supplies or pens — creativity likes readiness.",
+  "Put one fresh fruit in a bowl and admire its color.",
+  "Replace one light bulb with softer glow.",
+  "Wipe the front of your door — welcome begins there.",
+  "Open curtains wide and stretch toward the light.",
+  "Take a moment to notice each color in the room.",
+  "Wash a single cup slowly — let it become meditation.",
+  "Place a favorite song on repeat while you tidy one drawer.",
+  "Rearrange a shelf until it feels like calm rhythm.",
+  "Wipe fingerprints from glass surfaces — clarity returns.",
+  "Choose one corner and make it your reflection space.",
+  "Fold napkins or placemats as though setting for peace.",
+  "Arrange fresh herbs or spices — scent as ceremony.",
+  "Write a gratitude note and tuck it in a hidden spot.",
+  "Clean a doorframe — unseen effort, visible joy.",
+  "Move your favorite chair to face natural light.",
+  "Shake or fluff a pillow — give shape to comfort.",
+  "Place one personal object at eye level as a morning reminder.",
+  "Sweep the balcony, porch, or threshold — entrance energy refreshed.",
+  "Refill a soap dispenser — abundance in the everyday.",
+  "Take a full breath and thank your space for holding you.",
+      "Gather stray papers and recycle or file them with care.",
+  "Wipe one shelf until it gleams again.",
+  "Collect clothes from the floor and fold them neatly.",
+  "Empty the trash bin; breathe in the space you just made.",
+  "Shake out blankets and smooth them over the bed.",
+  "Polish the faucet until it shines like morning dew.",
+  "Sort your mail — keep only what matters.",
+  "Organize one drawer; let it become a calm secret.",
+  "Line up shoes by the door; order feels like kindness.",
+  "Dust the top of a frame — where memories live.",
+  "Clean a mirror and look yourself in the eye — fresh start.",
+  "Wipe crumbs from counters; small resets make big peace.",
+  "Gather pens and markers, test them, keep the good ones.",
+  "Wash one window — light loves clean glass.",
+  "Straighten a stack of books or magazines.",
+  "Refold sweaters or shirts with gentle precision.",
+  "Vacuum under a piece of furniture you rarely move.",
+  "Group like items together — create families of things.",
+  "Replace old sponges or cloths — renewal begins small.",
+  "Dust ceiling corners and say goodbye to cobwebs.",
+  "Put away everything on your kitchen counter not in use.",
+  "Clean out a single section of the fridge.",
+  "Organize bathroom items by height or color.",
+  "Empty pockets of all jackets and bags.",
+  "Wipe baseboards — attention creates calm.",
+  "Fold towels in perfect thirds — small geometry of care.",
+  "Wipe the inside of the microwave — warmth renewed.",
+  "Straighten throw pillows — tidy comfort.",
+  "Polish a door handle until it catches the light.",
+  "Collect unused cords and wrap or donate them.",
+  "Organize your spice rack; align your flavors.",
+  "Sort through makeup or grooming tools — keep what uplifts.",
+  "Wipe your desk surface and clear mental fog.",
+  "Clean the remote control or light switches.",
+  "Empty the dishwasher or drying rack with intention.",
+  "Shake curtains or dust blinds — clarity through light.",
+  "Stack dishes neatly; create visual rhythm.",
+  "Gather receipts, review, and release.",
+  "Sort socks — pairs reunited feel complete.",
+  "Wipe your keyboard gently; gratitude for your tools.",
+  "Vacuum or sweep under the bed — rest without clutter.",
+  "Refold your linens or sheets — softness awaits.",
+  "Dust off a lamp base and notice the glow.",
+  "Rehome one object to where it truly belongs.",
+  "Collect laundry from hidden corners.",
+  "Clean inside the utensil drawer — where quiet work begins.",
+  "Wipe your refrigerator handle — where nourishment starts.",
+  "Stack storage containers and match their lids.",
+  "Polish the dining table — invite calm gatherings.",
+  "Step back, look around, and whisper: it’s already better.",
+       "Arrange a few objects on a shelf until they tell a story.",
+  "Fold laundry like origami — slow and graceful.",
+  "Choose one corner and make it beautiful today.",
+  "Wipe a surface and imagine clearing your thoughts too.",
+  "Polish something metal until it reflects your smile.",
+  "Replace one cluttered spot with a candle or flower.",
+  "Hang a piece of art or photo that makes you breathe easier.",
+  "Water a plant and whisper gratitude to it.",
+  "Line up books by color — a rainbow of thought.",
+  "Refold napkins or cloths as if setting a tiny stage.",
+  "Clean a windowsill and place something inspiring there.",
+  "Light incense or a soft candle after tidying your space.",
+  "Write one kind word on a sticky note and leave it visible.",
+  "Organize your art supplies or stationery — tools of imagination.",
+  "Polish the doorknob and imagine new ideas entering.",
+  "Wipe away dust from a lamp — let your light shine brighter.",
+  "Declutter a drawer like you’re editing a poem.",
+  "Create a tiny still life on a table — beauty from the ordinary.",
+  "Sort through jewelry or accessories and rediscover sparkle.",
+  "Polish a mirror and compliment yourself aloud.",
+  "Clean your workspace, then place one inspiring object nearby.",
+  "Fold blankets neatly — comfort made visible.",
+  "Collect scattered papers and transform chaos into clarity.",
+  "Rearrange a few cushions — shift the energy of your room.",
+  "Wipe down picture frames and revisit the memories they hold.",
+  "Choose one scent — candle, spray, or oil — to refresh the air.",
+  "Clear your bedside table — calm before rest.",
+  "Gather coins or keys and place them in a beautiful bowl.",
+  "Tidy your entryway — welcome peace inside.",
+  "Organize art prints, postcards, or inspiration boards.",
+  "Wipe your teapot or coffee maker — ritual of renewal.",
+  "Fold your favorite scarf or fabric just for the joy of it.",
+  "Remove one unnecessary item — make room for breath.",
+  "Polish glass vases or jars and fill them with light.",
+  "Dust your musical instrument or listen to soft notes.",
+  "Clean the handles of your creative tools — paintbrushes, pens, or scissors.",
+  "Refresh the surface where you write, draw, or dream.",
+  "Wipe down your craft table — open the stage for ideas.",
+  "Refill your water bottle or mug — self-care through simplicity.",
+  "Straighten wall art so harmony returns to your space.",
+  "Wash a small dish or bowl until it gleams like the moon.",
+  "Swap one dull item for something joyful.",
+  "Fold your yoga mat or blanket neatly — pause and stretch.",
+  "Clean the inside of a drawer, then add a sprig of lavender.",
+  "Wipe your phone screen — clarity flows through touch.",
+  "Stack your journals or notebooks in order — your story organized.",
+  "Polish a windowpane and let in the daydreams.",
+  "Shake out a rug; imagine shaking out worries.",
+  "Sweep your front step or porch — invite fresh beginnings.",
+  "Smile at your clean space and whisper, 'I made this space peaceful.'"
+      
+    ];
+    // For 365: Just expand the TASKS array above!
+
+    let idx = 0, completed = Array(TASKS.length).fill(false);
+    const taskBox = document.getElementById("task-box");
+    const progress = document.getElementById("progress");
+    const celebrate = document.getElementById("celebrateMsg");
+
+    function showTask() {
+      taskBox.textContent = TASKS[idx];
+      updateProgress();
+      celebrate.style.display = completed[idx] ? "block" : "none";
+    }
+
+    function updateProgress() {
+      progress.innerHTML = "";
+      for (let i = 0; i < TASKS.length; ++i) {
+        const dot = document.createElement("span");
+        dot.className = "dot" + (completed[i] ? " done" : "");
+        dot.title = `Task #${i+1}`;
+        dot.onclick = ()=>toggleDone(i);
+        progress.appendChild(dot);
+      }
+    }
+    function toggleDone(i) {
+      completed[i] = !completed[i];
+      updateProgress();
+      celebrate.style.display = completed[idx] ? "block" : "none";
+    }
+
+    document.getElementById("nextBtn").onclick = ()=>{
+      idx = (idx+1)%TASKS.length; showTask();
+    };
+    document.getElementById("prevBtn").onclick = ()=>{
+      idx = (idx-1+TASKS.length)%TASKS.length; showTask();
+    };
+    document.getElementById("randBtn").onclick = ()=>{
+      idx = Math.floor(Math.random()*TASKS.length); showTask();
+    };
+
+    // Initialize
+    showTask();
+  </script>
+</body>
+</html>
