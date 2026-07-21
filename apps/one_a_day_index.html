@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>One Creation at A Time</title>
+  <!-- Fonts (swap URLs for CITZEN/Brandon Grotesque if needed) -->
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@444;777&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 7px;
+      min-height: 88vh;
+      background: linear-gradient(120deg, #E33417 0%, #293673 100%);
+      font-family: 'Epilogue', 'Brandon Grotesque', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.5s;
+    }
+    .kindness-wrap {
+      background: linear-gradient(100deg, #C2C2C2 55%, #AB1111 100%);
+      border-radius: 7px;
+      box-shadow: 0 11px 33px rgba(44,32,84,0.19), 0 1.5px 14px rgba(60,30,80,0.12);
+      max-width: 444px;
+      width: 77vw;
+      margin: 11px;
+      padding: 44px 32px 34px 32px;
+      text-align: center;
+      position: relative;
+    }
+    h1 {
+      font-family: 'Epilogue', Arial, sans-serif;
+      letter-spacing: 2.5px;
+      color: #FCFCFC;
+      font-size: 2.4em;
+      font-weight: 222;
+      margin: 0 0 14px 0;
+    }
+    .desc {
+      color: #F2F2F2;
+      font-size: 1.11em;
+      margin-bottom: 14px;
+    }
+    .kindness-card {
+      background: #FCFCFC;
+      border-radius: 14px;
+      margin: 24px 0 0 0;
+      min-height: 77px;
+      font-size: 1.19em;
+      font-weight: 444;
+      color: #3a224b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2.5px 14px rgba(80,55,90,0.07);
+      padding: 24px 14px;
+      transition: background 0.5s;
+      position: relative;
+      min-width: 222px;
+    }
+    .kindness-card.streak {
+      font-size: 1.01em;
+      color: #7d6aa3;
+      background: #F2F2F2;
+      margin-top: 14px;
+      font-style: italic;
+    }
+    .kindness-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin: 24px 0 0 0;
+    }
+    .btn-kindness {
+      background: linear-gradient(90deg,#E8E8E8 70%, #fd8791 120%);
+      color: #49277a;
+      font-weight: regular;
+      border: none;
+      border-radius: 7px;
+      font-size: 1.07em;
+      letter-spacing: 1.2px;
+      padding: 14px 24px;
+      margin: 0;
+      cursor: pointer;
+      box-shadow: 0 7px 14px rgba(255,202,87,0.09);
+      transition: background 0.18s, box-shadow 0.23s;
+      outline: none;
+    }
+    .btn-kindness:hover {
+      background: linear-gradient(90deg,#ffd86a 60%, #fd8791 130%);
+      box-shadow: 0 2px 22px rgba(252,180,98,0.19);
+    }
+    .btn-alt {
+      background: #F2F2F2;
+      color: #8e6ebb;
+      border: 1.4px solid #e8dac4;
+      font-weight: 444;
+      box-shadow: none;
+    }
+    .btn-alt:hover {
+      background: #F2F2F2;
+      color: #6742ad;
+    }
+    .share-btn {
+      background: #49338c;
+      color: #fff5e7;
+      border: none;
+      margin-left: 0;
+      margin-right: 0;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: background 0.15s;
+    }
+    .share-btn:hover {
+      background: #624fa0;
+      color: #ffd86a;
+    }
+    .checked {
+      color: #24a05a;
+      font-weight: 600;
+      font-size: 1.13em;
+      margin-left: 0.5em;
+    }
+    .history-list {
+      margin: 14px 0 0 0;
+      text-align: left;
+      background: #E8E8E8;
+      border-radius: 14px;
+      padding: 14px 24px 7px 14px;
+      font-size: 1em;
+      color: #57417a;
+      box-shadow: 0 1.5px 9px rgba(92,69,122,0.09);
+      max-height: 111px;
+      overflow-y: auto;
+    }
+    .history-title {
+      font-size: 1.07em;
+      font-weight: 444;
+      margin-bottom: 7px;
+      color: #7c53c1;
+      letter-spacing: 1.3px;
+    }
+    @media (max-width: 444px) {
+      .kindness-wrap { padding: 18px 5vw 22px 5vw;}
+      h1 { font-size: 1.28em; }
+      .kindness-card { font-size: 1.01em; min-width: 0;}
+      .btn-kindness, .btn-alt, .share-btn { padding: 11px 10px; font-size: 0.99em;}
+      .history-list { font-size: 0.97em;}
+    }
+  </style>
+</head>
+<body>
+  <div class="kindness-wrap">
+    <h1>One A Day</h1>
+    <div class="desc">Click to receive a daily creative kindness idea!<br>Check off or share when you complete an act.</div>
+    <div id="kindnessCard" class="kindness-card"></div>
+    <div class="kindness-actions">
+      <button class="btn-kindness" id="nextBtn">💡 New Idea</button>
+      <button class="btn-kindness btn-alt" id="checkBtn">✅ I Did This!</button>
+      <button class="btn-kindness share-btn" id="shareBtn">📤 Share</button>
+    </div>
+    <div id="streakCard" class="kindness-card streak"></div>
+    <div class="history-list" id="historyList" style="display:none;">
+      <div class="history-title">Your Kindness Acts:</div>
+      <ul id="historyItems" style="padding-left:18px; margin:0;"></ul>
+    </div>
+    <button class="btn-kindness btn-alt" id="toggleHistory" style="margin-top:16px;">Show Kindness History</button>
+  </div>
+
+<script>
+const KINDNESS_PROMPTS = [
+  "Paint a small stone and leave it in a public place.",
+   "Leave an uplifting sticky note on a public mirror.",
+  "Compliment a stranger on something genuine.",
+  "Pick up litter during your walk and recycle what you can.",
+  "Send an encouraging message to someone going through a tough time.",
+  "Hold the door open for someone with a smile.",
+  "Donate a book you loved to a community library or shelter.",
+  "Leave a positive online review for a small business you appreciate.",
+  "Offer to help a neighbor with groceries or yard work.",
+  "Share your favorite motivational quote with a friend.",
+  "Send a surprise postcard to a family member.",
+  "Pay for the coffee of the person behind you in line.",
+  "Compliment a coworker’s effort instead of their results.",
+  "Write a kind comment on someone’s creative work or post.",
+  "Return a misplaced shopping cart to the corral.",
+  "Bring snacks or drinks for your coworkers or classmates.",
+  "Donate gently used clothes to a local charity.",
+  "Water a neighbor’s plants while they’re away.",
+  "Let someone merge in front of you in traffic without frustration.",
+  "Send flowers or a small plant to someone unexpectedly.",
+  "Leave quarters at a laundromat for someone to find.",
+  "Share your umbrella with someone caught in the rain.",
+  "Give a sincere compliment to someone you usually overlook.",
+  "Offer to babysit or pet-sit so someone can rest or go out.",
+  "Bake extra cookies and deliver them to a neighbor.",
+  "Text three people and tell them one thing you admire about them.",
+  "Donate art supplies or creative tools to a local school.",
+  "Write an anonymous thank-you card for a teacher or nurse.",
+  "Share a skill or talent freely with someone who wants to learn.",
+  "Let someone go ahead of you in a long line.",
+  "Smile and say hello to everyone you pass today.",
+  
+   "Leave a kind note inside a library book for the next reader to find.",
+  "Give your seat to someone on public transportation.",
+  "Send a surprise message of appreciation to an old friend.",
+  "Offer directions to someone who looks lost.",
+  "Bring a meal or treat to a new parent or neighbor.",
+  "Let a car pull out ahead of you during rush hour.",
+  "Write a thank-you email to customer service after a positive experience.",
+  "Leave cold bottled water for delivery workers on a hot day.",
+  "Donate extra pet food to a local shelter.",
+  "Hold the elevator for someone instead of rushing off.",
+  "Offer genuine praise to a service worker or cashier.",
+  "Plant a tree or flower in a public green space.",
+  "Pick up trash at the beach or in a park.",
+  "Compliment a teacher on their hard work.",
+  "Donate blood or register as an organ donor.",
+  "Help someone carry heavy bags or groceries.",
+  "Buy extra canned goods and drop them off at a food pantry.",
+  "Share your umbrella with a stranger during a storm.",
+  "Leave a generous tip when you can.",
+  "Offer your parking space to someone who looks like they need it more.",
+  "Send an encouraging note to someone facing a challenge.",
+  "Share an artist or musician’s work with your friends online.",
+  "Make a handmade card for someone you care about.",
+  "Ask someone how they’re really doing—and listen fully.",
+  "Compliment a child for being kind or creative.",
+  "Bring reusable bags and offer one to someone who forgot theirs.",
+  "Donate blankets or warm clothes in winter.",
+  "Help a small business by sharing their post or leaving a review.",
+  "Offer to take a photo for a group trying to get everyone in the frame.",
+  "Refill the office coffee pot when it’s empty.",
+  "Call an elderly relative or neighbor just to chat.",
+  "Let someone with fewer items go ahead of you in line.",
+  "Thank a bus driver or train operator for their service.",
+  "Write a thank-you letter to your local firefighters or police.",
+  "Leave snacks and water out for delivery drivers.",
+  "Donate school supplies to a local classroom.",
+  "Send a kind message to a creator whose work inspires you.",
+  "Plant herbs or flowers in a shared space for others to enjoy.",
+  "Bring in your neighbor’s trash or recycling bin for them.",
+  "Leave a good book in a public place with a note that says 'Free to take.'",
+  "Help someone load their groceries into their car.",
+  "Offer to take a friend’s dog for a walk.",
+  "Smile and wave at people you pass on your walk.",
+  "Share a free resource or opportunity with your community.",
+  "Send an anonymous donation to a cause you believe in.",
+  "Ask someone for their opinion and thank them for sharing.",
+  "Bring extra gloves or hats to give away in cold weather.",
+  "Offer your seat in a waiting room to someone older or tired.",
+  "Encourage a shy person to share their ideas in a group setting.",
+  "Donate unused toiletries to a shelter.",
+  "Hold a door open for multiple people in a row.",
+  "Bring treats for your coworkers to share.",
+  "Say thank you to your postal carrier.",
+  "Send a motivational quote to a friend who needs a boost.",
+  "Offer to proofread or review a friend’s project or résumé.",
+  "Check in on a friend you haven’t heard from in a while.",
+  "Donate your gently used toys or games to a children’s charity.",
+  "Forgive someone silently, even if they never apologize.",
+  "Invite someone who’s alone to join you for lunch or coffee.",
+  "Return an item someone dropped without hesitation.",
+  "Share your favorite recipe with a friend.",
+  "Pay for someone’s parking meter or ticket in advance.",
+  "Compliment someone’s laugh or energy instead of their looks.",
+  "Support a local artist by buying or sharing their work.",
+  "Bake something and share it with neighbors.",
+  "Offer encouragement to a student or young person.",
+  "Pick flowers and give them to someone unexpectedly.",
+  "Let a parent with small children cut in line.",
+  "Donate art, crafts, or handmade cards to a hospital or nursing home.",
+  "Say something kind about someone behind their back.",
+  "Bring reusable cups or bottles to share water at an event.",
+  "Send an email to thank your manager or mentor.",
+  "Help translate or explain something for someone who struggles with language.",
+  "Offer to walk an elderly neighbor’s dog.",
+  "Leave a coin in a vending machine for the next person.",
+  "Compliment a musician or street performer.",
+  "Offer to water someone’s garden while they’re on vacation.",
+  "Support a friend’s creative project or fundraiser.",
+  "Let someone else choose the restaurant or movie.",
+  "Help a lost pet find its owner.",
+  "Share your umbrella, blanket, or jacket when someone needs it.",
+  "Send a random 'thinking of you' text to a friend.",
+  "Encourage someone to chase a dream they’ve mentioned.",
+  "Give someone a genuine, thoughtful smile.",
+  "Recycle bottles or cans left behind by others.",
+  "Offer your phone charger to someone running low on battery.",
+  "Give directions patiently to a tourist.",
+  "Write a positive note and slip it into a returned library book.",
+  "Thank a janitor or maintenance worker for keeping things clean.",
+  "Hold a community free swap of clothes, books, or plants.",
+  "Return someone’s shopping cart to the store for them.",
+  "Bring coffee or tea to a coworker who’s having a busy morning.",
+  "Donate gently used towels to an animal rescue.",
+  "Send a kind message to a local teacher or coach.",
+  "Offer to take notes for a classmate who’s absent.",
+  "Share an inspiring story online instead of negative news.",
+  "Say something kind to yourself in the mirror.",
+  "Let someone know they inspire you.",
+  "Thank a healthcare worker for their dedication.",
+  "Send flowers or a small plant to a hospital patient.",
+  "Encourage someone who feels nervous about trying something new.",
+  "Invite someone new to sit with you at lunch or an event.",
+  "Be patient and kind when someone makes a mistake.",
+  
+  "Take a slow morning with no rush or alarms.",
+  "Drink a full glass of water first thing when you wake up.",
+  "Go for a walk without your phone and just notice your surroundings.",
+  "Write three things you’re grateful for today.",
+  "Stretch your body for five peaceful minutes.",
+  "Make a cup of tea and sip it mindfully.",
+  "Spend a few minutes in the sun to recharge.",
+  "Unplug from social media for the day.",
+  "Take deep breaths and let your shoulders relax.",
+  "Listen to your favorite calming music.",
+  "Light a candle and enjoy the scent in silence.",
+  "Write a kind letter to your future self.",
+  "Take a warm bath or shower with no hurry.",
+  "Watch a comforting movie or show you love.",
+  "Say no to something that drains your energy.",
+  "Clean one small area of your space to feel refreshed.",
+  "Journal your thoughts without judgment.",
+  "Dance to your favorite song in your living room.",
+  "Take a nap without guilt.",
+  "Cook yourself a nourishing meal from scratch.",
+  "Buy yourself fresh flowers or a small plant.",
+  "Sit outside and listen to nature sounds.",
+  "Read a chapter of a book just for pleasure.",
+  "Take a few minutes to simply do nothing.",
+  "Compliment yourself out loud.",
+  "Drink your favorite beverage slowly and mindfully.",
+  "Do something creative without worrying about results.",
+  "Spend time with someone who makes you laugh.",
+  "Write down one thing you like about yourself.",
+  "Set a gentle boundary and stick to it.",
+  "Wear your most comfortable clothes today.",
+  "Take a few mindful breaths before opening your phone.",
+  "Plan a slow, cozy evening with no obligations.",
+  "Give yourself permission to rest.",
+  "Listen to a guided meditation or calming podcast.",
+  "Take a walk somewhere beautiful and quiet.",
+  "Write down a list of small things that make you happy.",
+  "Unfollow accounts that make you feel less than enough.",
+  "Draw or doodle freely for fun.",
+  "Revisit a childhood hobby or activity you loved.",
+  "Spend time watching the clouds or stars.",
+  "Celebrate a small win from your week.",
+  "Make your bed and enjoy the sense of order.",
+  "Stretch before bed to release tension.",
+  "Spend the day without multitasking.",
+  "Cook your favorite comfort food and savor it slowly.",
+  "Do something kind for your body, like moisturizing or massaging your hands.",
+  "Turn off notifications for an hour of peace.",
+  "Take a scenic drive or bike ride.",
+  "Watch the sunrise or sunset.",
+  "Write a gratitude note for yourself.",
+  "Treat yourself to an early bedtime.",
+  "Try a new recipe just for fun.",
+  "Spend an hour offline doing something tactile.",
+  "Listen to an uplifting playlist while tidying up.",
+  "Declutter one drawer or shelf to clear your mind.",
+  "Forgive yourself for a past mistake.",
+  "Take time to stretch your neck and back.",
+  "Make a vision board or collage of dreams.",
+  "Compliment yourself in the mirror with sincerity.",
+  "Read a poem slowly and reflect on it.",
+  "Let yourself cry if you need to.",
+  "Make a cozy corner for relaxation and creativity.",
+  "Give yourself permission to say 'I’ve done enough today.'",
+  "Eat slowly and truly taste your food.",
+  "Set a small intention for your day.",
+  "Spend time with a pet or visit an animal shelter.",
+  "Breathe deeply and count each breath to ten.",
+  "Take a break from news or negativity.",
+  "Drink a warm beverage while sitting quietly.",
+  "Write down what you’re proud of this week.",
+  "Wear something that makes you feel confident.",
+  "Allow yourself to dream about the future.",
+  "Decline an invitation if rest feels more right.",
+  "Give yourself a facial mask or skincare treatment.",
+  "Write a list of your strengths and accomplishments.",
+  "Let your phone stay on silent for a while.",
+  "Spend time in nature and touch the earth.",
+  "Rewatch a movie that makes you feel safe and happy.",
+  "Light incense or diffuse essential oils you enjoy.",
+  "Spend time alone without distractions.",
+  "Take a gentle yoga or stretching session.",
+  "Enjoy a slow breakfast without screens.",
+  "Do something playful just for fun.",
+  "Send yourself a kind text or email.",
+  "Take a digital photo walk and capture beauty around you.",
+  "Make a playlist of songs that soothe your mood.",
+  "Say positive affirmations to yourself in the mirror.",
+  "Sit by a window and daydream for a bit.",
+  "Write about something you’re looking forward to.",
+  "Treat yourself to your favorite dessert or snack.",
+  "Let yourself rest without explaining why.",
+  "Go to bed early and wake up refreshed.",
+  "Spend an hour doing something creative and free.",
+  "Look through old photos that make you smile.",
+  "Write down a list of things that bring you peace.",
+  "Try a new form of movement or gentle exercise.",
+  "Speak kindly to yourself all day long.",
+  
+  "Write a short poem about your current mood.",
+  "Draw or doodle without any plan or pressure.",
+  "Start a journal just for creative ideas and dreams.",
+  "Make something messy and enjoy the process.",
+  "Paint with your fingers instead of a brush.",
+  "Try taking one creative photo every day for a week.",
+  "Write a letter to your future artistic self.",
+  "Collage images from magazines that inspire you.",
+  "Play your favorite song and move however you feel.",
+  "Decorate your journal pages with color and texture.",
+  "Start a playlist that represents your current season of life.",
+  "Sculpt or mold something out of clay or dough.",
+  "Make up a story from a random object on your desk.",
+  "Experiment with a new art medium just for fun.",
+  "Take a creative break with crayons or colored pencils.",
+  "Try blackout poetry using an old magazine page.",
+  "Take photos of shadows, light, or patterns around you.",
+  "Make a tiny handmade card for yourself.",
+  "Collect found objects and arrange them into a mini artwork.",
+  "Write a haiku about something ordinary.",
+  "Start a sketchbook just for experimenting.",
+  "Record your voice reading your favorite poem.",
+  "Create a vision board for your dreams.",
+  "Write down ten things that inspire your imagination.",
+  "Make something beautiful out of recycled materials.",
+  "Draw your feelings instead of writing about them.",
+  "Play with digital art or a new creative app.",
+  "Design a simple logo or symbol that represents your energy today.",
+  "Create a playlist that matches your creative mood.",
+  "Spend an afternoon photographing color combinations you love.",
+  "Write a small scene from an imaginary story.",
+  "Make a list of creative projects you’d like to try.",
+  "Recreate a childhood craft just for nostalgia.",
+  "Paint or draw with your non-dominant hand.",
+  "Make a creative gratitude list using colors or doodles.",
+  "Write a letter of encouragement to your inner artist.",
+  "Decorate your workspace with things that inspire you.",
+  "Try origami or paper folding to relax your mind.",
+  "Make a flower arrangement or nature collage.",
+  "Design your own postcard and send it to a friend.",
+  "Try freewriting for five minutes without stopping.",
+  "Create art using items from nature like leaves or stones.",
+  "Start a simple creative ritual at the same time each day.",
+  "Write down a dream and illustrate it.",
+  "Invent a new color and describe what it feels like.",
+  "Draw an abstract map of your imagination.",
+  "Try making music using random household objects.",
+  "Write a few lines of a song, even if you can’t sing.",
+  "Photograph something from five different angles.",
+  "Make a mini zine about something you love.",
+  "Create a small altar or display of your favorite art supplies.",
+  "Write affirmations in bright, creative lettering.",
+  "Draw a self-portrait in a fun, exaggerated style.",
+  "Try embroidery, beading, or textile art for mindfulness.",
+  "Make a playlist that captures your current emotions.",
+  "Use watercolor or ink to create fluid, spontaneous art.",
+  "Write your name or a favorite word in different styles.",
+  "Collect color swatches or paint samples that make you happy.",
+  "Compose a short poem from random words you see around you.",
+  "Make a gratitude collage of things that make you smile.",
+  "Decorate your mirror with sticky notes of inspiration.",
+  "Try journaling with sketches instead of words.",
+  "Build a simple sculpture from things you already have.",
+  "Write a list of sensory experiences that make you feel alive.",
+  "Create a small book of your doodles or poems.",
+  "Draw or paint to a song without stopping until it ends.",
+  "Experiment with calligraphy or creative lettering.",
+  "Write a fairy tale with yourself as the main character.",
+  "Design your dream creative studio on paper.",
+  "Try painting to express your emotions rather than depict reality.",
+  "Take a photo walk focused only on textures.",
+  "Create a comic strip of your day.",
+  "Make your own set of creative affirmation cards.",
+  "Use found poetry to create something new from an old text.",
+  "Draw a series of circles and fill each one differently.",
+  "Invent a new holiday and create decorations for it.",
+  "Make a list of things that ignite your creative spark.",
+  "Photograph something that others might overlook.",
+  "Write a dialogue between your inner critic and your inner muse.",
+  "Decorate an envelope and send yourself a note of encouragement.",
+  "Try painting to instrumental or ambient music.",
+  "Keep a collection of words that feel beautiful to you.",
+  "Design your own bookmark and use it in your current read.",
+  "Draw a map of your favorite imaginary place.",
+  "Make a list of creative things you loved as a child and try one again.",
+  "Collect leaves or flowers and press them into a notebook.",
+  "Create a pattern using shapes or colors that relax you.",
+  "Design a homemade label for a jar, candle, or potion you love.",
+  "Try mindful photography—capture one peaceful image per day.",
+  "Make a gratitude jar and decorate it artistically.",
+  "Write your feelings using colors or symbols instead of words.",
+  "Revisit an unfinished creative project with fresh eyes.",
+  "Draw something using only geometric shapes.",
+  "Try collage journaling with photos, quotes, and scraps.",
+  "Write a creative mission statement for your life.",
+  "Create a mini gallery wall of your own work.",
+  "Decorate your planner or notebook with stickers and doodles.",
+  "Make a playlist for creating art and one for resting after.",
+  "Record a short voice memo of an idea before you forget it.",
+  "Draw or paint what peace looks like to you.",
+  "Create a morning ritual that includes five minutes of making.",
+  "Celebrate a creative success with something small and joyful.",
+  "Wrap yourself in a blanket and rest in silence.",
+  "Take five minutes to appreciate how far you’ve come.",
+  "Let yourself be imperfect and okay with it.",
+  "Plan a small solo date to do something you love.",
+  "Take a moment to breathe deeply and smile.",
+  "Thank yourself for trying your best.",
+  "Leave a doodle or poem in a library book for someone to find.",
+  "Make a handmade bookmark and give it away.",
+  "Draw a chalk message on the sidewalk: 'You are loved!'",
+  "Share a positive comment on someone’s art online.",
+  "Make a card for a neighbor or community helper.",
+  "Donate art supplies to a school or shelter.",
+  "Offer a free mini art lesson to a friend or child.",
+  "Draw your favorite uplifting word and hang it in your window.",
+  "Send a supportive message to an artist you admire.",
+  "Create a 'Take What You Need' sign with encouraging words.",
+  "Frame or share a friend's art and celebrate their talent.",
+  "Plant a flower and dedicate it to someone you love.",
+  "Leave a gentle affirmation note in a public space.",
+  "Make a playlist and share it with a friend.",
+  "Send a handwritten letter to a distant family member.",
+  "Give away a favorite book with a note inside.",
+  "Make a gratitude list and share it with someone.",
+  "Bake cookies or a treat and deliver them to someone nearby.",
+  "Start a 'kindness chain'—ask someone to pass it on.",
+  "Compliment a stranger sincerely.",
+  "Share a story or lesson you learned with someone younger.",
+  "Offer to help with a chore or task without being asked.",
+  "Make a tiny art piece (mini painting, origami, etc.) and gift it.",
+  "Leave a flower or small gift on someone’s doorstep.",
+  "Create a public gratitude post tagging people who inspire you.",
+  "Help someone who looks lost or confused.",
+  "Send an encouraging message to an old friend.",
+  "Offer to take a photo for tourists or people at a scenic spot.",
+  "Buy coffee or a snack for the next person in line.",
+  "Make a welcome sign for your home or community.",
+  "Share a favorite recipe with a neighbor.",
+  "Give a sincere thank-you to a service worker.",
+  "Organize a small creative meet-up (virtual or in-person).",
+  "Let someone go ahead of you in line.",
+  "Donate unused clothes or items to a charity.",
+  "Pick up litter in your neighborhood park.",
+  "Draw a cartoon and post it for others to enjoy.",
+  "Make an inspiration collage and share a picture of it.",
+  "Leave your favorite poem for someone to discover.",
+  "Record a short video greeting and send it to a friend.",
+  "Make a list of local places you love and share it.",
+  "Support a small/local artist by buying or sharing their work."
+];
+
+let streak = Number(localStorage.getItem("kindStreak")) || 0;
+let lastChecked = localStorage.getItem("kindLast") || "";
+let completed = JSON.parse(localStorage.getItem("kindCompleted")||"[]");
+let currentPrompt = "";
+
+function getRandomPrompt() {
+  let idx = Math.floor(Math.random()*KINDNESS_PROMPTS.length);
+  let prompt = KINDNESS_PROMPTS[idx];
+  // Avoid immediate repeats
+  while (prompt === currentPrompt && KINDNESS_PROMPTS.length > 1) {
+    idx = Math.floor(Math.random()*KINDNESS_PROMPTS.length);
+    prompt = KINDNESS_PROMPTS[idx];
+  }
+  return prompt;
+}
+
+function showPrompt(prompt) {
+  currentPrompt = prompt;
+  document.getElementById("kindnessCard").innerHTML = prompt;
+}
+
+function updateStreak() {
+  let msg = `Streak: <b>${streak}</b> acts completed`;
+  if (streak >= 5 && streak < 10) msg += " ✨";
+  if (streak >= 10) msg += " 🌟";
+  document.getElementById("streakCard").innerHTML = msg;
+}
+
+function addToHistory(prompt) {
+  if (!completed.includes(prompt)) completed.push(prompt);
+  localStorage.setItem("kindCompleted", JSON.stringify(completed));
+  renderHistory();
+}
+function renderHistory() {
+  const list = document.getElementById("historyItems");
+  list.innerHTML = "";
+  completed.slice().reverse().forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    list.appendChild(li);
+  });
+}
+
+function sharePrompt() {
+  const shareMsg = `I just completed a creative act of kindness: "${currentPrompt}" 🌟 Join me at MyArtGallery.online!`;
+  if (navigator.share) {
+    navigator.share({title: "Random Act of Kindness", text: shareMsg, url: location.href});
+  } else {
+    // Clipboard fallback
+    navigator.clipboard.writeText(shareMsg).then(() => {
+      alert("Prompt copied to clipboard! Paste to Facebook, Instagram, or anywhere you wish to share.");
+    });
+  }
+}
+
+document.getElementById("nextBtn").onclick = function() {
+  showPrompt(getRandomPrompt());
+};
+
+document.getElementById("checkBtn").onclick = function() {
+  if (!currentPrompt) return;
+  if (!completed.includes(currentPrompt)) {
+    streak += 1;
+    localStorage.setItem("kindStreak", streak);
+    addToHistory(currentPrompt);
+    localStorage.setItem("kindLast", currentPrompt);
+    updateStreak();
+  }
+  // Show a happy checkmark!
+  document.getElementById("kindnessCard").innerHTML = `<span>${currentPrompt}</span> <span class="checked">✔️</span>`;
+};
+
+document.getElementById("shareBtn").onclick = sharePrompt;
+
+let showHist = false;
+document.getElementById("toggleHistory").onclick = function() {
+  showHist = !showHist;
+  document.getElementById("historyList").style.display = showHist ? "block" : "none";
+  this.textContent = showHist ? "Hide Kindness History" : "Show Kindness History";
+};
+
+// Init
+(function() {
+  if (!currentPrompt) showPrompt(getRandomPrompt());
+  updateStreak();
+  renderHistory();
+})();
+</script>
+</body>
+</html>
