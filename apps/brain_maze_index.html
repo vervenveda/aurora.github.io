@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Mom Brain Maze — Co-op Sandbox v5 (Quantum)</title>
+<style>
+:root {
+  --bg:#050508;
+  --ink:#f2f2ee;
+  --muted:#a0a0a8;
+  --p1:#ffd67a;
+  --p2:#ff88aa;
+  --exit:#5ee0ff;
+  --item:#88ff88;
+  --popup:#333342;
+  font-family:system-ui,sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{
+  margin:0;
+  height:100%;
+  background:var(--bg);
+  color:var(--ink);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.app{
+  width:100%;
+  max-width:900px;
+  padding:16px 20px 22px;
+  display:grid;
+  gap:12px;
+  justify-items:center;
+  text-align:center;
+}
+h1{
+  margin:0;
+  font-weight:700;
+  letter-spacing:.08em;
+  font-size:24px;
+}
+.tagline{
+  margin:0;
+  font-size:13px;
+  color:var(--muted);
+}
+
+/* Canvas + graffiti */
+.canvas-wrap{
+  width:100%;
+  max-width:900px;
+  position:relative;
+}
+canvas{
+  border-radius:12px;
+  background:#06060a;
+  display:block;
+  width:100%;
+  height:480px;
+}
+.graffiti{
+  position:absolute;
+  left:50%;
+  bottom:14px;
+  transform:translateX(-50%) scale(0.94);
+  font-size:20px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#f7f2dd;
+  text-shadow:
+    0 0 8px rgba(255,255,255,.3),
+    0 0 22px rgba(255,214,122,.6),
+    0 0 42px rgba(94,224,255,.5);
+  opacity:0;
+  pointer-events:none;
+  white-space:nowrap;
+  transition:opacity .25s, transform .25s;
+}
+.graffiti.show{
+  opacity:1;
+  transform:translateX(-50%) scale(1);
+}
+
+.controls{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  justify-content:center;
+}
+.btn{
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.05);
+  background:rgba(255,255,255,.02);
+  color:var(--ink);
+  cursor:pointer;
+  font-size:13px;
+}
+.btn:hover{
+  background:rgba(255,255,255,.06);
+}
+.btn.primary{
+  border-color:rgba(255,255,255,.3);
+  background:rgba(255,255,255,.1);
+}
+.btn.secondary{
+  color:var(--muted);
+  border-color:rgba(255,255,255,.15);
+}
+.btn.disabled{
+  opacity:.4;
+  cursor:default;
+}
+
+.meta{
+  font-size:12px;
+  color:var(--muted);
+  max-width:720px;
+  display:grid;
+  gap:4px;
+}
+.meta span.key{
+  font-family:monospace;
+  background:rgba(255,255,255,.04);
+  padding:1px 5px;
+  border-radius:6px;
+}
+.difficulty{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  justify-content:center;
+}
+.difficulty input[type=range]{
+  width:120px;
+}
+
+/* Quantum log */
+.log-panel{
+  background:rgba(255,255,255,.02);
+  padding:10px 12px;
+  border-radius:12px;
+  width:100%;
+  max-width:720px;
+  text-align:left;
+}
+.log-title{
+  font-weight:700;
+  font-size:13px;
+}
+.log-sub{
+  font-size:11px;
+  color:var(--muted);
+  margin-bottom:4px;
+}
+.log-list{
+  max-height:120px;
+  overflow:auto;
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+.log-entry{
+  font-size:11px;
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  align-items:center;
+}
+.log-entry span.mode{
+  color:var(--item);
+}
+.log-entry span.outcome{
+  color:var(--exit);
+}
+.log-empty{
+  font-size:11px;
+  color:var(--muted);
+}
+
+/* Level card + AI Mom */
+.level-card{
+  width:100%;
+  max-width:720px;
+  background:rgba(255,255,255,.02);
+  border-radius:12px;
+  padding:10px 12px;
+  text-align:left;
+  font-size:12px;
+  color:var(--muted);
+  display:grid;
+  gap:4px;
+}
+.level-title{
+  font-weight:700;
+  font-size:13px;
+  color:var(--ink);
+}
+.level-sub{
+  font-size:11px;
+}
+.level-list{
+  margin:4px 0 2px;
+  padding-left:18px;
+}
+.level-list li{
+  margin-bottom:2px;
+}
+.level-meta{
+  font-size:11px;
+  color:var(--muted);
+}
+
+.ai-bio{
+  width:100%;
+  max-width:720px;
+  font-size:11.5px;
+  color:var(--muted);
+  text-align:left;
+}
+.ai-name{
+  color:#ffd67a;
+  font-weight:600;
+}
+
+/* Popup */
+.popup{
+  position:fixed;
+  background:var(--popup);
+  padding:8px 11px;
+  border-radius:10px;
+  box-shadow:0 6px 18px rgba(0,0,0,.5);
+  font-size:13px;
+  pointer-events:none;
+  opacity:0;
+  transform:translate(-50%,-100%) scale(1);
+  transition:opacity .18s, transform .18s;
+  z-index:20;
+}
+
+/* Gentle start overlay */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle at top,rgba(10,10,20,.9),rgba(0,0,0,.96));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:30;
+}
+.overlay-inner{
+  background:rgba(10,10,16,.98);
+  border-radius:16px;
+  padding:18px 20px 16px;
+  box-shadow:0 26px 80px rgba(0,0,0,.75);
+  max-width:420px;
+  width:90%;
+  text-align:center;
+}
+.overlay-title{
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-size:13px;
+  margin-bottom:6px;
+  color:#ffd67a;
+}
+.overlay-line{
+  font-size:14px;
+  color:var(--ink);
+  margin-bottom:12px;
+}
+.overlay-note{
+  font-size:11px;
+  color:var(--muted);
+  margin-bottom:10px;
+}
+.overlay-buttons{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+}
+.hidden{display:none;}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>Mom Brain Maze — Co-op Sandbox</h1>
+  <p class="tagline">A gentle tunnel for “what was I doing again?” moments. Local-only, no scores.</p>
+
+  <div class="canvas-wrap">
+    <canvas id="maze"></canvas>
+    <div id="graffiti" class="graffiti"></div>
+  </div>
+
+  <div class="controls">
+    <button id="btnRestart" class="btn">Restart Maze</button>
+    <button id="btnSound" class="btn">Enable Sound/TTS</button>
+    <button id="btnPlayers" class="btn">2 Players: ON</button>
+    <button id="btnNextMaze" class="btn disabled" disabled>Next Maze</button>
+  </div>
+
+  <div class="meta">
+    <div>
+      <span class="key">P1</span> Arrow keys / WASD
+      &nbsp;·&nbsp;
+      <span class="key">P2</span> I&nbsp;J&nbsp;K&nbsp;L
+      &nbsp;·&nbsp;
+      Reach the soft blue exit together.
+    </div>
+    <div class="difficulty">
+      <span>Level <span id="levelLabel">1</span></span>
+      <span>· Difficulty:</span>
+      <input type="range" id="difficulty" min="1" max="3" step="1" value="2" />
+      <span id="difficultyLabel">Classic</span>
+    </div>
+  </div>
+
+  <div class="log-panel">
+    <div class="log-title">Quantum Log</div>
+    <div class="log-sub">Last 6 runs in this browser only.</div>
+    <div id="logList" class="log-list"></div>
+  </div>
+
+  <div class="level-card">
+    <div class="level-title">Level Card</div>
+    <div class="level-sub">Each new level turns the maze up just a notch:</div>
+    <ul class="level-list">
+      <li><strong>Length:</strong> Corridors quietly stretch a bit farther.</li>
+      <li><strong>Interruptions:</strong> Brain pop-ups become a touch more frequent.</li>
+      <li><strong>AI Mom speed:</strong> She walks faster on higher levels and “Spicy”.</li>
+    </ul>
+    <div class="level-meta">
+      Current level <span id="levelLabel2">1</span>,
+      difficulty <span id="difficultyLabel2">Classic</span>.
+    </div>
+  </div>
+
+  <div class="ai-bio">
+    <span class="ai-name">Mara, AI Mom</span> wanders the maze with you — quietly testing routes in the background so you never feel lost alone.
+  </div>
+</div>
+
+<div id="popup" class="popup"></div>
+
+<div id="overlay" class="overlay">
+  <div class="overlay-inner">
+    <div class="overlay-title">Mom Brain Maze</div>
+    <div class="overlay-line">You made it here. This maze is patient.</div>
+    <div class="overlay-note">No scores. No streaks. Just a place to wander at your own pace.</div>
+    <div class="overlay-buttons">
+      <button id="btnStart" class="btn primary">Enter Maze</button>
+      <button id="btnNotToday" class="btn secondary">Not today</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+"use strict";
+
+/* =====================
+   CONSTANTS & HELPERS
+===================== */
+const STORAGE_KEY = "momMazeCoopV5";
+const LOG_KEY = "momMazeCoopLog_v1";
+const LEVEL_KEY = "momMazeLevel_v1";
+const OPTIONS_KEY = "momMazeOptions_v1";
+
+const canvas = document.getElementById("maze");
+const ctx = canvas.getContext("2d");
+const popup = document.getElementById("popup");
+const graffitiEl = document.getElementById("graffiti");
+
+const btnRestart = document.getElementById("btnRestart");
+const btnSound = document.getElementById("btnSound");
+const btnPlayers = document.getElementById("btnPlayers");
+const btnNextMaze = document.getElementById("btnNextMaze");
+
+const logListEl = document.getElementById("logList");
+const diffSlider = document.getElementById("difficulty");
+const diffLabel = document.getElementById("difficultyLabel");
+const levelLabel = document.getElementById("levelLabel");
+const levelLabel2 = document.getElementById("levelLabel2");
+const difficultyLabel2 = document.getElementById("difficultyLabel2");
+
+const overlay = document.getElementById("overlay");
+const btnStart = document.getElementById("btnStart");
+const btnNotToday = document.getElementById("btnNotToday");
+
+let dpr = window.devicePixelRatio || 1;
+
+function loadJSON(key, fallback){
+  try{
+    const raw = localStorage.getItem(key);
+    if(!raw) return fallback;
+    const parsed = JSON.parse(raw);
+    return parsed ?? fallback;
+  }catch(e){
+    return fallback;
+  }
+}
+function saveJSON(key, val){
+  try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){}
+}
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+function directionFlag(dx,dy){
+  if(dx===1) return 1;
+  if(dx===-1) return 2;
+  if(dy===1) return 4;
+  if(dy===-1) return 8;
+  return 0;
+}
+function manhattan(a,b){
+  return Math.abs(a.x-b.x)+Math.abs(a.y-b.y);
+}
+function clamp(val,min,max){
+  return val < min ? min : val > max ? max : val;
+}
+function difficultyName(v){
+  if(v===1) return "Soft";
+  if(v===3) return "Spicy";
+  return "Classic";
+}
+
+/* =====================
+   STATE
+===================== */
+let quantumLog = loadJSON(LOG_KEY, []);
+if(!Array.isArray(quantumLog)) quantumLog = [];
+
+let savedLevel = parseInt(localStorage.getItem(LEVEL_KEY) || "1",10);
+if(isNaN(savedLevel) || savedLevel < 1) savedLevel = 1;
+
+let opts = loadJSON(OPTIONS_KEY, {difficulty:2});
+if(typeof opts.difficulty !== "number") opts.difficulty = 2;
+
+let state = {
+  width:0, height:0,
+  cellSize:40,
+  cols:0, rows:0,
+  maze:[], visited:[],
+  player1:{x:0,y:0},
+  player2:{x:0,y:0},
+  ai:{x:0,y:0},
+  aiTrail:[],
+  exit:{x:0,y:0},
+  items:[],
+  particles:[],
+  soundEnabled:false,
+  ttsEnabled:false,
+  coOp:true,
+  interruptions:[
+    "Someone needs you.",
+    "You forgot why you came here…",
+    "Snack time?",
+    "Wait… what was I doing?",
+    "Is this laundry done?",
+    "Oops, a toddler distraction."
+  ],
+  steps:0,
+  interruptCount:0,
+  collectedCount:0,
+  finished:false,
+  started:false,
+  level: savedLevel,
+  difficulty: opts.difficulty,
+  p1Notified:false,
+  p2Notified:false
+};
+
+/* =====================
+   COMPLEXITY / CELL SIZE
+===================== */
+function computeCellSize(){
+  const diff = state.difficulty || 2;
+  const lvl = state.level || 1;
+  const factor = 1 + (lvl-1)*0.18 + (diff-2)*0.15;
+  return clamp(46 - factor*4, 26, 52);
+}
+function aiIntervalMs(){
+  const diff = state.difficulty || 2;
+  const base = 430;
+  const scale = diff === 1 ? 1.25 : diff === 3 ? 0.8 : 1.0;
+  return base * scale;
+}
+function itemDensityFactor(){
+  const diff = state.difficulty || 2;
+  if(diff === 1) return 0.8;
+  if(diff === 3) return 1.25;
+  return 1.0;
+}
+
+/* =====================
+   CANVAS / GRID
+===================== */
+function resizeCanvas(){
+  const rect = canvas.getBoundingClientRect();
+  dpr = window.devicePixelRatio || 1;
+  state.width = rect.width * dpr;
+  state.height = rect.height * dpr;
+  canvas.width = state.width;
+  canvas.height = state.height;
+  state.cols = Math.max(6, Math.floor(state.width/(state.cellSize*dpr)));
+  state.rows = Math.max(6, Math.floor(state.height/(state.cellSize*dpr)));
+}
+
+/* =====================
+   GRAFFITI
+===================== */
+const GRAFFITI_PLAYER = [
+  "YOU GOT OUT.",
+  "BRAIN: 1 · MAZE: 0",
+  "YOU FOUND A WAY THROUGH.",
+  "YOU WERE NEVER ACTUALLY LOST."
+];
+const GRAFFITI_AI = [
+  "AI MOM TAGGED THE EXIT FIRST.",
+  "MARA FOUND A PATH.",
+  "SHE TRIED A DIFFERENT ROUTE."
+];
+const GRAFFITI_RESTART = [
+  "NEW MAZE, SAME BRAIN.",
+  "FRESH WALLS, SAME YOU."
+];
+
+function showGraffiti(kind){
+  if(!graffitiEl) return;
+  let set = GRAFFITI_PLAYER;
+  if(kind === "ai") set = GRAFFITI_AI;
+  if(kind === "restart") set = GRAFFITI_RESTART;
+  const txt = set[Math.floor(Math.random()*set.length)];
+  graffitiEl.textContent = txt;
+  graffitiEl.classList.add("show");
+}
+function hideGraffiti(){
+  if(!graffitiEl) return;
+  graffitiEl.classList.remove("show");
+}
+
+/* =====================
+   MAZE GENERATION
+===================== */
+function initMaze(){
+  state.cellSize = computeCellSize();
+  resizeCanvas();
+
+  state.maze = Array.from({length:state.rows}, () => Array(state.cols).fill(0));
+  state.visited = Array.from({length:state.rows}, () => Array(state.cols).fill(false));
+  state.player1 = {x:0,y:0};
+  state.player2 = {x:0,y:0};
+  state.ai = {x:0,y:0};
+  state.aiTrail = [];
+  state.exit = {x:state.cols-1,y:state.rows-1};
+  state.items = [];
+  state.particles = [];
+  state.steps = 0;
+  state.interruptCount = 0;
+  state.collectedCount = 0;
+  state.finished = false;
+  state.p1Notified = false;
+  state.p2Notified = false;
+
+  hideGraffiti();
+  setNextMazeEnabled(false);
+
+  generateMaze(0,0);
+  const baseCount = Math.floor(state.cols*state.rows*0.03);
+  const adjustedCount = Math.max(1, Math.round(baseCount * itemDensityFactor()));
+  spawnItems(adjustedCount);
+  saveState();
+}
+
+function generateMaze(cx,cy){
+  state.visited[cy][cx] = true;
+  let dirs = shuffle([[0,-1],[1,0],[0,1],[-1,0]]);
+  for(const [dx,dy] of dirs){
+    let nx = cx+dx, ny = cy+dy;
+    if(nx>=0 && nx<state.cols && ny>=0 && ny<state.rows && !state.visited[ny][nx]){
+      state.maze[cy][cx] |= directionFlag(dx,dy);
+      state.maze[ny][nx] |= directionFlag(-dx,-dy);
+      generateMaze(nx,ny);
+    }
+  }
+}
+
+/* =====================
+   MINI ITEMS
+===================== */
+function spawnItems(count){
+  for(let i=0;i<count;i++){
+    const x = Math.floor(Math.random()*state.cols);
+    const y = Math.floor(Math.random()*state.rows);
+    if((x===0 && y===0) || (x===state.exit.x && y===state.exit.y)) continue;
+    state.items.push({x,y,collected:false});
+  }
+}
+
+/* =====================
+   PARTICLES
+===================== */
+function spawnParticlesAtCell(cx,cy,count,color){
+  const baseX = (cx + 0.5) * state.cellSize * dpr;
+  const baseY = (cy + 0.5) * state.cellSize * dpr;
+  for(let i=0;i<count;i++){
+    const angle = Math.random()*Math.PI*2;
+    const speed = 25 + Math.random()*35;
+    state.particles.push({
+      x:baseX, y:baseY,
+      vx:Math.cos(angle)*speed,
+      vy:Math.sin(angle)*speed,
+      size:2+Math.random()*3,
+      life:0.6+Math.random()*0.6,
+      age:0,
+      color,
+      alpha:1
+    });
+  }
+}
+function updateParticles(dt){
+  for(let i=state.particles.length-1;i>=0;i--){
+    const p = state.particles[i];
+    p.age += dt;
+    const t = p.age / p.life;
+    p.alpha = clamp(1 - t, 0, 1);
+    p.x += p.vx * dt;
+    p.y += p.vy * dt + Math.sin(p.age*4)*4;
+    if(p.age >= p.life) state.particles.splice(i,1);
+  }
+}
+function drawParticles(){
+  ctx.save();
+  state.particles.forEach(p=>{
+    ctx.globalAlpha = p.alpha;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size*dpr, 0, Math.PI*2);
+    ctx.fill();
+  });
+  ctx.restore();
+}
+
+/* =====================
+   AI TRAIL
+===================== */
+function pushAiTrail(x,y){
+  state.aiTrail.push({x,y,age:0});
+  if(state.aiTrail.length > 40) state.aiTrail.shift();
+}
+function updateAiTrail(dt){
+  state.aiTrail.forEach(t => t.age += dt);
+  state.aiTrail = state.aiTrail.filter(t => t.age < 4);
+}
+function drawAiTrail(){
+  ctx.save();
+  state.aiTrail.forEach(t=>{
+    const alpha = clamp(0.15 * (1 - t.age/4), 0, 0.15);
+    const px = t.x * state.cellSize*dpr + state.cellSize*dpr*0.5;
+    const py = t.y * state.cellSize*dpr + state.cellSize*dpr*0.5;
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = "rgba(255,200,120,1)";
+    ctx.beginPath();
+    ctx.arc(px,py,state.cellSize*dpr*0.18,0,Math.PI*2);
+    ctx.fill();
+  });
+  ctx.restore();
+}
+
+/* =====================
+   DRAWING
+===================== */
+function drawMaze(now){
+  ctx.clearRect(0,0,state.width,state.height);
+
+  const t = now/1000;
+  // shimmering walls
+  for(let y=0;y<state.rows;y++){
+    for(let x=0;x<state.cols;x++){
+      const cell = state.maze[y][x];
+      const px = x * state.cellSize*dpr;
+      const py = y * state.cellSize*dpr;
+
+      const shimmer = 0.28 + 0.18*Math.sin(t*0.4 + (x+y)*0.35);
+      ctx.strokeStyle = `rgba(255,255,255,${shimmer.toFixed(3)})`;
+      ctx.lineWidth = 2*dpr;
+
+      ctx.beginPath();
+      if(!(cell & 8)){ // north
+        ctx.moveTo(px,py);
+        ctx.lineTo(px+state.cellSize*dpr,py);
+      }
+      if(!(cell & 4)){ // south
+        ctx.moveTo(px,py+state.cellSize*dpr);
+        ctx.lineTo(px+state.cellSize*dpr,py+state.cellSize*dpr);
+      }
+      if(!(cell & 2)){ // west
+        ctx.moveTo(px,py);
+        ctx.lineTo(px,py+state.cellSize*dpr);
+      }
+      if(!(cell & 1)){ // east
+        ctx.moveTo(px+state.cellSize*dpr,py);
+        ctx.lineTo(px+state.cellSize*dpr,py+state.cellSize*dpr);
+      }
+      ctx.stroke();
+    }
+  }
+
+  drawItems();
+  drawExit();
+  drawAiTrail();
+  const p1Color = getComputedStyle(document.documentElement).getPropertyValue("--p1") || "#ffd67a";
+  const p2Color = getComputedStyle(document.documentElement).getPropertyValue("--p2") || "#ff88aa";
+  drawPlayer(state.player1, p1Color.trim());
+  if(state.coOp){
+    drawPlayer(state.player2, p2Color.trim());
+  }
+  drawAI();
+  drawParticles();
+}
+
+function drawPlayer(p,color){
+  const px = p.x*state.cellSize*dpr + state.cellSize*dpr*0.5;
+  const py = p.y*state.cellSize*dpr + state.cellSize*dpr*0.5;
+  const glow = ctx.createRadialGradient(px,py,0,px,py,state.cellSize*dpr*0.7);
+  glow.addColorStop(0, color+"aa");
+  glow.addColorStop(1, color+"00");
+  ctx.fillStyle = glow;
+  ctx.beginPath();
+  ctx.arc(px,py,state.cellSize*dpr*0.7,0,Math.PI*2);
+  ctx.fill();
+
+  ctx.fillStyle = color;
+  ctx.fillRect(
+    p.x*state.cellSize*dpr + state.cellSize*dpr*0.22,
+    p.y*state.cellSize*dpr + state.cellSize*dpr*0.22,
+    state.cellSize*dpr*0.56,
+    state.cellSize*dpr*0.56
+  );
+}
+
+function drawAI(){
+  const px = state.ai.x*state.cellSize*dpr + state.cellSize*dpr*0.5;
+  const py = state.ai.y*state.cellSize*dpr + state.cellSize*dpr*0.5;
+  ctx.fillStyle = "rgba(255,180,80,0.8)";
+  ctx.beginPath();
+  ctx.arc(px,py,state.cellSize*dpr*0.35,0,Math.PI*2);
+  ctx.fill();
+}
+
+function drawExit(){
+  const ex = state.exit.x*state.cellSize*dpr + state.cellSize*dpr*0.5;
+  const ey = state.exit.y*state.cellSize*dpr + state.cellSize*dpr*0.5;
+  const glow = ctx.createRadialGradient(ex,ey,0,ex,ey,state.cellSize*dpr*0.9);
+  glow.addColorStop(0,"rgba(94,224,255,0.7)");
+  glow.addColorStop(1,"rgba(94,224,255,0)");
+  ctx.fillStyle = glow;
+  ctx.beginPath();
+  ctx.arc(ex,ey,state.cellSize*dpr*0.9,0,Math.PI*2);
+  ctx.fill();
+
+  ctx.fillStyle = state.coOp ? "#5ee0ff" : "#88ff88";
+  ctx.fillRect(
+    state.exit.x*state.cellSize*dpr + state.cellSize*dpr*0.3,
+    state.exit.y*state.cellSize*dpr + state.cellSize*dpr*0.3,
+    state.cellSize*dpr*0.4,
+    state.cellSize*dpr*0.4
+  );
+}
+
+function drawItems(){
+  ctx.save();
+  state.items.forEach(item=>{
+    if(item.collected) return;
+    const px = item.x*state.cellSize*dpr + state.cellSize*dpr*0.5;
+    const py = item.y*state.cellSize*dpr + state.cellSize*dpr*0.5;
+    ctx.fillStyle = state.coOp ? "#88ff88" : "#a0ff88";
+    ctx.beginPath();
+    ctx.arc(px,py,state.cellSize*dpr*0.3,0,Math.PI*2);
+    ctx.fill();
+  });
+  ctx.restore();
+}
+
+/* =====================
+   MOVE / AI
+===================== */
+function canMoveFrom(cellVal,dx,dy){
+  if(dx===1 && (cellVal & 1)) return true;
+  if(dx===-1 && (cellVal & 2)) return true;
+  if(dy===1 && (cellVal & 4)) return true;
+  if(dy===-1 && (cellVal & 8)) return true;
+  return false;
+}
+
+function movePlayer(p,dx,dy){
+  if(state.finished || !state.started) return;
+  const cell = state.maze[p.y][p.x];
+  if(canMoveFrom(cell,dx,dy)){
+    p.x = clamp(p.x + dx, 0, state.cols-1);
+    p.y = clamp(p.y + dy, 0, state.rows-1);
+    state.steps++;
+    maybeInterrupt(p);
+    checkItems();
+    checkExit();
+    saveState();
+  }
+}
+
+function moveAI(){
+  if(state.finished || !state.started) return;
+  const dirs = [[0,-1],[1,0],[0,1],[-1,0]];
+  dirs.sort((a,b)=>{
+    const aDist = manhattan({x:state.ai.x+a[0],y:state.ai.y+a[1]}, state.exit) + Math.random()*0.6;
+    const bDist = manhattan({x:state.ai.x+b[0],y:state.ai.y+b[1]}, state.exit) + Math.random()*0.6;
+    return aDist - bDist;
+  });
+  pushAiTrail(state.ai.x, state.ai.y);
+  for(const [dx,dy] of dirs){
+    const nx = state.ai.x + dx;
+    const ny = state.ai.y + dy;
+    if(nx<0 || nx>=state.cols || ny<0 || ny>=state.rows) continue;
+    const cell = state.maze[state.ai.y][state.ai.x];
+    if(canMoveFrom(cell,dx,dy)){
+      state.ai.x = nx;
+      state.ai.y = ny;
+      break;
+    }
+  }
+  checkExit();
+}
+
+/* =====================
+   INTERRUPTIONS
+===================== */
+function showPopup(msg, from){
+  popup.textContent = msg;
+  const rect = canvas.getBoundingClientRect();
+  const cellW = rect.width / state.cols;
+  const cellH = rect.height / state.rows;
+  const px = rect.left + (from.x + 0.5)*cellW;
+  const py = rect.top + (from.y + 0.15)*cellH;
+
+  popup.style.left = px + "px";
+  popup.style.top = py + "px";
+
+  const distNorm = 1 - clamp(manhattan(from, state.exit)/(state.cols + state.rows), 0, 1);
+  const scale = 0.9 + distNorm*0.35;
+  popup.style.transform = `translate(-50%,-100%) scale(${scale.toFixed(2)})`;
+
+  popup.style.opacity = 1;
+  setTimeout(()=>{ popup.style.opacity = 0; }, 1400);
+}
+
+function maybeInterrupt(p){
+  const distNorm = 1 - clamp(manhattan(p, state.exit)/(state.cols + state.rows), 0, 1);
+  const diff = state.difficulty || 2;
+  let base = 0.05 + 0.18 * distNorm;
+  const diffScale = diff === 1 ? 0.7 : diff === 3 ? 1.3 : 1.0;
+  base *= diffScale;
+  const particleAdj = clamp(state.particles.length / 40, 0, 0.25);
+  if(Math.random() < base + particleAdj){
+    const who = (p === state.player1) ? "P1" : (p === state.player2 ? "P2" : "Mara");
+    const msg = who + ": " + state.interruptions[Math.floor(Math.random()*state.interruptions.length)];
+    showPopup(msg, p);
+    const color = (p === state.player1) ? "#ffd67a" : (p === state.player2 ? "#ff88aa" : "#ffa500");
+    spawnParticlesAtCell(p.x, p.y, 10, color);
+    state.interruptCount++;
+    if(state.soundEnabled) softChime();
+    if(state.ttsEnabled) speak(msg);
+  }
+}
+
+/* =====================
+   ITEMS & EXIT
+===================== */
+function checkItems(){
+  state.items.forEach(item=>{
+    if(item.collected) return;
+    const players = [state.player1];
+    if(state.coOp) players.push(state.player2);
+    const allHere = players.every(pl => pl.x===item.x && pl.y===item.y);
+    if(allHere){
+      item.collected = true;
+      state.collectedCount++;
+      showPopup("Mini-goal collected.", state.player1);
+      spawnParticlesAtCell(item.x, item.y, 14, "#88ff88");
+      if(state.soundEnabled) softChime(880,0.22);
+    }
+  });
+}
+
+function recordRun(kind,outcome){
+  const entry = {
+    ts: new Date().toISOString(),
+    mode: state.coOp ? "Co-op" : "Solo",
+    level: state.level,
+    difficulty: state.difficulty,
+    steps: state.steps,
+    items: state.collectedCount,
+    interrupts: state.interruptCount,
+    outcome,
+    actor: kind
+  };
+  quantumLog.push(entry);
+  if(quantumLog.length > 6) quantumLog.shift();
+  saveJSON(LOG_KEY, quantumLog);
+  renderLog();
+}
+
+function handleHumanWin(label){
+  state.finished = true;
+  showPopup(label, state.player1);
+  spawnParticlesAtCell(state.exit.x, state.exit.y, 28, "#5ee0ff");
+  if(state.soundEnabled) softChime(880,0.28);
+  recordRun("players","Exit");
+  state.level = clamp(state.level + 1, 1, 12);
+  localStorage.setItem(LEVEL_KEY, String(state.level));
+  updateLevelLabel();
+  showGraffiti("player");
+  setNextMazeEnabled(true);
+}
+
+function handleSoloWin(){
+  state.finished = true;
+  showPopup("You reached the exit. Well done.", state.player1);
+  spawnParticlesAtCell(state.exit.x, state.exit.y, 28, "#5ee0ff");
+  if(state.soundEnabled) softChime(880,0.28);
+  recordRun("player","Exit");
+  state.level = clamp(state.level + 1, 1, 12);
+  localStorage.setItem(LEVEL_KEY, String(state.level));
+  updateLevelLabel();
+  showGraffiti("player");
+  setNextMazeEnabled(true);
+}
+
+function handleAIWin(){
+  state.finished = true;
+  showPopup("Mara reached the exit.", state.ai);
+  spawnParticlesAtCell(state.exit.x, state.exit.y, 22, "#ffa500");
+  recordRun("ai","AI Exit");
+  showGraffiti("ai");
+  setNextMazeEnabled(true);
+}
+
+function checkExit(){
+  if(state.finished) return;
+
+  const atExitP1 = state.player1.x===state.exit.x && state.player1.y===state.exit.y;
+  const atExitP2 = state.player2.x===state.exit.x && state.player2.y===state.exit.y;
+  const atExitAI = state.ai.x===state.exit.x && state.ai.y===state.exit.y;
+
+  if(state.coOp){
+    if(atExitP1 && atExitP2){
+      handleHumanWin("Both players reached the exit. Maze conquered.");
+    } else {
+      if(atExitP1 && !state.p1Notified){
+        showPopup("P1 reached the exit. Bring P2 here too — or toggle to 1-player.", state.player1);
+        state.p1Notified = true;
+      }
+      if(atExitP2 && !state.p2Notified){
+        showPopup("P2 reached the exit. Bring P1 here too — or toggle to 1-player.", state.player2);
+        state.p2Notified = true;
+      }
+    }
+  } else {
+    if(atExitP1){
+      handleSoloWin();
+    }
+  }
+
+  if(!state.finished && atExitAI){
+    handleAIWin();
+  }
+}
+
+/* =====================
+   AUDIO / TTS
+===================== */
+let audioCtx = null;
+function ensureAudioCtx(){
+  if(audioCtx) return audioCtx;
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC) return null;
+    audioCtx = new AC();
+    return audioCtx;
+  }catch(e){
+    return null;
+  }
+}
+function softChime(freq=660,vol=0.16){
+  if(!state.soundEnabled) return;
+  const actx = ensureAudioCtx();
+  if(!actx) return;
+  try{
+    if(actx.state === "suspended"){ actx.resume().catch(()=>{}); }
+    const now = actx.currentTime;
+    const o = actx.createOscillator();
+    const g = actx.createGain();
+    o.type = "sine";
+    o.frequency.value = freq + Math.random()*90;
+    g.gain.value = 0;
+    o.connect(g);
+    g.connect(actx.destination);
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(vol, now + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+    o.start(now);
+    o.stop(now + 0.26);
+  }catch(e){}
+}
+function speak(msg){
+  try{
+    const s = window.speechSynthesis;
+    if(!s) return;
+    const ut = new SpeechSynthesisUtterance(msg);
+    ut.volume = 0.7;
+    ut.rate = 0.92;
+    ut.pitch = 1.05;
+    const voices = s.getVoices();
+    if(voices && voices.length){
+      let v = voices.find(v=>/serene|alloy|samantha|victoria|google/i.test(v.name));
+      if(!v) v = voices.find(v=>v.lang && v.lang.startsWith("en"));
+      if(v) ut.voice = v;
+    }
+    s.cancel();
+    s.speak(ut);
+  }catch(e){}
+}
+
+/* =====================
+   SAVE / LOAD
+===================== */
+function saveState(){
+  const snapshot = {
+    cols: state.cols,
+    rows: state.rows,
+    cellSize: state.cellSize,
+    player1: state.player1,
+    player2: state.player2,
+    ai: state.ai,
+    exit: state.exit,
+    maze: state.maze,
+    items: state.items,
+    coOp: state.coOp
+  };
+  saveJSON(STORAGE_KEY, snapshot);
+}
+function loadState(){
+  const saved = loadJSON(STORAGE_KEY, null);
+  if(!saved) return false;
+  if(typeof saved.cols !== "number" || typeof saved.rows !== "number") return false;
+  state.cellSize = saved.cellSize || computeCellSize();
+  resizeCanvas();
+  if(saved.cols !== state.cols || saved.rows !== state.rows) return false;
+  if(!Array.isArray(saved.maze) || !saved.maze.length) return false;
+  state.maze = saved.maze;
+  state.player1 = saved.player1 || {x:0,y:0};
+  state.player2 = saved.player2 || {x:0,y:0};
+  state.ai = saved.ai || {x:0,y:0};
+  state.exit = saved.exit || {x:state.cols-1,y:state.rows-1};
+  state.items = saved.items || [];
+  state.coOp = typeof saved.coOp === "boolean" ? saved.coOp : true;
+  state.steps = 0;
+  state.interruptCount = 0;
+  state.collectedCount = state.items.filter(it=>it.collected).length;
+  state.finished = false;
+  state.aiTrail = [];
+  state.p1Notified = false;
+  state.p2Notified = false;
+  hideGraffiti();
+  setNextMazeEnabled(false);
+  return true;
+}
+
+/* =====================
+   QUANTUM LOG RENDER
+===================== */
+function renderLog(){
+  if(!logListEl) return;
+  if(!quantumLog.length){
+    logListEl.innerHTML = '<div class="log-empty">No runs yet. Finish a maze or restart to see it here.</div>';
+    return;
+  }
+  logListEl.innerHTML = "";
+  quantumLog.slice().reverse().forEach(entry=>{
+    const t = new Date(entry.ts);
+    const time = t.toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
+    const row = document.createElement("div");
+    row.className = "log-entry";
+    row.innerHTML =
+      '<span><span class="mode">'+entry.mode+
+      '</span> · L'+entry.level+
+      ' · '+difficultyName(entry.difficulty)+
+      ' · steps '+entry.steps+
+      ' · items '+entry.items+
+      ' · interrupts '+entry.interrupts+
+      '</span><span class="outcome">'+entry.outcome+
+      '</span><span>'+time+'</span>';
+    logListEl.appendChild(row);
+  });
+}
+function updateLevelLabel(){
+  if(levelLabel) levelLabel.textContent = String(state.level);
+  if(levelLabel2) levelLabel2.textContent = String(state.level);
+}
+function applyDifficultyLabel(){
+  const name = difficultyName(state.difficulty);
+  if(diffLabel) diffLabel.textContent = name;
+  if(difficultyLabel2) difficultyLabel2.textContent = name;
+  diffSlider.value = String(state.difficulty);
+}
+
+/* =====================
+   NEXT MAZE BUTTON
+===================== */
+function setNextMazeEnabled(on){
+  if(!btnNextMaze) return;
+  btnNextMaze.disabled = !on;
+  if(on){
+    btnNextMaze.classList.remove("disabled");
+  }else{
+    btnNextMaze.classList.add("disabled");
+  }
+}
+
+/* =====================
+   INPUT (with scroll lock)
+===================== */
+const CONTROL_KEYS = new Set([
+  "ArrowUp","ArrowDown","ArrowLeft","ArrowRight",
+  "w","W","a","A","s","S","d","D",
+  "i","I","j","J","k","K","l","L"
+]);
+
+window.addEventListener("keydown", ev=>{
+  const k = ev.key;
+  const active = document.activeElement;
+  const isTyping =
+    active &&
+    (active.tagName === "INPUT" ||
+     active.tagName === "TEXTAREA" ||
+     active.isContentEditable);
+
+  if(CONTROL_KEYS.has(k) && !isTyping){
+    ev.preventDefault(); // stop page scroll
+  }
+
+  if(!state.started) return;
+
+  if(k==="ArrowUp" || k==="w" || k==="W") movePlayer(state.player1,0,-1);
+  if(k==="ArrowDown" || k==="s" || k==="S") movePlayer(state.player1,0,1);
+  if(k==="ArrowLeft" || k==="a" || k==="A") movePlayer(state.player1,-1,0);
+  if(k==="ArrowRight" || k==="d" || k==="D") movePlayer(state.player1,1,0);
+  if(state.coOp){
+    if(k==="i" || k==="I") movePlayer(state.player2,0,-1);
+    if(k==="k" || k==="K") movePlayer(state.player2,0,1);
+    if(k==="j" || k==="J") movePlayer(state.player2,-1,0);
+    if(k==="l" || k==="L") movePlayer(state.player2,1,0);
+  }
+});
+
+/* =====================
+   BUTTONS
+===================== */
+btnRestart.addEventListener("click", ()=>{
+  if(state.started && (state.steps > 0 || state.collectedCount > 0 || state.interruptCount > 0)){
+    recordRun("players","Restarted");
+    showGraffiti("restart");
+  }
+  state.started = true;
+  initMaze();
+});
+
+btnSound.addEventListener("click", ()=>{
+  state.soundEnabled = true;
+  state.ttsEnabled = true;
+  btnSound.disabled = true;
+  btnSound.textContent = "Sound/TTS: ON";
+  ensureAudioCtx();
+});
+
+btnPlayers.addEventListener("click", ()=>{
+  state.coOp = !state.coOp;
+  btnPlayers.textContent = state.coOp ? "2 Players: ON" : "2 Players: OFF";
+  initMaze();
+});
+
+/* Difficulty slider */
+diffSlider.addEventListener("input", ()=>{
+  state.difficulty = parseInt(diffSlider.value,10) || 2;
+  opts.difficulty = state.difficulty;
+  saveJSON(OPTIONS_KEY, opts);
+  applyDifficultyLabel();
+  initMaze();
+});
+
+/* Next Maze */
+btnNextMaze.addEventListener("click", ()=>{
+  if(btnNextMaze.disabled) return;
+  state.started = true;
+  state.finished = false;
+  hideGraffiti();
+  setNextMazeEnabled(false);
+  initMaze();
+});
+
+/* Gentle start overlay */
+btnStart.addEventListener("click", ()=>{
+  state.started = true;
+  overlay.classList.add("hidden");
+  initMaze();
+});
+btnNotToday.addEventListener("click", ()=>{
+  state.started = false;
+  overlay.classList.add("hidden");
+  state.steps = 0;
+  state.collectedCount = 0;
+  state.interruptCount = 0;
+  recordRun("player","Not Today");
+});
+
+/* =====================
+   MAIN LOOP
+===================== */
+let lastTime = performance.now();
+let lastAIMove = performance.now();
+
+function loop(now){
+  const dt = clamp((now - lastTime)/1000, 0, 0.05);
+  lastTime = now;
+
+  if(state.started && !state.finished){
+    const interval = aiIntervalMs();
+    if(now - lastAIMove > interval){
+      moveAI();
+      lastAIMove = now;
+    }
+  }
+
+  updateParticles(dt);
+  updateAiTrail(dt);
+  drawMaze(now);
+  requestAnimationFrame(loop);
+}
+
+/* =====================
+   INIT
+===================== */
+function init(){
+  state.cellSize = computeCellSize();
+  resizeCanvas();
+  updateLevelLabel();
+  state.difficulty = clamp(state.difficulty,1,3);
+  applyDifficultyLabel();
+  setNextMazeEnabled(false);
+
+  const restored = loadState();
+  if(!restored){
+    initMaze();
+  }
+
+  renderLog();
+  drawMaze(performance.now());
+  window.addEventListener("resize", ()=>{
+    state.cellSize = computeCellSize();
+    resizeCanvas();
+    drawMaze(performance.now());
+  });
+  requestAnimationFrame(loop);
+}
+init();
+
+})();
+</script>
+</body>
+</html>
