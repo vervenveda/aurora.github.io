@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Daily Spark — Parchment Edition</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* =========================
+     PLERA · Numerica Aesthetic
+     ========================= */
+  :root{
+    /* Palette */
+    --bg: #0e0f16;                         /* deep night backdrop */
+    --halo: radial-gradient(circle at 50% 0%, rgba(80,110,160,.33), transparent 60%);
+    --parchment:#fff8ea;                   /* page */
+    --parchment-edge:#e9dcc5;              /* deckle edge */
+    --ink:#2b241d;                         /* text */
+    --ink-muted:#7a6a55;
+    --gold:#d9b878;
+    --gold-deep:#b89252;
+
+    /* Numerica spaces & sizes */
+    --s7:7px; --s9:9px; --s11:11px; --s14:14px; --s18:18px; --s21:21px; --s27:27px; --s33:33px;
+    --r7:7px; --r11:11px; --r21:21px;
+
+    /* Shadows */
+    --soft: 0 14px 33px rgba(0,0,0,.12);
+    --lift: 0 21px 55px rgba(0,0,0,.16);
+
+    /* Lines */
+    --ring: 1px solid #eadfbf;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background: var(--halo), var(--bg);
+    color:var(--ink);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    padding: var(--s18);
+  }
+
+  /* Shell */
+  .book{
+    width:min(960px, 96vw);
+    background: linear-gradient(180deg,#fffaf0,#fff6e4);
+    border: 3px solid var(--parchment-edge);
+    border-radius: var(--r11);
+    box-shadow: var(--lift);
+    overflow: clip;
+  }
+  .trim{
+    padding: var(--s21);
+    border: 1px solid rgba(0,0,0,.04);
+    border-radius: calc(var(--r11) - 3px);
+    background:
+      radial-gradient(circle at 50% -10%, rgba(217,184,120,.12), transparent 50%),
+      transparent;
+  }
+
+  /* Header */
+  header{
+    display:flex; align-items:center; justify-content:space-between; gap: var(--s14);
+    margin-bottom: var(--s11);
+  }
+  .brand{display:flex; align-items:center; gap: var(--s11)}
+  .seal{
+    width: 56px; height:56px; border-radius: 14px;
+    background: conic-gradient(from 210deg, var(--gold) 0 40%, var(--gold-deep) 40% 100%);
+    box-shadow: 0 9px 21px rgba(185,146,82,.24);
+    border: 2px solid #f7edd3;
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-weight:700; letter-spacing:.08em;
+  }
+  h1{
+    margin:0; font-family:"Cinzel", serif; letter-spacing:.18em; text-transform:uppercase;
+    font-size: var(--s21);
+  }
+  .date{font-size: var(--s11); color: var(--ink-muted); letter-spacing:.06em}
+  .streak{
+    border: var(--ring); border-radius: var(--r11); padding: var(--s9) var(--s14);
+    background:#fffdf5; font-size: var(--s11);
+  }
+
+  .rule{height:1px; background:linear-gradient(90deg, transparent, var(--parchment-edge), transparent); margin: var(--s14) 0}
+
+  /* Grid */
+  .grid{display:grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--s14); margin-top: var(--s14)}
+  @media (max-width: 860px){ .grid{grid-template-columns:1fr} }
+
+  /* Cards */
+  .card{
+    background:#fff; border: var(--ring); border-radius: var(--r11);
+    padding: var(--s14); box-shadow: var(--soft);
+  }
+  .card h2{
+    margin:0 0 var(--s9) 0; color:#8a6f39; letter-spacing:.12em; text-transform:uppercase;
+    font-size: var(--s14); font-family:"Cinzel",serif;
+  }
+  .prompt{font-size: var(--s18); line-height:1.6}
+  .pep{margin-top: var(--s9); color:#6e552a; font-size: var(--s14)}
+  .muted{color: var(--ink-muted); font-size: var(--s11)}
+
+  .actions{display:flex; gap: var(--s9); flex-wrap:wrap; margin-top: var(--s11)}
+  button{
+    border:none; border-radius: var(--r11); padding: var(--s9) var(--s14);
+    cursor:pointer; font-size: var(--s14); letter-spacing:.02em;
+  }
+  .ok{ background: #cfe6cf; color:#184a18; border:1px solid #b8d9b8 }
+  .ghost{ background: #fffdf2; color:#604a2b; border:1px dashed #e6d9b8 }
+
+  .inline{
+    display:flex; align-items:center; gap: var(--s9); margin-top: var(--s9);
+  }
+  input[type="number"]{
+    width: 80px; padding: var(--s7);
+    border: 1px solid #e6d9b8; border-radius: var(--r7); background:#fffdf9;
+    font-size: var(--s14);
+  }
+  .bar{height: 9px; background:#efe6cd; border-radius:99px; overflow:hidden; margin-top: var(--s9)}
+  .fill{height:100%; width:0; background:linear-gradient(90deg, var(--gold-deep), var(--gold))}
+
+  /* Gratitude */
+  .grat{margin-top: var(--s14)}
+  textarea{
+    width:100%; min-height: 90px;
+    border: 2px solid var(--parchment-edge); border-radius: var(--r11);
+    background:#fffef8; padding: var(--s11); font-size: var(--s18);
+    color:var(--ink); resize: vertical;
+  }
+
+  /* Footer chips */
+  footer{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap: var(--s11); margin-top: var(--s14)}
+  .chips{display:flex; gap: var(--s7); flex-wrap:wrap}
+  .chip{font-size: var(--s11); border: var(--ring); border-radius: 999px; padding: var(--s7) var(--s11); background:#fff}
+
+  /* Toast */
+  .toast{
+    position: fixed; left: 50%; bottom: var(--s21); transform: translateX(-50%);
+    background:#1a431a; color:#eaffea; padding: var(--s9) var(--s14); border-radius: var(--r11);
+    box-shadow: var(--soft); display:none; font-size: var(--s14);
+  }
+</style>
+</head>
+<body>
+  <main class="book" id="app">
+    <div class="trim">
+      <header>
+        <div class="brand">
+          <div class="seal">DS</div>
+          <div>
+            <h1>Daily Spark</h1>
+            <div class="date" id="today">—</div>
+          </div>
+        </div>
+        <div class="streak" id="streak">🔥 Streak: 0 days</div>
+      </header>
+
+      <div class="rule"></div>
+
+      <section class="grid">
+        <!-- MOVE -->
+        <article class="card" data-key="move">
+          <h2>Move</h2>
+          <div class="prompt" id="movePrompt">Loading…</div>
+          <div class="actions">
+            <button class="ok" data-done="move">✓ Done</button>
+            <button class="ghost" data-reroll="move">Reroll (1/day)</button>
+          </div>
+          <div class="pep" id="movePep"></div>
+          <div class="inline">
+            <span class="muted">Timer (min)</span>
+            <input type="number" id="moveMin" value="1" min="1" max="30" />
+            <button class="ghost" data-start="move">Start</button>
+          </div>
+          <div class="bar"><div class="fill" id="moveFill"></div></div>
+          <div class="muted" id="moveTick"></div>
+        </article>
+
+        <!-- CREATE -->
+        <article class="card" data-key="create">
+          <h2>Create</h2>
+          <div class="prompt" id="createPrompt">Loading…</div>
+          <div class="actions">
+            <button class="ok" data-done="create">✓ Done</button>
+            <button class="ghost" data-reroll="create">Reroll (1/day)</button>
+          </div>
+          <div class="pep" id="createPep"></div>
+          <div class="inline">
+            <span class="muted">Timer (min)</span>
+            <input type="number" id="createMin" value="1" min="1" max="30" />
+            <button class="ghost" data-start="create">Start</button>
+          </div>
+          <div class="bar"><div class="fill" id="createFill"></div></div>
+          <div class="muted" id="createTick"></div>
+        </article>
+
+        <!-- CONNECT -->
+        <article class="card" data-key="connect">
+          <h2>Connect</h2>
+          <div class="prompt" id="connectPrompt">Loading…</div>
+          <div class="actions">
+            <button class="ok" data-done="connect">✓ Done</button>
+            <button class="ghost" data-reroll="connect">Reroll (1/day)</button>
+          </div>
+          <div class="pep" id="connectPep"></div>
+          <div class="inline">
+            <span class="muted">Timer (min)</span>
+            <input type="number" id="connectMin" value="1" min="1" max="30" />
+            <button class="ghost" data-start="connect">Start</button>
+          </div>
+          <div class="bar"><div class="fill" id="connectFill"></div></div>
+          <div class="muted" id="connectTick"></div>
+        </article>
+      </section>
+
+      <section class="card grat">
+        <h2>Gratitude</h2>
+        <div class="muted" style="margin-bottom: var(--s9)">A single line is enough for today:</div>
+        <textarea id="grat" placeholder="I’m grateful for…"></textarea>
+        <div class="actions" style="margin-top: var(--s11)">
+          <button class="ghost" id="saveGrat">Save</button>
+          <button class="ghost" id="clearGrat">Clear</button>
+        </div>
+      </section>
+
+      <footer>
+        <div class="muted">Local & sovereign — all data stays in your browser.</div>
+        <div class="chips" id="badges"></div>
+      </footer>
+    </div>
+  </main>
+
+  <div class="toast" id="toast">Saved</div>
+
+<script>
+/* ========================
+   Data (parchment edition)
+======================== */
+const MOVE = [
+  "Stretch your spine and shoulders for 60 seconds.",
+  "Take a 3-minute walk, counting 30 slow breaths.",
+  "Do 10 gentle squats while smiling.",
+  "Neck circles: 5 each direction; then shake out hands.",
+  "Balance on one foot for 30s each side.",
+  "Cat-cow for 8 slow rounds.",
+  "Wall push-ups x 12.",
+  "Ankles: draw the alphabet with your toes.",
+  "Dance to one favorite song.",
+  "Slow roll down & up the spine x 5."
+];
+const CREATE = [
+  "Write 3 lines that start with “Today I…”",
+  "Doodle a tiny map of your ideal day.",
+  "Take a photo of something textured and beautiful.",
+  "List 5 mood-words; turn them into a sentence.",
+  "Sketch a leaf or your hand in 60 seconds.",
+  "Compose a two-line pep talk to Future You.",
+  "Make a tiny collage from scraps.",
+  "Record a 10-second humming melody.",
+  "Write a haiku about light or shade.",
+  "Free-write for one minute without stopping."
+];
+const CONNECT = [
+  "Send a thank-you text to someone from your past.",
+  "Compliment a stranger (or yourself in the mirror!).",
+  "Share one useful link with a friend.",
+  "Ask a family member about their day and listen fully.",
+  "Write a kind comment on someone’s post.",
+  "Call someone you miss and say one sincere thing.",
+  "Hold a door or offer a smile; note how it feels.",
+  "Share a photo of something that made you laugh.",
+  "Write a postcard/email to your future self.",
+  "Give your pet or a plant one extra minute of care."
+];
+const PEP = [
+  "Tiny starts fuel big journeys.",
+  "You don’t need perfect—just present.",
+  "Today’s spark is enough.",
+  "Breathe in ease, breathe out effort.",
+  "Momentum loves small wins.",
+  "Kindness counts (especially to you).",
+  "Half a step still moves you forward.",
+  "Make it playful. Make it yours.",
+  "You showed up—that’s the hardest part.",
+  "Simplicity works wonders."
+];
+
+/* ========================
+   State & Storage
+======================== */
+const KEY = "daily_spark_parchment_v1";
+const todayKey = new Date().toISOString().slice(0,10);
+
+let state = load();
+function load(){
+  try{
+    const raw = JSON.parse(localStorage.getItem(KEY)||"{}");
+    if(raw.date !== todayKey){
+      return {
+        date: todayKey,
+        prompts: pickPrompts(),
+        done: {move:false, create:false, connect:false},
+        rerolls: {move:1, create:1, connect:1},
+        streak: computeStreak(raw),
+        grat: ""
+      };
+    }
+    return {
+      date: raw.date,
+      prompts: raw.prompts||pickPrompts(),
+      done: raw.done||{move:false, create:false, connect:false},
+      rerolls: raw.rerolls||{move:1, create:1, connect:1},
+      streak: raw.streak||1,
+      grat: raw.grat||""
+    };
+  }catch(e){
+    return {date: todayKey, prompts: pickPrompts(), done:{move:false,create:false,connect:false}, rerolls:{move:1,create:1,connect:1}, streak:1, grat:""};
+  }
+}
+function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+function computeStreak(prev){
+  if(!prev || !prev.date) return 1;
+  const dPrev = new Date(prev.date);
+  const dNow  = new Date(todayKey);
+  const diff = Math.round((dNow - dPrev)/(1000*60*60*24));
+  if(diff === 1) return (prev.streak||0)+1;
+  if(diff === 0) return prev.streak||1;
+  return 1;
+}
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function pickPrompts(){ return { move:{text:pick(MOVE),pep:pick(PEP)}, create:{text:pick(CREATE),pep:pick(PEP)}, connect:{text:pick(CONNECT),pep:pick(PEP)} }; }
+
+/* ========================
+   Render
+======================== */
+const $ = s=>document.querySelector(s);
+function render(){
+  $("#today").textContent = new Date().toLocaleDateString(undefined,{weekday:"long", month:"long", day:"numeric", year:"numeric"});
+  $("#streak").textContent = `🔥 Streak: ${state.streak} day${state.streak===1?"":"s"}`;
+
+  $("#movePrompt").textContent = state.prompts.move.text;
+  $("#movePep").textContent    = "💡 " + state.prompts.move.pep;
+  $("#createPrompt").textContent = state.prompts.create.text;
+  $("#createPep").textContent    = "💡 " + state.prompts.create.pep;
+  $("#connectPrompt").textContent = state.prompts.connect.text;
+  $("#connectPep").textContent    = "💡 " + state.prompts.connect.pep;
+
+  // badges
+  const badges = $("#badges"); badges.innerHTML = "";
+  ["move","create","connect"].forEach(k=>{
+    if(state.done[k]){
+      const chip = document.createElement("div");
+      chip.className = "chip";
+      chip.textContent = `✓ ${k[0].toUpperCase()+k.slice(1)} done`;
+      badges.appendChild(chip);
+    }
+  });
+
+  // Gratitude
+  $("#grat").value = state.grat;
+
+  // Reroll states
+  document.querySelectorAll("[data-reroll]").forEach(btn=>{
+    const k = btn.getAttribute("data-reroll");
+    btn.disabled = state.rerolls[k] <= 0;
+    btn.textContent = state.rerolls[k] > 0 ? "Reroll (1/day)" : "Reroll used";
+  });
+}
+render();
+
+/* ========================
+   Toast
+======================== */
+function toast(msg){
+  const t = $("#toast");
+  t.textContent = msg;
+  t.style.display = "block";
+  setTimeout(()=>{ t.style.display = "none"; }, 1200);
+}
+
+/* ========================
+   Events
+======================== */
+document.body.addEventListener("click", e=>{
+  const done = e.target.getAttribute("data-done");
+  if(done){
+    state.done[done] = true; save(); render(); toast("Noted — well done.");
+  }
+  const rr = e.target.getAttribute("data-reroll");
+  if(rr && state.rerolls[rr] > 0){
+    const pool = rr==="move"?MOVE : rr==="create"?CREATE : CONNECT;
+    state.prompts[rr].text = pick(pool);
+    state.prompts[rr].pep  = pick(PEP);
+    state.rerolls[rr]--; save(); render(); toast("A fresh spark appears.");
+  }
+  const start = e.target.getAttribute("data-start");
+  if(start){
+    const min = Number(document.getElementById(start+"Min").value)||1;
+    runTimer(start, min);
+  }
+});
+
+$("#saveGrat").addEventListener("click", ()=>{ state.grat = $("#grat").value.trim(); save(); toast("Saved"); });
+$("#clearGrat").addEventListener("click", ()=>{ $("#grat").value=""; state.grat=""; save(); toast("Cleared"); });
+
+/* ========================
+   Timers
+======================== */
+const timers = {};
+function runTimer(key, minutes){
+  clearTimer(key);
+  const total = minutes*60*1000;
+  const end = Date.now()+total;
+  timers[key] = {end, id:null};
+  tick();
+  function tick(){
+    const now = Date.now();
+    const left = Math.max(0, end-now);
+    const pct = Math.round(((total-left)/total)*100);
+    const fill = document.getElementById(key+"Fill");
+    const tickEl = document.getElementById(key+"Tick");
+    if(fill) fill.style.width = pct+"%";
+    if(tickEl){
+      const s = Math.ceil(left/1000);
+      tickEl.textContent = s>0 ? `⏳ ${Math.floor(s/60)}:${String(s%60).padStart(2,"0")} remaining` : "✅ Complete!";
+    }
+    if(left>0){ timers[key].id = requestAnimationFrame(tick); }
+    else { state.done[key] = true; save(); render(); }
+  }
+}
+function clearTimer(key){
+  if(timers[key]?.id) cancelAnimationFrame(timers[key].id);
+  delete timers[key];
+}
+
+/* First persist so first-run users have state */
+if(!localStorage.getItem(KEY)){ save(); }
+</script>
+</body>
+</html>
