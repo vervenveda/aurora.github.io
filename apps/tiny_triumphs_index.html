@@ -1,138 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Tiny Triumphs — 365 Days of Organization</title>
-  <style>
-    :root {
-      --bg: #1a2740;
-      --card: #eef9fb;
-      --aqua: #4fd2c3;
-      --gold: #ffe066;
-      --button: #28536b;
-      --button-hover: #4fd2c3;
-      --text: #253245;
-      --tracker: #c3f5e6;
-      --tracker-done: #ffe066;
-    }
-    body {
-      background: linear-gradient(135deg, var(--bg), #36526e 100%);
-      font-family: 'Poppins', Arial, sans-serif;
-      margin: 0; padding: 0;
-      min-height: 100vh;
-      color: var(--text);
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-    }
-    .app-wrap {
-      max-width: 333px;
-      margin: 33px auto 0;
-      background: var(--card);
-      border-radius: 22px;
-      box-shadow: 0 8px 28px #0007;
-      padding: 30px 24px 20px 24px;
-      text-align: center;
-      border: 4px solid #f8f4fa;
-      position: relative;
-    }
-    h1 {
-      color: var(--aqua);
-      letter-spacing: 1.5px;
-      font-size: 1.7em;
-      font-weight: 700;
-      margin-bottom: 0.5em;
-      text-shadow: 1px 1px 0 #fff9;
-    }
-    .tagline {
-      color: #347d99;
-      font-size: 1.08em;
-      margin-bottom: 1em;
-    }
-    #task-box {
-      background: #fff;
-      border-radius: 7px;
-      padding: 7px 7px 7px 7px;
-      box-shadow: 0 1.5px 7px #c3f5e636;
-      font-size: 1.14em;
-      min-height: 66px;
-      margin-bottom: 1em;
-      color: var(--text);
-    }
-    .button-row {
-      display: flex;
-      justify-content: center;
-      gap: 7px;
-      margin-bottom: 1.1em;
-    }
-    button {
-      background: var(--button);
-      color: #fff;
-      border: none;
-      border-radius: 7px;
-      padding: 7px 7px;
-      font-size: 1em;
-      font-weight: 555;
-      box-shadow: 0 2px 7px #add;
-      cursor: pointer;
-      transition: background 0.18s, color 0.14s;
-    }
-    button:hover {
-      background: var(--button-hover);
-      color: var(--bg);
-    }
-    .progress-bar {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 3px;
-      margin: 3px;
-    }
-    .dot {
-      width: 3px; height: 11px;
-      border-radius: 50%;
-      background: var(--tracker);
-      display: flex;
-      transition: background 0.18s;
-      border: 2px solid #c2eae6;
-    }
-    .dot.done { background: var(--tracker-done); border-color: #ffe066; }
-    .celebrate {
-      color: var(--gold);
-      font-size: 1.19em;
-      margin-top: 0.6em;
-      letter-spacing: 1.2px;
-      font-weight: 600;
-      text-shadow: 0 1px 2px #fff, 0 1.5px 0 #fd0a;
-      display: none;
-    }
-    footer {
-      color: #a2b8be;
-      margin: 21px 0 0 0;
-      font-size: .95em;
-      letter-spacing: 0.2px;
-      text-align: center;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Tiny Triumphs — Sovereign Gold Edition (Night Sanctum Glow)</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --midnight:#0a0a14;
+  --midnight-soft:#191b2a;
+  --gold:#d9b878;
+  --gold-deep:#b89252;
+  --ink:#fdfaf3;
+  --ink-soft:#f0e9dc;
+  --radius:21px;
+  --shadow:0 24px 72px rgba(0,0,0,.6);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:"Cormorant Garamond",serif;
+  background:radial-gradient(circle at 50% -10%,#191b2a 0%,#0a0a14 100%);
+  color:var(--ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  padding:24px;
+}
+.app{
+  background:linear-gradient(180deg,var(--midnight-soft),#050713);
+  border:1px solid rgba(217,184,120,.4);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  max-width:520px;
+  width:100%;
+  padding:30px 26px 24px;
+  text-align:center;
+}
+h1{
+  font-family:"Cinzel",serif;
+  font-size:26px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:6px;
+}
+.tag{
+  color:var(--ink-soft);
+  font-size:15px;
+  margin-bottom:18px;
+  letter-spacing:.05em;
+}
+#task-box{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(217,184,120,.3);
+  border-radius:var(--radius);
+  padding:20px 18px;
+  min-height:78px;
+  line-height:1.6;
+  font-size:17px;
+  color:var(--ink-soft);
+  margin-bottom:18px;
+}
+.buttons{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  margin-bottom:18px;
+}
+button{
+  font-family:"Cinzel",serif;
+  font-size:14px;
+  text-transform:uppercase;
+  border:none;
+  border-radius:999px;
+  padding:9px 20px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  color:#050713;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,.5);
+  transition:transform .2s,box-shadow .2s;
+}
+button:hover{transform:translateY(-1px);box-shadow:0 9px 21px rgba(0,0,0,.6);}
+.progress{
+  height:6px;
+  width:100%;
+  background:rgba(255,255,255,.1);
+  border-radius:999px;
+  overflow:hidden;
+  margin-bottom:16px;
+}
+.progress-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--gold),var(--gold-deep));
+  transition:width .4s ease;
+}
+#celebrate{
+  display:none;
+  color:var(--gold);
+  font-size:17px;
+  text-shadow:0 0 12px rgba(217,184,120,.7);
+  animation:glow 2.4s ease infinite alternate;
+}
+@keyframes glow{
+  from{opacity:.8;}
+  to{opacity:1;}
+}
+footer{
+  margin-top:22px;
+  font-size:13px;
+  color:var(--ink-soft);
+  border-top:1px solid rgba(217,184,120,.25);
+  padding-top:12px;
+}
+</style>
 </head>
+
 <body>
-  <div class="app-wrap">
+  <div class="app">
     <h1>Tiny Triumphs</h1>
-    <div class="tagline">A daily nudge towards clarity & joy. Organize one thing, every day.</div>
+    <div class="tag">365 Days of Mindful Order</div>
     <div id="task-box">Loading your first Tiny Triumph…</div>
-    <div class="button-row">
-      <button id="prevBtn" title="Yesterday">⏪</button>
-      <button id="nextBtn" title="Next task">⏩</button>
-      <button id="randBtn" style="background:var(--aqua);color:var(--bg);">🎲 Surprise Me</button>
+
+    <div class="buttons">
+      <button id="prevBtn">⏪ Prev</button>
+      <button id="doneBtn">✔ Done</button>
+      <button id="nextBtn">Next ⏩</button>
     </div>
-    <div class="progress-bar" id="progress"></div>
-    <div class="celebrate" id="celebrateMsg">✨ You did it! ✨</div>
+
+    <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+    <div id="celebrate">✨ You did it! ✨</div>
+
+    <footer>PLERA · Tiny Triumphs — Sovereign Gold Edition (Night Sanctum Glow) © 2026</footer>
   </div>
-  <footer>
-    Tiny Triumphs &copy; 2025 — Brought to life by My Art Gallery & Khaemenes Academy
-  </footer>
-  <script>
-    // 30 sample tasks for demo; add your own to 365+
-    const TASKS = [
+
+<script>
+// ===========================================================
+//  TINY TRIUMPHS — SOVEREIGN GOLD EDITION (NIGHT SANCTUM GLOW)
+// ===========================================================
+
+// --- 365 Daily Tasks Array ---
+const TASKS = [
       "Make your bed neatly and open the curtains to let light in.",
 "Write down three things you’re grateful for.",
 "Water your plants or tend to a small garden.",
@@ -566,47 +579,47 @@
   "Smile at your clean space and whisper, 'I made this space peaceful.'"
       
     ];
-    // For 365: Just expand the TASKS array above!
 
-    let idx = 0, completed = Array(TASKS.length).fill(false);
-    const taskBox = document.getElementById("task-box");
-    const progress = document.getElementById("progress");
-    const celebrate = document.getElementById("celebrateMsg");
+// --- Core State ---
+let index = 0;
+let completed = JSON.parse(localStorage.getItem("tt_completed")||"[]");
+if(completed.length < TASKS.length) completed = Array(TASKS.length).fill(false);
 
-    function showTask() {
-      taskBox.textContent = TASKS[idx];
-      updateProgress();
-      celebrate.style.display = completed[idx] ? "block" : "none";
-    }
+// --- Elements ---
+const box = document.getElementById("task-box");
+const progressFill = document.getElementById("progressFill");
+const celebrate = document.getElementById("celebrate");
 
-    function updateProgress() {
-      progress.innerHTML = "";
-      for (let i = 0; i < TASKS.length; ++i) {
-        const dot = document.createElement("span");
-        dot.className = "dot" + (completed[i] ? " done" : "");
-        dot.title = `Task #${i+1}`;
-        dot.onclick = ()=>toggleDone(i);
-        progress.appendChild(dot);
-      }
-    }
-    function toggleDone(i) {
-      completed[i] = !completed[i];
-      updateProgress();
-      celebrate.style.display = completed[idx] ? "block" : "none";
-    }
+// --- Render Functions ---
+function showTask(){
+  box.textContent = TASKS[index];
+  updateProgress();
+  celebrate.style.display = completed[index] ? "block" : "none";
+}
+function updateProgress(){
+  const doneCount = completed.filter(Boolean).length;
+  const pct = (doneCount / TASKS.length) * 100;
+  progressFill.style.width = pct + "%";
+  localStorage.setItem("tt_completed",JSON.stringify(completed));
+}
 
-    document.getElementById("nextBtn").onclick = ()=>{
-      idx = (idx+1)%TASKS.length; showTask();
-    };
-    document.getElementById("prevBtn").onclick = ()=>{
-      idx = (idx-1+TASKS.length)%TASKS.length; showTask();
-    };
-    document.getElementById("randBtn").onclick = ()=>{
-      idx = Math.floor(Math.random()*TASKS.length); showTask();
-    };
+// --- Event Handlers ---
+document.getElementById("nextBtn").onclick = ()=>{
+  index = (index+1) % TASKS.length;
+  showTask();
+};
+document.getElementById("prevBtn").onclick = ()=>{
+  index = (index-1+TASKS.length) % TASKS.length;
+  showTask();
+};
+document.getElementById("doneBtn").onclick = ()=>{
+  completed[index] = !completed[index];
+  celebrate.style.display = completed[index] ? "block" : "none";
+  updateProgress();
+};
 
-    // Initialize
-    showTask();
-  </script>
+// --- Init ---
+showTask();
+</script>
 </body>
 </html>
