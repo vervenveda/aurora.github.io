@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Aurora Story Spark – Monte Carlo Story Cue</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#050814;
+      --bg2:#0f1930;
+      --panel:#131a2b;
+      --accent:#ffd47b;
+      --accent-soft:#f2c09c;
+      --accent-mid:#ff9bd0;
+      --ink:#fdfdfd;
+      --muted:#c4c8d7;
+      --danger:#ff7a7a;
+      --radius-lg:18px;
+      --radius-md:11px;
+      --shadow:0 14px 40px rgba(0,0,0,0.55);
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:"DM Sans",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:radial-gradient(circle at top,#22386b 0,#050814 52%);
+      color:var(--ink);
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding:22px 10px 30px;
+    }
+    .shell{
+      max-width:410px;
+      width:100%;
+      background:linear-gradient(180deg,#1a2438,#0d101c);
+      border-radius:24px;
+      padding:18px 16px 18px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .app-title{
+      font-family:"Cinzel",serif;
+      font-size:1.35rem;
+      text-align:center;
+      letter-spacing:.12em;
+      color:var(--accent);
+      margin:4px 0 2px;
+    }
+    .app-sub{
+      text-align:center;
+      font-size:.8rem;
+      color:var(--muted);
+      margin-bottom:12px;
+    }
+    .pill-note{
+      font-size:.78rem;
+      color:var(--accent-soft);
+      text-align:center;
+      background:rgba(0,0,0,0.35);
+      border-radius:999px;
+      padding:6px 8px;
+      margin-bottom:11px;
+      border:1px solid rgba(255,255,255,0.06);
+    }
+    label{
+      display:block;
+      font-size:.8rem;
+      text-transform:uppercase;
+      letter-spacing:.1em;
+      color:var(--muted);
+      margin:7px 0 3px;
+    }
+    select,input,textarea{
+      width:100%;
+      border-radius:var(--radius-md);
+      border:1px solid #333a4f;
+      background:#0c111e;
+      color:var(--ink);
+      padding:7px 9px;
+      font-size:.9rem;
+      font-family:inherit;
+      outline:none;
+    }
+    select:focus,input:focus,textarea:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px rgba(255,212,123,0.4);
+    }
+    textarea{
+      min-height:118px;
+      resize:vertical;
+    }
+    .inline-row{
+      display:flex;
+      gap:7px;
+    }
+    .spark-info{
+      font-size:.75rem;
+      color:var(--muted);
+      margin-top:3px;
+      margin-bottom:5px;
+    }
+    .spark-btn{
+      width:100%;
+      margin-top:9px;
+      border:none;
+      border-radius:999px;
+      padding:9px 14px;
+      background:linear-gradient(90deg,#ffd47b,#ff9bd0);
+      color:#201320;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-size:.8rem;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(0,0,0,0.45);
+      transition:transform .1s, box-shadow .1s, filter .18s;
+    }
+    .spark-btn:hover{
+      filter:brightness(1.03);
+      box-shadow:0 7px 20px rgba(0,0,0,0.6);
+    }
+    .spark-btn:active{
+      transform:translateY(1px) scale(.99);
+      box-shadow:0 3px 12px rgba(0,0,0,0.55);
+    }
+    .cue-panel{
+      margin-top:12px;
+      background:radial-gradient(circle at top,#273152,#101524);
+      border-radius:var(--radius-lg);
+      padding:10px 11px;
+      border:1px solid rgba(255,255,255,0.04);
+    }
+    .cue-title{
+      font-size:.78rem;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:var(--accent);
+      margin-bottom:4px;
+    }
+    .cue-box{
+      font-size:.86rem;
+      line-height:1.5;
+      color:var(--ink);
+      max-height:110px;
+      overflow-y:auto;
+    }
+    .cue-box.empty{
+      color:#6f7590;
+      font-style:italic;
+    }
+    .story-label{
+      margin-top:10px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .story-label span{
+      font-size:.78rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--muted);
+    }
+    .story-label small{
+      font-size:.73rem;
+      color:#8c90a1;
+    }
+    .toolbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-top:7px;
+    }
+    .tool-btn{
+      flex:1 1 48%;
+      border-radius:999px;
+      border:1px solid #30354a;
+      background:#151827;
+      color:var(--muted);
+      font-size:.76rem;
+      padding:6px 8px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:4px;
+      transition:background .12s, color .12s, border-color .12s;
+    }
+    .tool-btn:hover{
+      background:#232842;
+      color:var(--accent);
+      border-color:#434a66;
+    }
+    .tool-btn--primary{
+      border-color:var(--accent-soft);
+      color:var(--accent-soft);
+    }
+    .tool-btn--primary:hover{
+      background:#ffe0b41b;
+      color:var(--accent);
+    }
+    .status{
+      margin-top:6px;
+      font-size:.74rem;
+      color:var(--muted);
+      min-height:1.2em;
+    }
+    .status.ok{color:#8ee0a3;}
+    .status.err{color:var(--danger);}
+    .footnote{
+      margin-top:10px;
+      font-size:.7rem;
+      color:#8086a0;
+      text-align:center;
+    }
+    @media (max-width:480px){
+      body{padding:16px 7px 24px;}
+      .shell{padding:16px 13px 15px;border-radius:19px;}
+      .app-title{font-size:1.25rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="app-title">AURORA STORY SPARK</div>
+    <div class="app-sub">Roll a Monte Carlo-style story cue, then write the tale in your own voice.</div>
+    <div class="pill-note">
+      Pick your vibe, toss in a few wild words, and let Aurora spark your first line.
+    </div>
+
+    <label for="audience">Audience / Maturity</label>
+    <select id="audience">
+      <option value="kids">Kids (gentle)</option>
+      <option value="teens">Teens / YA</option>
+      <option value="adults">Adults</option>
+    </select>
+
+    <div class="inline-row">
+      <div style="flex:1;">
+        <label for="genre">Genre</label>
+        <select id="genre">
+          <option value="gentle">Gentle / Cozy</option>
+          <option value="adventure">Adventure</option>
+          <option value="mystery">Mystery</option>
+          <option value="scary">Scary / Spooky</option>
+          <option value="silly">Silly / Comedy</option>
+        </select>
+      </div>
+      <div style="flex:1;">
+        <label for="timeline">Timeline</label>
+        <select id="timeline">
+          <option value="now">Right now</option>
+          <option value="longago">Long ago</option>
+          <option value="future">Far future</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="sparkWords">Spark words (up to 3)</label>
+    <input id="sparkWords" type="text" placeholder="ghost, forest, dark" />
+    <div class="spark-info">
+      Teens’ scary story night? Toss in 3 random words and see what Aurora does with them.
+    </div>
+
+    <button class="spark-btn" id="sparkBtn">★ Spark My Story</button>
+
+    <div class="cue-panel">
+      <div class="cue-title">Aurora Monte Carlo Story Cue</div>
+      <div class="cue-box empty" id="cueBox">
+        Your opening line will appear here. Tap “Spark My Story” to begin.
+      </div>
+    </div>
+
+    <div class="story-label">
+      <span>Your Story</span>
+      <small>Type, edit, and make it your own.</small>
+    </div>
+    <textarea id="storyText" placeholder="By the time the last spark faded, they realized the night was only just beginning..."></textarea>
+
+    <div class="toolbar">
+      <button type="button" class="tool-btn tool-btn--primary" id="saveBtn">💾 Save Story</button>
+      <button type="button" class="tool-btn" id="loadBtn">📂 Load Last</button>
+      <button type="button" class="tool-btn" id="printBtn">🖨️ Print</button>
+      <button type="button" class="tool-btn" id="copyBtn">📋 Copy Text</button>
+      <button type="button" class="tool-btn" id="clearBtn">🧹 Clear</button>
+    </div>
+
+    <div id="status" class="status"></div>
+
+    <div class="footnote">
+      Stories stay in this browser only (local storage).<br>
+      You can print, copy, or export the text whenever you’re ready to share.
+    </div>
+  </div>
+
+<script>
+  // ---------- Comprehensive Pronoun Reference ----------
+  // These aren’t all used at once in the cue, but they form
+  // a complete reference bank for future expansion or teaching.
+  const PRONOUNS = {
+    subject:       ["I","you","he","she","it","we","they"],
+    object:        ["me","you","him","her","it","us","them"],
+    possessiveAdj: ["my","your","his","her","its","our","their"],
+    possessive:    ["mine","yours","his","hers","its","ours","theirs"],
+    reflexive:     ["myself","yourself","himself","herself","itself","ourselves","themselves"]
+  };
+
+  // ---------- Age-Based Word Banks ----------
+  const WORD_BANKS = {
+    kids: {
+      nouns: [
+        "lantern","blanket fort","marshmallow","pillow","treasure chest",
+        "storybook","crayon box","backpack","treehouse","sandcastle",
+        "toy robot","pancake stack","glow stick","kite","puzzle"
+      ],
+      creatures: [
+        "kitten","puppy","baby dragon","owl","firefly",
+        "hamster","friendly ghost","talking rabbit","turtle","tiny unicorn"
+      ],
+      adjectives: [
+        "sparkly","sleepy","gigantic","tiny","wobbly",
+        "rainbow colored","whispery","glowing","silly","brave",
+        "curious","mysterious","ticklish","gentle","noisy"
+      ],
+      verbs: [
+        "giggled","tiptoed","wiggled","fluttered","squeaked",
+        "twirled","zoomed","bounced","whispered","splashed",
+        "snuck","shimmered","scribbled","danced","popped"
+      ]
+    },
+    teens: {
+      nouns: [
+        "abandoned mall","flashlight","old hoodie","train ticket","music playlist",
+        "burned-out streetlight","journal","mismatched sneakers","phone charger",
+        "rusty key","arcade token","underground tunnel","rooftop","locker",
+        "campfire ring"
+      ],
+      creatures: [
+        "stray cat","shadowy figure","crow","glitchy robot",
+        "fox","ghost","street magician","masked stranger","owl","urban legend"
+      ],
+      adjectives: [
+        "awkward","eerie","chaotic","unexpected","electric",
+        "broken","glitchy","crooked","haunted","ridiculous",
+        "restless","echoing","neon-bright","dusty","off-limits"
+      ],
+      verbs: [
+        "texted","vanished","glitched","tripped","snapped",
+        "echoed","lurched","floated","crashed","sped",
+        "drifted","muted","looped","blinked","sprinted"
+      ]
+    },
+    adults: {
+      nouns: [
+        "coffee cup","old photograph","subway platform","attic trunk",
+        "ring of keys","park bench","train station","ledger","pocket watch",
+        "abandoned house","lighthouse","journal","passport","record player",
+        "letter with no return address"
+      ],
+      creatures: [
+        "stray dog","crow","owl","cat","old friend",
+        "distant stranger","ghost of a rumor","passing traveller","librarian",
+        "night shift guard"
+      ],
+      adjectives: [
+        "faded","unsettling","quiet","restless","dimly lit",
+        "unexpected","familiar","forgotten","unopened","persistent",
+        "tired","honest","sharp","fragile","mismatched"
+      ],
+      verbs: [
+        "lingered","flickered","echoed","returned","vanished",
+        "tightened","loosened","clicked","buzzed","drifted",
+        "knocked","sighed","spilled","cracked","settled"
+      ]
+    }
+  };
+
+  const STORAGE_KEY = "aurora_story_spark_last_v3";
+  const cueBox = document.getElementById("cueBox");
+  const storyText = document.getElementById("storyText");
+  const statusEl = document.getElementById("status");
+
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+  const getBank = audience => WORD_BANKS[audience] || WORD_BANKS.teens;
+
+  // ---------- Twist Builder (uses hero pronoun + age bank) ----------
+  function makeTwist(genre, audience, heroPronoun){
+    const bank = getBank(audience);
+    const noun = pick([...bank.nouns, ...bank.creatures]);
+    const adj  = pick(bank.adjectives);
+    const verb = pick(bank.verbs);
+    const pro  = heroPronoun || "they";
+
+    if(genre === "silly"){
+      const sillyTwists = [
+        `Then a ${adj} ${noun} ${verb} right in front of ${pro}, as if that was perfectly normal.`,
+        `That’s when the ${adj} ${noun} cleared its throat and asked, “So… is this a bad time?”`,
+        `Suddenly the ${noun} let out a dramatic sigh and started ${verb} in slow motion.`,
+        `The whole scene would’ve been terrifying, except the ${adj} ${noun} was wearing mismatched socks.`
+      ];
+      return pick(sillyTwists);
+    }
+
+    const normalTwists = [
+      `Only later would ${pro} realize that the ${adj} ${noun} was the first real clue.`,
+      `From that moment on, the ${noun} showed up in every important memory.`,
+      `The ${adj} ${noun} did not belong there, and that was exactly why it mattered.`,
+      `If ${pro} had noticed the ${adj} ${noun} sooner, the night might have gone very differently.`
+    ];
+    return pick(normalTwists);
+  }
+
+  // ---------- Story Cue Builder with Sentence Structure Logic ----------
+  // Simple, Compound, Complex, Compound-Complex
+  function buildStoryCue({audience,genre,timeline,sparkWords}){
+    // Spark words: clean + cap at 3
+    let sparks = (sparkWords || "")
+      .split(/[,;]/).join(" ")
+      .split(/\s+/)
+      .map(w => w.trim())
+      .filter(Boolean)
+      .slice(0,3);
+
+    if(!sparks.length){
+      sparks = ["a strange note","an old key","a missing friend"];
+    }
+
+    const bank = getBank(audience);
+
+    // Hero name
+    const kidNames   = ["Micah","Lena","Jonah","Ari","Sophie"];
+    const teenNames  = ["Kai","Nova","Zara","Eli","Rico","Maya"];
+    const adultNames = ["Mara","Silas","Adrian","Leah","Rowan"];
+
+    let hero;
+    if(audience === "kids")      hero = pick(kidNames);
+    else if(audience === "teens")hero = pick(teenNames);
+    else                         hero = pick(adultNames);
+
+    // For now, keep hero pronoun neutral + inclusive.
+    const heroPronoun = "they";          // subject (they)
+    const heroObj     = "them";          // object
+    const heroPossAdj = "their";         // possessive adjective
+
+    // Genre → setting + action / mood flavor
+    let settingPlace, moodWord, genreFlavor, actionVerb;
+
+    if(genre === "scary"){
+      settingPlace = pick([
+        "the edge of the old forest",
+        "the hallway no one used after dark",
+        "the crumbling bridge outside town"
+      ]);
+      moodWord = pick(["whispers","footsteps","shadows"]);
+      genreFlavor = "something about the dark felt like it was leaning closer.";
+      actionVerb = pick(["crept","wandered","snuck"]);
+    } else if(genre === "mystery"){
+      settingPlace = pick([
+        "a town that never showed up on maps",
+        "the library’s locked wing",
+        "the quietest street in the city"
+      ]);
+      moodWord = pick(["clues","signs","little coincidences"]);
+      genreFlavor = "nothing looked dangerous yet, but everything felt wrong.";
+      actionVerb = pick(["walked","drifted","slipped"]);
+    } else if(genre === "adventure"){
+      settingPlace = pick([
+        "the edge of the last hill before the horizon",
+        "the train platform no one else noticed",
+        "the highest rooftop ${heroPronoun} could reach"
+      ]);
+      moodWord = pick(["the wind","the sky","the air"]);
+      genreFlavor = "the whole day buzzed like it was waiting for something big.";
+      actionVerb = pick(["raced","climbed","hurried"]);
+    } else if(genre === "silly"){
+      settingPlace = pick([
+        "the middle of a totally normal snack break",
+        "a living room already full of giggles",
+        "a sleepover powered by too much sugar"
+      ]);
+      moodWord = pick(["giggly chaos","utter nonsense","unexpected weirdness"]);
+      genreFlavor = "it was the kind of weird that made you laugh first and ask questions later.";
+      actionVerb = pick(["stumbled","shuffled","zoomed"]);
+    } else { // gentle / cozy
+      settingPlace = pick([
+        "a quiet corner of the living room",
+        "the step just outside the front door",
+        "a window seat that had seen every season"
+      ]);
+      moodWord = pick(["soft thoughts","little questions","memories"]);
+      genreFlavor = "for some reason, the world felt softer than usual.";
+      actionVerb = pick(["settled","wandered","curled up"]);
+    }
+
+    // Timeline → time clause for complex / compound-complex structures
+    let timeClause;
+    if(timeline === "longago"){
+      timeClause = "the storytellers still whispered by firelight";
+    } else if(timeline === "future"){
+      timeClause = "streetlights listened to every footstep";
+    } else { // now
+      timeClause = "everyone else thought the night would be boring";
+    }
+
+    // Spark list text
+    const [w1,w2Raw,w3Raw] = [
+      sparks[0] || "a strange clue",
+      sparks[1] || "",
+      sparks[2] || ""
+    ];
+
+    let sparkListText = w1;
+    if(w2Raw && w3Raw) sparkListText = `${w1}, ${w2Raw}, and ${w3Raw}`;
+    else if(w2Raw)     sparkListText = `${w1} and ${w2Raw}`;
+
+    const w2 = w2Raw || "something else";
+    const w3 = w3Raw || "one last detail";
+
+    // Choose sentence structure: simple, compound, complex, compound-complex
+    const r = Math.random();
+    let structure;
+    if(r < 0.33)       structure = "simple";
+    else if(r < 0.6)   structure = "compound";
+    else if(r < 0.85)  structure = "complex";
+    else               structure = "compound-complex";
+
+    let firstSentence = "";
+
+    // Simple: 1 independent clause
+    if(structure === "simple"){
+      // e.g., "Micah walked to the edge of the old forest and noticed a strange note."
+      firstSentence =
+        `${hero} ${actionVerb} to ${settingPlace} and noticed ${w1}.`;
+    }
+    // Compound: 2 independent clauses joined by a conjunction
+    else if(structure === "compound"){
+      // "Micah walked to the edge..., and they couldn’t stop staring at a strange note."
+      firstSentence =
+        `${hero} ${actionVerb} to ${settingPlace}, and ${heroPronoun} couldn’t stop staring at ${w1}.`;
+    }
+    // Complex: 1 independent + 1 dependent clause
+    else if(structure === "complex"){
+      // "When everyone else thought the night would be boring, Micah walked to the edge..."
+      firstSentence =
+        `When ${timeClause}, ${hero} ${actionVerb} to ${settingPlace} and noticed ${w1}.`;
+    }
+    // Compound-complex: 2+ independent, at least 1 dependent clause
+    else {
+      // "When X, Micah walked..., and they realized w1 and w2 were connected."
+      firstSentence =
+        `When ${timeClause}, ${hero} ${actionVerb} to ${settingPlace}, ` +
+        `and ${heroPronoun} realized ${w1} and ${w2} were strangely connected.`;
+    }
+
+    // Second sentence reinforces mood + sparks
+    const secondSentence =
+      `No matter how hard ${heroPronoun} tried to ignore it, ` +
+      `${sparkListText} kept circling back like ${moodWord}, and ${genreFlavor}`;
+
+    // Optional twist sentence
+    const addTwist = Math.random() < 0.55;
+    const twistSentence = addTwist ? " " + makeTwist(genre,audience,heroPronoun) : "";
+
+    return `${firstSentence} ${secondSentence}${twistSentence}`;
+  }
+
+  // ---------- Status Helper ----------
+  function setStatus(msg,type){
+    statusEl.textContent = msg || "";
+    statusEl.classList.remove("ok","err");
+    if(type) statusEl.classList.add(type);
+    if(msg){
+      clearTimeout(setStatus._t);
+      setStatus._t = setTimeout(()=>{
+        statusEl.textContent="";
+        statusEl.classList.remove("ok","err");
+      },3200);
+    }
+  }
+
+  // ---------- Main Controls ----------
+  function sparkMyStory(){
+    const audience   = document.getElementById("audience").value;
+    const genre      = document.getElementById("genre").value;
+    const timeline   = document.getElementById("timeline").value;
+    const sparkWords = document.getElementById("sparkWords").value;
+
+    const cue = buildStoryCue({audience,genre,timeline,sparkWords});
+    cueBox.textContent = cue;
+    cueBox.classList.remove("empty");
+
+    // Pre-fill story area if empty
+    if(!storyText.value.trim()){
+      storyText.value = cue + "\n\n";
+    }
+    storyText.focus();
+    setStatus("New cue generated. Let the story begin ✨","ok");
+  }
+
+  function saveStory(){
+    const text = storyText.value.trim();
+    if(!text){
+      setStatus("Nothing to save yet. Try writing a few lines first.","err");
+      return;
+    }
+    const payload = {
+      text,
+      cue: cueBox.textContent || "",
+      ts: new Date().toISOString()
+    };
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      setStatus("Story saved locally to this browser.","ok");
+    }catch(e){
+      setStatus("Could not save story (storage error).","err");
+    }
+  }
+
+  function loadStory(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw){
+        setStatus("No saved story found in this browser yet.","err");
+        return;
+      }
+      const data = JSON.parse(raw);
+      if(data.cue){
+        cueBox.textContent = data.cue;
+        cueBox.classList.remove("empty");
+      }
+      storyText.value = data.text || "";
+      setStatus("Last saved story loaded.","ok");
+    }catch(e){
+      setStatus("Could not load story (corrupt data).","err");
+    }
+  }
+
+  function printStory(){
+    const text = storyText.value || "";
+    const cue  = cueBox.textContent || "";
+    const win = window.open("","_blank","width=700,height=900");
+    win.document.write(`
+      <html><head>
+        <title>Aurora Story Spark – Print</title>
+        <style>
+          body{font-family:"DM Sans",system-ui,sans-serif;padding:24px;color:#111;background:#fafafa;}
+          h1{font-family:"Cinzel",serif;font-size:1.4rem;margin-bottom:10px;}
+          h2{font-size:1rem;margin-top:18px;margin-bottom:6px;}
+          pre{white-space:pre-wrap;word-wrap:break-word;font-family:inherit;font-size:.95rem;}
+        </style>
+      </head>
+      <body>
+        <h1>Aurora Story Spark</h1>
+        <h2>Opening Cue</h2>
+        <pre>${cue.replace(/[<&>]/g,s=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[s]))}</pre>
+        <h2>Your Story</h2>
+        <pre>${text.replace(/[<&>]/g,s=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[s]))}</pre>
+        <script>window.print();<\/script>
+      </body></html>
+    `);
+    win.document.close();
+  }
+
+  function copyStory(){
+    const text = storyText.value;
+    if(!text.trim()){
+      setStatus("Nothing to copy yet.","err");
+      return;
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(()=>{
+        setStatus("Story copied to clipboard.","ok");
+      }).catch(()=>{
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  }
+
+  function fallbackCopy(text){
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try{
+      document.execCommand("copy");
+      setStatus("Story copied to clipboard.","ok");
+    }catch(e){
+      setStatus("Could not copy text.","err");
+    }
+    document.body.removeChild(ta);
+  }
+
+  function clearAll(){
+    if(!storyText.value.trim() && cueBox.classList.contains("empty")){
+      setStatus("Nothing to clear yet.","err");
+      return;
+    }
+    if(confirm("Clear the current cue and story?")){
+      cueBox.textContent = "Your opening line will appear here. Tap “Spark My Story” to begin.";
+      cueBox.classList.add("empty");
+      storyText.value = "";
+      setStatus("Cleared. Ready for a fresh spark.","ok");
+    }
+  }
+
+  // Wire up buttons
+  document.getElementById("sparkBtn").addEventListener("click", sparkMyStory);
+  document.getElementById("saveBtn").addEventListener("click", saveStory);
+  document.getElementById("loadBtn").addEventListener("click", loadStory);
+  document.getElementById("printBtn").addEventListener("click", printStory);
+  document.getElementById("copyBtn").addEventListener("click", copyStory);
+  document.getElementById("clearBtn").addEventListener("click", clearAll);
+</script>
+</body>
+</html>
