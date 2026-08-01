@@ -2,152 +2,398 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Aurora Inspiration — a restorative yoga-and-wellness landing page for breath work, rest, reflection, creativity, and quiet renewal.">
-<meta name="theme-color" content="#dfe9e0">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Aurora Inspiration — an audited Verve N Veda sanctuary for breath, rest, creativity, reflection, sound, personal growth, and trusted public wellness resources.">
+<meta name="theme-color" content="#e6efe8">
 <meta name="color-scheme" content="light">
-<title>Aurora Inspiration — Breathe · Restore · Create</title>
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'none'; worker-src 'none';">
+<title>Aurora Inspiration — Restore · Grow · Create</title>
 <style>
 :root{
-  --mist:#f7faf7;--cloud:#f2f7f2;--paper:#fffdf9;--sage:#7f9687;--sage-deep:#526b5f;
-  --leaf:#a8bda8;--eucalyptus:#cdddcf;--blush:#e9d6cc;--sand:#e7dbc9;--gold:#cbb88e;
-  --gold-soft:#e6dbc0;--ink:#36413d;--muted:#6b7771;--line:rgba(82,107,95,.15);
-  --soft-shadow:0 18px 48px rgba(75,96,87,.10);--shadow:0 26px 70px rgba(75,96,87,.14);
-  --radius:28px;--radius-sm:18px;--max:1240px;
-  --display:"Cormorant Garamond","Palatino Linotype","Book Antiqua","Baskerville",Georgia,serif;
-  --body:"Montserrat","Avenir Next","Segoe UI",Arial,sans-serif;
-  --reading:"Baskerville","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --mist:#f7faf7;
+  --cloud:#eef5ef;
+  --paper:#fffdf8;
+  --paper-2:#fbf8f1;
+  --sage:#789184;
+  --sage-deep:#49665a;
+  --sage-dark:#324c42;
+  --leaf:#a7bca9;
+  --eucalyptus:#d2dfd4;
+  --blush:#ead8cf;
+  --sand:#eadfce;
+  --gold:#c5aa75;
+  --gold-deep:#9b7944;
+  --ink:#34413c;
+  --muted:#69766f;
+  --faint:#89948f;
+  --line:rgba(73,102,90,.15);
+  --line-strong:rgba(73,102,90,.26);
+  --soft-shadow:0 18px 46px rgba(67,91,80,.09);
+  --shadow:0 28px 74px rgba(67,91,80,.15);
+  --radius:28px;
+  --radius-sm:18px;
+  --max:1280px;
+  --display:"Iowan Old Style","Palatino Linotype","Book Antiqua",Baskerville,Georgia,serif;
+  --body:"Avenir Next","Segoe UI",Montserrat,Arial,sans-serif;
 }
-*{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--mist)}
-body{margin:0;min-height:100vh;color:var(--ink);font-family:var(--body);line-height:1.68;letter-spacing:.01em;background:
-radial-gradient(circle at 16% 8%,rgba(233,214,204,.44),transparent 24rem),
-radial-gradient(circle at 84% 12%,rgba(205,221,207,.48),transparent 28rem),
-linear-gradient(180deg,#fcfdfb 0,#f3f7f2 34rem,#f8fbf7 100%)}
-body.menu-open{overflow:hidden}button,input,select{font:inherit}button{cursor:pointer}a{color:inherit}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--mist)}
+body{
+  margin:0;
+  min-height:100vh;
+  overflow-x:hidden;
+  color:var(--ink);
+  font-family:var(--body);
+  line-height:1.68;
+  letter-spacing:.008em;
+  background:
+    radial-gradient(circle at 12% 6%,rgba(234,216,207,.50),transparent 25rem),
+    radial-gradient(circle at 88% 10%,rgba(210,223,212,.58),transparent 29rem),
+    linear-gradient(180deg,#fcfdfb 0,#f3f7f2 35rem,#f9fbf8 100%);
+}
+body.menu-open{overflow:hidden}
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+img,svg{display:block;max-width:100%}
 .wrap{width:min(calc(100% - 2rem),var(--max));margin-inline:auto}
-.skip{position:fixed;z-index:9999;left:1rem;top:1rem;transform:translateY(-160%);padding:.82rem 1rem;background:var(--sage-deep);color:#fff;border-radius:12px;text-decoration:none}.skip:focus{transform:none}
-:focus-visible{outline:3px solid rgba(82,107,95,.35);outline-offset:3px}
-.site-header{position:sticky;top:0;z-index:80;border-bottom:1px solid rgba(82,107,95,.10);background:rgba(252,253,251,.86);backdrop-filter:blur(18px)}
+.skip{
+  position:fixed;z-index:9999;left:1rem;top:1rem;transform:translateY(-170%);
+  padding:.82rem 1rem;color:#fff;background:var(--sage-dark);border-radius:12px;text-decoration:none
+}
+.skip:focus{transform:none}
+:focus-visible{outline:3px solid rgba(73,102,90,.38);outline-offset:3px}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+
+/* Header */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  border-bottom:1px solid rgba(73,102,90,.10);
+  background:rgba(252,253,251,.88);
+  backdrop-filter:blur(18px);
+}
 .nav{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.brand{display:flex;align-items:center;gap:.85rem;text-decoration:none}
-.brand-mark{width:46px;height:46px;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff, var(--gold-soft) 50%, var(--sand) 80%);box-shadow:var(--soft-shadow);border:1px solid rgba(255,255,255,.88);color:var(--sage-deep);font-family:var(--display);font-size:1.5rem}
-.brand-mark {
-  padding-bottom: 2px;
+.brand{display:flex;align-items:center;gap:.85rem;text-decoration:none;min-width:0}
+.brand-mark{
+  width:48px;height:48px;display:grid;place-items:center;flex:0 0 auto;
+  border:1px solid rgba(255,255,255,.9);border-radius:50%;
+  color:var(--sage-deep);background:radial-gradient(circle at 30% 26%,#fff,var(--sand) 55%,var(--eucalyptus));
+  box-shadow:var(--soft-shadow);font-family:var(--display);font-size:1.55rem
 }
 .brand-copy{display:grid;line-height:1}
-.brand-copy strong{font-family:var(--display);font-size:1.35rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--sage-deep)}
-.brand-copy small{margin-top:.34rem;color:var(--muted);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase}
-.nav-links{display:flex;align-items:center;gap:.25rem}
-.nav-links a{padding:.72rem .88rem;border-radius:999px;color:#5b6762;text-decoration:none;font-size:.82rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
-.nav-links a:hover{background:rgba(127,150,135,.10);color:var(--sage-deep)}
-.icon-btn{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;background:rgba(255,255,255,.75);color:var(--sage-deep)}.icon-btn:hover{background:#fff;box-shadow:var(--soft-shadow)}
-.menu-lines,.menu-lines:before,.menu-lines:after{width:20px;height:1.5px;display:block;position:relative;background:currentColor}.menu-lines:before,.menu-lines:after{content:"";position:absolute;left:0}.menu-lines:before{top:-6px}.menu-lines:after{top:6px}
-.hero{position:relative;overflow:hidden;padding:5.8rem 0 5rem;min-height:720px;display:grid;align-items:center}
-.hero:before{content:"";position:absolute;left:50%;top:38px;transform:translateX(-50%);width:min(980px,90vw);height:min(980px,90vw);border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.72) 0,rgba(255,255,255,.32) 37%,rgba(255,255,255,.08) 61%,transparent 69%);pointer-events:none}
-.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:2.8rem;align-items:center}
-.kicker{display:inline-flex;align-items:center;gap:.6rem;padding:.55rem .82rem;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.78);color:var(--sage-deep);font-size:.74rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
-.kicker:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px rgba(203,184,142,.16)}
-h1{margin:1.2rem 0 0;font-family:var(--display);font-size:clamp(4.2rem,9vw,8rem);font-weight:500;line-height:.9;letter-spacing:.01em;color:var(--sage-deep)}
-h1 span{display:block;margin-top:1rem;color:#9a7c66;font-family:var(--body);font-size:clamp(.78rem,1.5vw,1rem);font-weight:700;letter-spacing:.24em;line-height:1.5;text-transform:uppercase}
-.lead{max-width:690px;margin:1.5rem 0 0;color:#64706b;font-family:var(--reading);font-size:clamp(1.08rem,2vw,1.26rem);line-height:1.85}
-.hero-actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2.05rem}
-.btn{min-height:50px;display:inline-flex;align-items:center;justify-content:center;gap:.55rem;padding:.88rem 1.18rem;border-radius:999px;border:1px solid transparent;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:.18s}
+.brand-copy strong{font-family:var(--display);font-size:1.42rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--sage-deep)}
+.brand-copy small{margin-top:.38rem;color:var(--muted);font-size:.68rem;letter-spacing:.15em;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:.15rem}
+.nav-links a{padding:.72rem .8rem;border-radius:999px;color:#56645e;text-decoration:none;font-size:.78rem;font-weight:700;letter-spacing:.055em;text-transform:uppercase}
+.nav-links a:hover{background:rgba(120,145,132,.10);color:var(--sage-deep)}
+.icon-btn{
+  width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;
+  background:rgba(255,255,255,.8);color:var(--sage-deep)
+}
+.icon-btn:hover{background:#fff;box-shadow:var(--soft-shadow)}
+.menu-lines,.menu-lines:before,.menu-lines:after{width:20px;height:1.5px;display:block;position:relative;background:currentColor}
+.menu-lines:before,.menu-lines:after{content:"";position:absolute;left:0}
+.menu-lines:before{top:-6px}.menu-lines:after{top:6px}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;padding:5.8rem 0 5.2rem;min-height:730px;display:grid;align-items:center}
+.hero:before{
+  content:"";position:absolute;left:50%;top:32px;transform:translateX(-50%);
+  width:min(980px,92vw);height:min(980px,92vw);border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.76) 0,rgba(255,255,255,.34) 37%,rgba(255,255,255,.08) 61%,transparent 70%);
+  pointer-events:none
+}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.08fr .92fr;gap:3rem;align-items:center}
+.kicker{
+  display:inline-flex;align-items:center;gap:.6rem;padding:.55rem .82rem;border:1px solid var(--line);border-radius:999px;
+  background:rgba(255,255,255,.82);color:var(--sage-deep);font-size:.72rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase
+}
+.kicker:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px rgba(197,170,117,.17)}
+h1,h2,h3{font-family:var(--display);font-weight:500}
+h1{margin:1.2rem 0 0;color:var(--sage-deep);font-size:clamp(4rem,8.5vw,7.8rem);line-height:.91;letter-spacing:.005em;text-wrap:balance}
+h1 span{
+  display:block;margin-top:1.08rem;color:#947866;font-family:var(--body);
+  font-size:clamp(.78rem,1.45vw,1rem);font-weight:800;letter-spacing:.23em;line-height:1.55;text-transform:uppercase
+}
+.lead{max-width:730px;margin:1.55rem 0 0;color:#5f6e67;font-family:var(--display);font-size:clamp(1.13rem,2.2vw,1.38rem);line-height:1.82}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2.1rem}
+.btn{
+  min-height:50px;display:inline-flex;align-items:center;justify-content:center;gap:.55rem;
+  padding:.88rem 1.2rem;border:1px solid transparent;border-radius:999px;text-decoration:none;font-weight:800;letter-spacing:.035em;transition:.18s
+}
 .btn:hover{transform:translateY(-2px)}
-.btn.primary{color:#fff;background:linear-gradient(135deg,var(--sage-deep),#7d9888);box-shadow:0 16px 34px rgba(76,109,97,.18)}
-.btn.secondary{color:var(--sage-deep);background:rgba(255,255,255,.8);border-color:var(--line)}
+.btn.primary{color:#fff;background:linear-gradient(135deg,var(--sage-deep),#829c8d);box-shadow:0 16px 34px rgba(73,102,90,.18)}
+.btn.secondary{color:var(--sage-deep);background:rgba(255,255,255,.82);border-color:var(--line)}
 .btn.secondary:hover{background:#fff;box-shadow:var(--soft-shadow)}
-.hero-notes{display:flex;flex-wrap:wrap;gap:.8rem 1.3rem;margin-top:2rem;color:var(--muted);font-size:.82rem}
-.hero-notes span{display:inline-flex;align-items:center;gap:.42rem}.hero-notes span:before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.hero-notes{display:flex;flex-wrap:wrap;gap:.78rem 1.25rem;margin-top:2rem;color:var(--muted);font-size:.8rem}
+.hero-notes span{display:inline-flex;align-items:center;gap:.42rem}
+.hero-notes span:before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold)}
 .hero-panel{display:grid;gap:1rem;align-self:stretch}
-.breath-sanctum{position:relative;min-height:570px;border-radius:40px;background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.54));border:1px solid rgba(82,107,95,.10);box-shadow:var(--shadow);padding:1.5rem;overflow:hidden}
-.breath-sanctum:before{content:"";position:absolute;inset:12px;border-radius:32px;border:1px solid rgba(203,184,142,.34);pointer-events:none}
+.breath-sanctum{
+  position:relative;min-height:575px;padding:1.5rem;overflow:hidden;
+  border:1px solid rgba(73,102,90,.10);border-radius:40px;
+  background:linear-gradient(180deg,rgba(255,255,255,.80),rgba(255,255,255,.56));box-shadow:var(--shadow)
+}
+.breath-sanctum:before{content:"";position:absolute;inset:12px;border:1px solid rgba(197,170,117,.34);border-radius:32px;pointer-events:none}
 .ring-field{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
-.ring{position:absolute;border-radius:50%;border:1px solid rgba(127,150,135,.18)}
-.ring.one{width:80%;aspect-ratio:1}
-.ring.two{width:56%;aspect-ratio:1;border-color:rgba(203,184,142,.28)}
-.ring.three{width:34%;aspect-ratio:1;border-color:rgba(127,150,135,.26)}
-.center-orb{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff,var(--gold-soft) 38%, rgba(127,150,135,.18) 76%, rgba(127,150,135,.1) 100%);box-shadow:0 0 0 18px rgba(255,255,255,.36),0 0 0 50px rgba(205,221,207,.32)}
-.air-line{position:absolute;inset:auto auto 128px 50%;width:70%;height:120px;transform:translateX(-50%);opacity:.45}
+.ring{position:absolute;border:1px solid rgba(120,145,132,.18);border-radius:50%}
+.ring.one{width:80%;aspect-ratio:1}.ring.two{width:56%;aspect-ratio:1;border-color:rgba(197,170,117,.28)}.ring.three{width:34%;aspect-ratio:1}
+.center-orb{
+  position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:122px;height:122px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#fff,#e7dcc2 40%,rgba(120,145,132,.19) 77%,rgba(120,145,132,.1));
+  box-shadow:0 0 0 18px rgba(255,255,255,.37),0 0 0 50px rgba(210,223,212,.34)
+}
+.air-line{position:absolute;inset:auto auto 130px 50%;width:70%;height:120px;transform:translateX(-50%);opacity:.47}
 .air-line svg{width:100%;height:100%}
-.mini-copy{position:absolute;inset:auto 1.4rem 1.4rem 1.4rem;color:var(--muted);text-align:center}
-.mini-copy strong{display:block;color:var(--sage-deep);font-family:var(--display);font-size:1.65rem;font-weight:500;line-height:1.15}
-.mini-copy span{display:block;margin-top:.55rem;font-size:.9rem;line-height:1.7}
-.breath-card{position:relative;z-index:2;width:min(100%,430px);margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.85rem;padding:.92rem 1rem;border:1px solid rgba(255,255,255,.82);border-radius:22px;background:rgba(255,253,248,.84);backdrop-filter:blur(14px);box-shadow:var(--soft-shadow)}
-.breath-orb{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,var(--sage),#b8cdb9);box-shadow:0 0 0 8px rgba(125,150,137,.09);transition:transform 3.8s ease,box-shadow 3.8s ease}.breath-card.inhale .breath-orb{transform:scale(1.24);box-shadow:0 0 0 16px rgba(125,150,137,.09)}.breath-card.exhale .breath-orb{transform:scale(.84)}
-.breath-copy strong,.breath-copy span{display:block}.breath-copy strong{font-family:var(--display);font-weight:500;font-size:1.18rem;color:var(--sage-deep)}.breath-copy span{color:var(--muted);font-size:.78rem}
-.breath-toggle{border:0;border-radius:999px;padding:.66rem .84rem;color:var(--sage-deep);background:#edf3ed;font-weight:700;font-size:.76rem}
-.soft-quote{padding:1.15rem 1.25rem;border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.72);box-shadow:var(--soft-shadow);text-align:center}
-.soft-quote p{margin:0;color:var(--sage-deep);font-family:var(--display);font-size:1.6rem;line-height:1.35}
-.soft-quote small{display:block;margin-top:.6rem;color:var(--muted);font-size:.76rem;letter-spacing:.12em;text-transform:uppercase}
-.section{padding:5.6rem 0}.section+.section{border-top:1px solid rgba(82,107,95,.08)}
-.section-head{display:grid;grid-template-columns:1fr minmax(260px,540px);gap:2rem;align-items:end;margin-bottom:2.1rem}
-.eyebrow{margin:0;color:#a07e6b;font-size:.74rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
-h2{margin:.5rem 0 0;font-family:var(--display);font-size:clamp(2.6rem,5vw,4.5rem);font-weight:500;line-height:.98;color:var(--sage-deep)}
-.section-head>p{margin:0;color:var(--muted);line-height:1.8;font-family:var(--reading)}
-.journeys{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
-.journey{min-height:270px;padding:1.25rem;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,255,255,.76),rgba(255,255,255,.52));box-shadow:var(--soft-shadow);display:flex;flex-direction:column;align-items:center;text-align:center}
-.journey-mark{width:58px;height:58px;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,var(--gold-soft) 50%,var(--eucalyptus) 100%);font-family:var(--display);font-size:1.2rem;color:var(--sage-deep)}
-.journey h3{margin:1rem 0 0;font-family:var(--display);font-size:1.6rem;font-weight:500;line-height:1.2;color:var(--sage-deep)}
-.journey p{margin:.7rem 0 0;color:var(--muted);font-size:.92rem;line-height:1.72}
-.journey button{margin-top:auto;border:0;border-radius:999px;background:#edf3ed;color:var(--sage-deep);padding:.78rem 1rem;font-weight:700}
-.controls{display:grid;grid-template-columns:minmax(260px,1fr) 240px auto auto;gap:.9rem;align-items:center;padding:1.1rem;border:1px solid rgba(82,107,95,.10);border-radius:24px;background:rgba(255,255,255,.78);box-shadow:var(--soft-shadow)}
-.field{min-height:50px;padding:.82rem 1rem;border:1px solid rgba(82,107,95,.16);border-radius:16px;background:#fff;color:var(--ink)}.field::placeholder{color:#98a39e}
-.pill{min-height:50px;padding:.82rem 1rem;border:1px solid rgba(82,107,95,.16);border-radius:999px;background:#fff;color:var(--sage-deep);font-weight:700}
-.pill[aria-pressed="true"]{background:#edf3ed}
-.result-note{margin:.9rem .25rem 0;color:var(--muted);font-size:.88rem}
-.practice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.25rem}
-.practice{min-height:325px;padding:1.2rem;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,255,255,.82),rgba(255,255,255,.58));box-shadow:var(--soft-shadow);display:flex;flex-direction:column;align-items:center;text-align:center}
-.card-top{width:100%;display:flex;align-items:center;justify-content:space-between;gap:.5rem}
-.practice-icon{width:50px;height:50px;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,var(--gold-soft) 48%, var(--eucalyptus) 100%);font-size:1.16rem;color:var(--sage-deep);box-shadow:0 10px 20px rgba(82,107,95,.08)}
-.favorite{width:40px;height:40px;border:1px solid rgba(82,107,95,.14);border-radius:50%;background:#fff;color:#8f6f6c;font-size:1rem}
+.breath-wrap{position:relative;z-index:2;height:100%;display:grid;align-items:end}
+.breath-card{
+  width:min(100%,440px);margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.85rem;
+  padding:.95rem 1rem;border:1px solid rgba(255,255,255,.85);border-radius:22px;
+  background:rgba(255,253,248,.88);backdrop-filter:blur(14px);box-shadow:var(--soft-shadow)
+}
+.breath-orb{
+  width:49px;height:49px;display:grid;place-items:center;border-radius:50%;color:#fff;
+  background:linear-gradient(145deg,var(--sage),#b7cbb9);box-shadow:0 0 0 8px rgba(120,145,132,.09);
+  transition:transform 3.8s ease,box-shadow 3.8s ease
+}
+.breath-card.inhale .breath-orb{transform:scale(1.24);box-shadow:0 0 0 16px rgba(120,145,132,.09)}
+.breath-card.exhale .breath-orb{transform:scale(.84)}
+.breath-copy strong,.breath-copy span{display:block}
+.breath-copy strong{font-family:var(--display);font-size:1.2rem;font-weight:500;color:var(--sage-deep)}
+.breath-copy span{color:var(--muted);font-size:.78rem}
+.breath-toggle{border:0;border-radius:999px;padding:.67rem .86rem;color:var(--sage-deep);background:#edf3ed;font-weight:800;font-size:.76rem}
+.mini-copy{position:absolute;inset:1.45rem 1.5rem auto;color:var(--muted);text-align:center;pointer-events:none}
+.mini-copy strong{display:block;color:var(--sage-deep);font-family:var(--display);font-size:1.68rem;font-weight:500;line-height:1.15}
+.mini-copy span{display:block;margin-top:.55rem;font-size:.88rem;line-height:1.7}
+.featured-note{
+  display:grid;grid-template-columns:auto 1fr auto;gap:.9rem;align-items:center;padding:1rem 1.1rem;
+  border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.76);box-shadow:var(--soft-shadow)
+}
+.featured-note .symbol{width:44px;height:44px;display:grid;place-items:center;border-radius:50%;background:var(--cloud);color:var(--sage-deep)}
+.featured-note strong,.featured-note span{display:block}
+.featured-note strong{font-family:var(--display);font-size:1.16rem;color:var(--sage-deep)}
+.featured-note span{color:var(--muted);font-size:.76rem}
+.featured-note a{color:var(--sage-deep);font-size:.76rem;font-weight:800}
+
+/* General sections */
+.section{padding:clamp(5rem,8vw,7.5rem) 0}
+.section+.section{border-top:1px solid rgba(73,102,90,.08)}
+.section.alt{background:rgba(255,255,255,.42)}
+.section-head{display:grid;grid-template-columns:1fr minmax(280px,560px);gap:2rem;align-items:end;margin-bottom:2.2rem}
+.eyebrow{margin:0;color:#9a7864;font-size:.72rem;font-weight:800;letter-spacing:.17em;text-transform:uppercase}
+h2{margin:.5rem 0 0;color:var(--sage-deep);font-size:clamp(2.65rem,5vw,4.6rem);line-height:.99;text-wrap:balance}
+.section-head>p{margin:0;color:var(--muted);font-family:var(--display);font-size:1.08rem;line-height:1.78}
+.audit-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;overflow:hidden;
+  border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--line);box-shadow:var(--soft-shadow)
+}
+.audit-item{padding:1.05rem;background:rgba(255,255,255,.82);text-align:center}
+.audit-item strong,.audit-item span{display:block}
+.audit-item strong{color:var(--sage-deep);font-family:var(--display);font-size:1.55rem;font-weight:500}
+.audit-item span{margin-top:.2rem;color:var(--muted);font-size:.71rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+
+/* Journey cards */
+.journeys{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.journey{
+  min-height:255px;display:flex;flex-direction:column;align-items:center;padding:1.25rem;text-align:center;
+  border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,255,255,.80),rgba(255,255,255,.56));box-shadow:var(--soft-shadow)
+}
+.journey-mark{width:59px;height:59px;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,var(--sand) 52%,var(--eucalyptus));color:var(--sage-deep);font-family:var(--display);font-size:1.22rem}
+.journey h3{margin:1rem 0 0;color:var(--sage-deep);font-size:1.62rem;line-height:1.15}
+.journey p{margin:.7rem 0 0;color:var(--muted);font-size:.9rem;line-height:1.7}
+.journey button{margin-top:auto;border:0;border-radius:999px;background:#edf3ed;color:var(--sage-deep);padding:.78rem 1rem;font-weight:800}
+
+/* Directory */
+.controls{
+  display:grid;grid-template-columns:minmax(260px,1fr) 230px auto auto;gap:.8rem;align-items:center;
+  padding:1.05rem;border:1px solid rgba(73,102,90,.10);border-radius:24px;background:rgba(255,255,255,.82);box-shadow:var(--soft-shadow)
+}
+.field{width:100%;min-height:50px;padding:.82rem 1rem;border:1px solid rgba(73,102,90,.17);border-radius:16px;background:#fff;color:var(--ink)}
+.field::placeholder{color:#96a09b}
+.field:focus{border-color:var(--sage);box-shadow:0 0 0 4px rgba(120,145,132,.12);outline:none}
+.pill{min-height:50px;padding:.82rem 1rem;border:1px solid rgba(73,102,90,.17);border-radius:999px;background:#fff;color:var(--sage-deep);font-weight:800}
+.pill[aria-pressed="true"]{background:#eaf1eb}
+.result-note{margin:.95rem .25rem 0;color:var(--muted);font-size:.86rem}
+.original-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.25rem}
+.original-card{
+  min-height:356px;display:flex;flex-direction:column;align-items:center;padding:1.2rem;text-align:center;
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,.58));box-shadow:var(--soft-shadow);
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease
+}
+.original-card:hover{transform:translateY(-4px);border-color:var(--line-strong);box-shadow:var(--shadow)}
+.card-top{width:100%;display:flex;justify-content:space-between;gap:.6rem;align-items:flex-start}
+.original-icon{width:52px;height:52px;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,var(--sand) 48%,var(--eucalyptus));color:var(--sage-deep);font-size:1.18rem;box-shadow:0 10px 20px rgba(73,102,90,.08)}
+.favorite{width:40px;height:40px;border:1px solid rgba(73,102,90,.14);border-radius:50%;background:#fff;color:#8f6f6c;font-size:1rem}
 .favorite[aria-pressed="true"]{background:#f5ebe7;color:#8d675a}
-.practice-cat{margin:1rem 0 0;color:#a07e6b;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
-.practice h3{margin:.55rem 0 0;font-family:var(--display);font-size:1.7rem;font-weight:500;line-height:1.15;color:var(--sage-deep)}
-.practice p{margin:.8rem 0 0;color:var(--muted);font-size:.92rem;line-height:1.72}
-.practice-actions{width:100%;display:grid;grid-template-columns:1fr auto;gap:.7rem;margin-top:auto;padding-top:1.1rem}
-.open-link,.copy-link{min-height:48px;display:inline-flex;align-items:center;justify-content:center;padding:.82rem 1rem;border-radius:999px;text-decoration:none;font-weight:700}
-.open-link{background:linear-gradient(135deg,var(--sage-deep),#89a392);color:#fff}
-.copy-link{border:1px solid rgba(82,107,95,.14);background:#fff;color:var(--sage-deep)}
-.empty{display:none;margin-top:1rem;padding:1.2rem;border:1px dashed var(--line);border-radius:20px;color:var(--muted);text-align:center}.empty.show{display:block}
-.site-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
-.site-card{min-height:245px;padding:1.2rem;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,255,255,.82),rgba(255,255,255,.58));box-shadow:var(--soft-shadow);display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none}
-.site-icon{width:50px;height:50px;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,var(--gold-soft) 52%,var(--eucalyptus) 100%);font-family:var(--display);font-size:1.15rem;color:var(--sage-deep)}
-.site-card h3{margin:1rem 0 0;font-family:var(--display);font-size:1.55rem;font-weight:500;line-height:1.15;color:var(--sage-deep)}
-.site-card p{margin:.72rem 0 0;color:var(--muted);font-size:.9rem;line-height:1.7}.site-card small{margin-top:auto;padding-top:1rem;color:#9aa49f;font-size:.72rem;letter-spacing:.08em}
-.menu-overlay{position:fixed;inset:0;z-index:200;display:none;background:rgba(47,58,53,.28);backdrop-filter:blur(8px)}.menu-overlay.open{display:block}
-.menu-panel{position:absolute;right:1rem;top:1rem;width:min(92vw,860px);max-height:calc(100vh - 2rem);overflow:auto;padding:1rem;border:1px solid rgba(82,107,95,.12);border-radius:32px;background:rgba(255,253,248,.94);box-shadow:var(--shadow)}
-.menu-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem}.menu-title{font-family:var(--display);font-size:2rem;color:var(--sage-deep)}
+.original-label{margin:1rem 0 0;color:#9a7864;font-size:.68rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}
+.original-card h3{margin:.5rem 0 0;color:var(--sage-deep);font-size:1.72rem;line-height:1.12}
+.original-subtitle{margin:.35rem 0 0;color:var(--gold-deep);font-size:.72rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+.original-card p{margin:.78rem 0 0;color:var(--muted);font-size:.9rem;line-height:1.72}
+.original-actions{width:100%;display:grid;grid-template-columns:1fr auto;gap:.65rem;margin-top:auto;padding-top:1.15rem}
+.open-link,.copy-link{
+  min-height:47px;display:inline-flex;align-items:center;justify-content:center;padding:.8rem .95rem;border-radius:999px;text-decoration:none;font-weight:800
+}
+.open-link{color:#fff;background:linear-gradient(135deg,var(--sage-deep),#86a08f)}
+.copy-link{border:1px solid rgba(73,102,90,.15);background:#fff;color:var(--sage-deep)}
+.empty{display:none;margin-top:1rem;padding:1.3rem;border:1px dashed var(--line);border-radius:20px;color:var(--muted);text-align:center}
+.empty.show{display:block}
+
+/* Outside resources */
+.resource-intro{
+  display:grid;grid-template-columns:1.1fr .9fr;gap:1.2rem;padding:1.35rem;margin-bottom:1.2rem;
+  border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(135deg,rgba(234,216,207,.38),rgba(210,223,212,.42))
+}
+.resource-intro strong{display:block;color:var(--sage-deep);font-family:var(--display);font-size:1.45rem;font-weight:500}
+.resource-intro p{margin:.45rem 0 0;color:var(--muted)}
+.resource-intro .safety{align-self:center;padding:1rem;border-left:3px solid var(--gold);background:rgba(255,255,255,.56);border-radius:12px;color:var(--muted);font-size:.84rem}
+.resource-intro .safety a{color:var(--sage-deep);font-weight:800}
+.resource-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.resource-card{
+  min-height:300px;display:flex;flex-direction:column;padding:1.15rem;border:1px solid var(--line);border-radius:var(--radius);
+  background:rgba(255,255,255,.72);box-shadow:var(--soft-shadow)
+}
+.resource-top{display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start}
+.resource-icon{width:48px;height:48px;display:grid;place-items:center;border-radius:50%;background:var(--cloud);color:var(--sage-deep);font-size:1.1rem}
+.external-badge{padding:.3rem .5rem;border:1px solid rgba(155,121,68,.25);border-radius:999px;color:var(--gold-deep);font-size:.62rem;font-weight:900;letter-spacing:.09em;text-transform:uppercase}
+.resource-category{margin:1rem 0 0;color:#9a7864;font-size:.68rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.resource-card h3{margin:.45rem 0 0;color:var(--sage-deep);font-size:1.5rem;line-height:1.15}
+.provider{margin:.35rem 0 0;color:var(--gold-deep);font-size:.7rem;font-weight:800}
+.resource-card p{margin:.75rem 0 0;color:var(--muted);font-size:.86rem;line-height:1.68}
+.resource-card a{margin-top:auto;padding-top:1rem;color:var(--sage-deep);font-weight:800;text-decoration:none}
+.resource-card a:hover{text-decoration:underline}
+
+/* Matrix */
+.network-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.network-card{
+  min-height:245px;display:flex;flex-direction:column;align-items:center;padding:1.2rem;text-align:center;text-decoration:none;
+  border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,255,255,.82),rgba(255,255,255,.57));box-shadow:var(--soft-shadow)
+}
+.network-card:hover{transform:translateY(-3px);border-color:var(--line-strong)}
+.network-icon{width:52px;height:52px;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,var(--sand) 52%,var(--eucalyptus));color:var(--sage-deep);font-family:var(--display);font-size:1.16rem}
+.network-card h3{margin:1rem 0 0;color:var(--sage-deep);font-size:1.55rem}
+.network-card p{margin:.65rem 0 0;color:var(--muted);font-size:.88rem}
+.network-card small{margin-top:auto;padding-top:1rem;color:var(--gold-deep);font-size:.7rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+
+/* Repairs and notes */
+.repair-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.repair-card{
+  min-height:220px;padding:1.2rem;border:1px dashed rgba(73,102,90,.25);border-radius:var(--radius);
+  background:rgba(255,255,255,.48);text-align:center
+}
+.repair-icon{width:50px;height:50px;display:grid;place-items:center;margin:auto;border-radius:50%;background:#f0ece2;color:var(--gold-deep)}
+.repair-card h3{margin:1rem 0 0;color:var(--sage-deep);font-size:1.45rem}
+.repair-status{display:inline-flex;margin-top:.7rem;padding:.3rem .55rem;border:1px solid rgba(155,121,68,.25);border-radius:999px;color:var(--gold-deep);font-size:.65rem;font-weight:900;text-transform:uppercase}
+.repair-card p{margin:.7rem 0 0;color:var(--muted);font-size:.86rem}
+.wellness-note{
+  padding:clamp(1.5rem,4vw,2.6rem);border:1px solid var(--line);border-radius:calc(var(--radius) + 4px);
+  background:linear-gradient(135deg,var(--sage-deep),#6f897b);color:#fff;box-shadow:var(--shadow)
+}
+.wellness-note h2{color:#fff;font-size:clamp(2.2rem,4.5vw,4rem)}
+.wellness-note p{max-width:900px;color:rgba(255,255,255,.83);font-family:var(--display);font-size:1.08rem}
+.wellness-note .note-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.2rem}
+.wellness-note .btn.secondary{color:#fff;background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.28)}
+
+/* Menu */
+.menu-overlay{position:fixed;inset:0;z-index:300;display:none;background:rgba(47,58,53,.30);backdrop-filter:blur(9px)}
+.menu-overlay.open{display:block}
+.menu-panel{
+  position:absolute;right:1rem;top:1rem;width:min(94vw,900px);max-height:calc(100vh - 2rem);overflow:auto;
+  padding:1rem;border:1px solid rgba(73,102,90,.13);border-radius:32px;background:rgba(255,253,248,.96);box-shadow:var(--shadow)
+}
+.menu-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem}
+.menu-title{font-family:var(--display);font-size:2rem;color:var(--sage-deep)}
 .menu-search{width:100%;min-height:50px;padding:.85rem 1rem;border:1px solid var(--line);border-radius:18px;background:#fff;color:var(--ink)}
-.menu-group{margin:1rem 0 .6rem;color:#a07e6b;font-size:.76rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
-.menu-list{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem}
-.menu-link{display:grid;grid-template-columns:auto 1fr auto;gap:.8rem;align-items:center;padding:.85rem .95rem;border:1px solid var(--line);border-radius:18px;background:#fff;text-decoration:none}
-.menu-link i{width:38px;height:38px;display:grid;place-items:center;border-radius:50%;background:#f1f5f1;color:var(--sage-deep);font-style:normal}.menu-link strong{display:block;color:var(--sage-deep);font-size:.96rem}.menu-link small{display:block;margin-top:.25rem;color:var(--muted)}
-.matrix-note{max-width:900px;margin:1.35rem auto 0;padding:1rem 1.1rem;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.72);color:var(--muted);font-size:.82rem;line-height:1.7;text-align:center}.matrix-note strong{color:var(--sage-deep)}.matrix-note span{color:var(--sage-deep);font-weight:700}.site-card,.menu-link{overflow-wrap:anywhere;word-break:normal}.site-card small{font-weight:700;letter-spacing:.04em;text-transform:none}.site-card h3,.site-card p,.site-card small,.menu-link strong,.menu-link small{max-width:100%}
-.footer{padding:2.5rem 0;border-top:1px solid rgba(82,107,95,.08);text-align:center;color:var(--muted)}
-.footer strong{display:block;font-family:var(--display);font-size:1.4rem;font-weight:500;color:var(--sage-deep)}
-.toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,140%);z-index:250;max-width:calc(100vw - 2rem);padding:.82rem 1rem;border-radius:999px;background:var(--sage-deep);color:#fff;box-shadow:var(--shadow);transition:.22s}.toast.show{transform:translate(-50%,0)}
-@media(max-width:1120px){.journeys{grid-template-columns:repeat(2,1fr)}.practice-grid{grid-template-columns:repeat(2,1fr)}.site-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:940px){.hero-grid,.section-head{grid-template-columns:1fr}.hero{min-height:auto}.hero-panel{order:2}.controls{grid-template-columns:1fr 1fr}.site-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:780px){.nav-links{display:none}.menu-list{grid-template-columns:1fr}.menu-panel{right:.5rem;left:.5rem;width:auto}}
-@media(max-width:640px){.controls,.journeys,.practice-grid,.site-grid{grid-template-columns:1fr}.hero-actions .btn{width:100%}.practice-actions{grid-template-columns:1fr}.brand-copy small{display:none}.nav{min-height:72px}h1{font-size:clamp(3.2rem,15vw,5.4rem)}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+.menu-group{margin:1rem 0 .6rem;color:#9a7864;font-size:.72rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+.menu-list{display:grid;grid-template-columns:repeat(2,1fr);gap:.65rem}
+.menu-link{
+  display:grid;grid-template-columns:auto 1fr auto;gap:.75rem;align-items:center;padding:.82rem .9rem;
+  border:1px solid var(--line);border-radius:18px;background:#fff;text-decoration:none
+}
+.menu-link i{width:38px;height:38px;display:grid;place-items:center;border-radius:50%;background:#f0f4f0;color:var(--sage-deep);font-style:normal}
+.menu-link strong{display:block;color:var(--sage-deep);font-size:.94rem}
+.menu-link small{display:block;margin-top:.22rem;color:var(--muted);font-size:.72rem}
+.menu-link .arrow{color:var(--gold-deep)}
+.menu-empty{color:var(--muted);font-size:.82rem}
+
+/* Footer */
+.footer{padding:2.8rem 0;border-top:1px solid rgba(73,102,90,.08);text-align:center;color:var(--muted)}
+.footer strong{display:block;color:var(--sage-deep);font-family:var(--display);font-size:1.45rem;font-weight:500}
+.footer p{max-width:900px;margin:.55rem auto 0;font-size:.78rem;line-height:1.7}
+.footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem;margin-top:1rem}
+.footer-links a{color:var(--sage-deep);font-size:.78rem;font-weight:800;text-decoration:none}
+.toast{
+  position:fixed;left:50%;bottom:0;z-index:500;max-width:calc(100vw - 2rem);
+  transform:translate(-50%,calc(100% + 28px));opacity:0;pointer-events:none;
+  padding:.82rem 1rem;border-radius:999px;background:var(--sage-deep);color:#fff;box-shadow:var(--shadow);
+  transition:transform .22s ease,opacity .22s ease
+}
+.toast.show{transform:translate(-50%,-18px);opacity:1}
+
+@media(max-width:1120px){
+  .original-grid{grid-template-columns:repeat(2,1fr)}
+  .resource-grid{grid-template-columns:repeat(2,1fr)}
+  .journeys{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:960px){
+  .hero-grid,.section-head,.resource-intro{grid-template-columns:1fr}
+  .hero{min-height:auto}
+  .controls{grid-template-columns:1fr 1fr}
+  .controls label:first-child{grid-column:1/-1}
+  .network-grid{grid-template-columns:repeat(2,1fr)}
+  .audit-strip{grid-template-columns:repeat(2,1fr)}
+  .resource-intro .safety{border-left:0;border-top:3px solid var(--gold)}
+}
+@media(max-width:780px){
+  .nav-links{display:none}
+  .menu-list{grid-template-columns:1fr}
+  .menu-panel{right:.5rem;left:.5rem;width:auto}
+}
+@media(max-width:650px){
+  .controls,.journeys,.original-grid,.resource-grid,.network-grid,.repair-grid{grid-template-columns:1fr}
+  .controls label:first-child{grid-column:auto}
+  .hero-actions .btn{width:100%}
+  .original-actions{grid-template-columns:1fr}
+  .brand-copy small{display:none}
+  .nav{min-height:72px}
+  h1{font-size:clamp(3.35rem,15vw,5.5rem)}
+  .breath-card{grid-template-columns:auto 1fr}
+  .breath-toggle{grid-column:1/-1;width:100%}
+  .featured-note{grid-template-columns:auto 1fr}
+  .featured-note a{grid-column:1/-1;text-align:center}
+  .audit-strip{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*:before,*:after{animation:none!important;transition:none!important}
+}
+@media print{
+  .site-header,.hero-actions,.controls,.favorite,.copy-link,.menu-overlay,.toast,.resource-card a,.footer{display:none!important}
+  body{background:#fff;color:#111}
+  .section{padding:1.5rem 0}
+  .original-card,.resource-card,.network-card,.repair-card,.wellness-note{break-inside:avoid;box-shadow:none;background:#fff;color:#111}
+}
 </style>
 </head>
 <body>
-<a class="skip" href="#practices">Skip to the Aurora practice directory</a>
+<a class="skip" href="#originals">Skip to Aurora Originals</a>
+
 <header class="site-header">
   <div class="wrap nav">
-    <a class="brand" href="#top">
+    <a class="brand" href="#top" aria-label="Aurora Inspiration home">
       <span class="brand-mark" aria-hidden="true">☼</span>
-      <span class="brand-copy"><strong>Aurora</strong><small>Rest · Breathe · Create</small></span>
+      <span class="brand-copy"><strong>Aurora</strong><small>Restore · Grow · Create</small></span>
     </a>
     <nav class="nav-links" aria-label="Primary navigation">
       <a href="#journeys">Journeys</a>
-      <a href="#practices">Practices</a>
-      <a href="#sites">Connected Sites</a>
-      <a href="#about">About</a>
+      <a href="#originals">Aurora Originals</a>
+      <a href="#resources">Public Resources</a>
+      <a href="#matrix">Matrix</a>
     </nav>
-    <button class="icon-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menuOverlay" aria-label="Open directory"><span class="menu-lines"></span></button>
+    <button class="icon-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menuOverlay" aria-label="Open Aurora directory">
+      <span class="menu-lines"></span>
+    </button>
   </div>
 </header>
 
@@ -155,90 +401,142 @@ h2{margin:.5rem 0 0;font-family:var(--display);font-size:clamp(2.6rem,5vw,4.5rem
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <p class="kicker">A breath of fresh air</p>
-        <h1>Aurora<span>Yoga studio calm · wellness · reflection</span></h1>
-        <p class="lead">A lighter sanctuary for breath work, mental spaciousness, gentle movement, evening quiet, creative restoration, and inward renewal. This refreshed Aurora page replaces the previous image with a more elegant, open, and restful atmosphere.</p>
+        <p class="kicker">A restorative Verve N Veda sanctuary</p>
+        <h1>Aurora<span>Health · rejuvenation · personal growth</span></h1>
+        <p class="lead">A quiet, all-encompassing wellness space led by original Verve N Veda apps for breathing, rest, creativity, reflection, sound, daily rhythm, and personal renewal—supported by a separate library of trusted public-health resources.</p>
         <div class="hero-actions">
-          <a class="btn primary" href="#practices">Browse Practices</a>
-          <a class="btn secondary" href="#journeys">Choose a Journey</a>
+          <a class="btn primary" href="#originals">Explore Aurora Originals</a>
+          <a class="btn secondary" href="#journeys">Choose a Wellness Journey</a>
           <button class="btn secondary" id="randomHero" type="button">Open a Gentle Surprise</button>
         </div>
         <div class="hero-notes">
-          <span>34 restorative spaces</span>
-          <span>5 breath-centered practices</span>
-          <span>local favorites only</span>
-          <span>quiet, self-paced wellness</span>
+          <span><strong id="heroLiveCount">32</strong>&nbsp;verified original rooms</span>
+          <span>outside resources clearly labeled</span>
+          <span>favorites remain on this device</span>
+          <span>no accounts or trackers</span>
         </div>
       </div>
+
       <div class="hero-panel">
-        <div class="breath-sanctum" aria-hidden="true">
-          <div class="ring-field">
-            <div class="ring one"></div>
-            <div class="ring two"></div>
-            <div class="ring three"></div>
+        <div class="breath-sanctum">
+          <div class="ring-field" aria-hidden="true">
+            <div class="ring one"></div><div class="ring two"></div><div class="ring three"></div>
             <div class="center-orb"></div>
-            <div class="air-line"><svg viewBox="0 0 500 120" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 74C60 62 96 30 145 30C206 30 214 86 277 86C344 86 365 40 433 40C460 40 478 48 490 54" stroke="#A8BDA8" stroke-width="3" stroke-linecap="round" opacity=".8"/><path d="M20 94C74 94 103 66 162 66C229 66 244 108 309 108C370 108 405 73 480 73" stroke="#CBB88E" stroke-width="2.4" stroke-linecap="round" opacity=".7"/></svg></div>
+            <div class="air-line">
+              <svg viewBox="0 0 500 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M10 74C60 62 96 30 145 30C206 30 214 86 277 86C344 86 365 40 433 40C460 40 478 48 490 54" stroke="#A8BDA8" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+                <path d="M20 94C74 94 103 66 162 66C229 66 244 108 309 108C370 108 405 73 480 73" stroke="#CBB88E" stroke-width="2.4" stroke-linecap="round" opacity=".7"/>
+              </svg>
+            </div>
           </div>
-          <div style="position:relative;z-index:2;height:100%;display:grid;align-items:end;">
+          <div class="breath-wrap">
             <div class="breath-card" id="breathCard">
-              <div class="breath-orb">◌</div>
+              <div class="breath-orb" aria-hidden="true">◌</div>
               <div class="breath-copy"><strong id="breathStage">Take one unhurried breath</strong><span id="breathNote">Inhale gently. Let your shoulders soften.</span></div>
               <button class="breath-toggle" id="breathToggle" type="button">Begin</button>
             </div>
           </div>
-          <div class="mini-copy"><strong>Open space · soft focus · deeper exhale</strong><span>Fresh air, subtle circles, and spacious light replace the previous illustration while keeping Aurora centered on health, relaxation, and inward calm.</span></div>
+          <div class="mini-copy"><strong>Open space · soft focus · deeper exhale</strong><span>A small breathing pause is built into the doorway. It is optional, self-paced, and easy to stop.</span></div>
         </div>
-        <div class="soft-quote"><p>“Restore slowly.<br> Let the nervous system remember peace.”</p><small>Aurora Inspiration</small></div>
+        <div class="featured-note" id="featuredNote">
+          <span class="symbol" id="featuredIcon" aria-hidden="true">☼</span>
+          <span><strong id="featuredTitle">Today at Aurora</strong><span id="featuredSubtitle">A verified original room is selected each day.</span></span>
+          <a id="featuredLink" href="#originals" data-original>Open today’s room</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="journeys">
+  <section class="section" aria-labelledby="auditTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="eyebrow">Repository audit</p><h2 id="auditTitle">A reliable front door</h2></div>
+        <p>The public page now distinguishes verified Aurora apps, rooms still being prepared, official outside resources, and other Verve N Veda sites. Each type has its own navigation rules.</p>
+      </div>
+      <div class="audit-strip">
+        <div class="audit-item"><strong id="auditLiveCount">32</strong><span>Verified originals</span></div>
+        <div class="audit-item"><strong id="auditRepairCount">2</strong><span>Rooms in preparation</span></div>
+        <div class="audit-item"><strong id="auditResourceCount">8</strong><span>Official resources</span></div>
+        <div class="audit-item"><strong>0</strong><span>Direct repository links</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="journeys">
     <div class="wrap">
       <div class="section-head">
         <div><p class="eyebrow">Curated pathways</p><h2>Choose your wellness journey</h2></div>
-        <p>Move gently into the practice family that fits this moment—breath, rhythm, rest, creativity, reflection, sound, or community. Each pathway filters the live Aurora directory below.</p>
+        <p>Begin with the kind of support that fits this moment. Every journey filters only the original Aurora app collection below.</p>
       </div>
-      <div class="journeys">
-        <article class="journey"><div class="journey-mark">B</div><h3>Breath & Grounding</h3><p>Quiet entries for breath work, stillness, and gentle return to the body.</p><button type="button" data-journey="breath">Open this journey</button></article><article class="journey"><div class="journey-mark">R</div><h3>Morning & Rhythm</h3><p>Light-filled beginnings, soft daily structure, and steady flow.</p><button type="button" data-journey="rhythm">Open this journey</button></article><article class="journey"><div class="journey-mark">R</div><h3>Evening & Rest</h3><p>Night-friendly reflections, sleep rituals, release, and unwinding.</p><button type="button" data-journey="rest">Open this journey</button></article><article class="journey"><div class="journey-mark">C</div><h3>Creative Inspiration</h3><p>Gentle prompts, artistic renewal, and imaginative restoration.</p><button type="button" data-journey="creative">Open this journey</button></article><article class="journey"><div class="journey-mark">R</div><h3>Reflection & Journaling</h3><p>Writing, contemplation, and meaningful inner conversation.</p><button type="button" data-journey="reflection">Open this journey</button></article><article class="journey"><div class="journey-mark">S</div><h3>Sound & Atmosphere</h3><p>Ambient tone, sonic calm, and sensory support.</p><button type="button" data-journey="sound">Open this journey</button></article><article class="journey"><div class="journey-mark">C</div><h3>Community</h3><p>Kindness, shared care, and wellness-connected public spaces.</p><button type="button" data-journey="community">Open this journey</button></article>
-      </div>
+      <div class="journeys" id="journeyGrid"></div>
     </div>
   </section>
 
-  <section class="section" id="practices">
+  <section class="section" id="originals">
     <div class="wrap">
       <div class="section-head">
-        <div><p class="eyebrow">Aurora directory</p><h2>Restorative practices & quiet rooms</h2></div>
-        <p>Search by title, category, file, or focus. Save favorites locally in this browser only, and open a random restorative practice whenever you want a soft starting point.</p>
+        <div><p class="eyebrow">The heart of Aurora</p><h2>Original Verve N Veda wellness rooms</h2></div>
+        <p>These are your unique Aurora applications. Search by need, save favorites locally, or choose a random room without mixing in any outside website.</p>
       </div>
+
       <div class="controls">
-        <input class="field" id="search" type="search" placeholder="Search breath, reflection, sleep, journal, sound…" aria-label="Search Aurora practices">
-        <select class="field" id="category" aria-label="Filter by practice category"></select>
+        <label><span class="sr-only">Search Aurora Originals</span><input class="field" id="search" type="search" placeholder="Search breath, sleep, journal, music, creativity, growth…" autocomplete="off"></label>
+        <label><span class="sr-only">Filter Aurora Originals by journey</span><select class="field" id="category"></select></label>
         <button class="pill" id="favoritesBtn" type="button" aria-pressed="false">Favorites · <span id="favCount">0</span></button>
-        <button class="pill" id="randomBtn" type="button">Open a Random Practice</button>
+        <button class="pill" id="randomBtn" type="button">Open a Random Original</button>
       </div>
-      <div class="result-note" id="resultNote" aria-live="polite"></div>
-      <div class="practice-grid" id="practiceGrid"></div>
-      <div class="empty" id="empty">No Aurora practices match the current search.</div>
+      <p class="result-note" id="resultNote" aria-live="polite"></p>
+      <div class="original-grid" id="originalGrid"></div>
+      <div class="empty" id="empty">No original Aurora room matches the current search and filters.</div>
     </div>
   </section>
 
-  <section class="section" id="sites">
+  <section class="section alt" id="resources">
     <div class="wrap">
       <div class="section-head">
-        <div><p class="eyebrow">Verve N Veda Matrix</p><h2>Continue through the public Matrix</h2></div>
-        <p>These cards describe the wider Verve N Veda world, and every doorway returns through the central public Matrix. Technical source paths stay outside the visitor experience.</p>
+        <div><p class="eyebrow">Clearly separated outside links</p><h2>Trusted public wellness resources</h2></div>
+        <p>These buttons lead outside Verve N Veda to official health agencies and public-information services. They are never mixed into Aurora favorites, random selection, or original-app results.</p>
       </div>
-      <div class="site-grid" id="siteGrid"></div>
-      <div class="matrix-note"><strong>Matrix navigation:</strong> Connected cards return to the public Verve N Veda home at <span>vervenveda.com</span>. Aurora keeps technical source locations outside the public navigation.</div>
+
+      <div class="resource-intro">
+        <div><strong>Aurora remains the main experience.</strong><p>The public library provides evidence, safety guidance, and broader health information when a visitor wants to learn more beyond the self-guided Aurora rooms.</p></div>
+        <div class="safety">Aurora offers educational and reflective tools, not diagnosis or treatment. Complementary practices should not replace needed professional care. Review <a href="https://www.nccih.nih.gov/health/safety" target="_blank" rel="noopener noreferrer" data-external>NCCIH safety guidance ↗</a>.</div>
+      </div>
+      <div class="resource-grid" id="resourceGrid"></div>
+    </div>
+  </section>
+
+  <section class="section" id="matrix">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="eyebrow">Verified public gateways</p><h2>Continue through Verve N Veda</h2></div>
+        <p>These links open public Verve N Veda landing pages—not source repositories. Aurora’s closest companions support medical information, learning, music, weather, and nature.</p>
+      </div>
+      <div class="network-grid" id="networkGrid"></div>
+    </div>
+  </section>
+
+  <section class="section alt" id="repairs">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="eyebrow">Future growth</p><h2>Rooms being prepared</h2></div>
+        <p>These concepts remain part of Aurora’s plan, but their present files are not complete standalone pages. They are shown without public launch buttons until repaired.</p>
+      </div>
+      <div class="repair-grid" id="repairGrid"></div>
     </div>
   </section>
 
   <section class="section" id="about">
     <div class="wrap">
-      <div class="section-head">
-        <div><p class="eyebrow">Aurora notes</p><h2>Designed for health, relaxation & gentle reset</h2></div>
-        <p>This updated Aurora landing page shifts away from the earlier image-led studio scene and toward a cleaner, airier wellness identity—more yoga studio, more breath, more graceful typography, and more visual rest.</p>
+      <div class="wellness-note">
+        <p class="eyebrow" style="color:#eadfc9">Aurora’s purpose</p>
+        <h2>A humane place to restore, learn, and grow</h2>
+        <p>Aurora is designed for small, voluntary practices: breathe for a moment, write a page, listen closely, notice progress, begin gently, or prepare for rest. It supports personal well-being while staying honest about the boundary between a self-guided wellness tool and professional health care.</p>
+        <div class="note-actions">
+          <a class="btn secondary" href="#originals">Return to Aurora Originals</a>
+          <a class="btn secondary" href="https://vervenveda.github.io/medicament-hub.github.io/" data-network>Visit Medicament Hub</a>
+          <a class="btn secondary" href="https://vervenveda.github.io/" data-network>Return to the Matrix</a>
+        </div>
       </div>
     </div>
   </section>
@@ -248,60 +546,368 @@ h2{margin:.5rem 0 0;font-family:var(--display);font-size:clamp(2.6rem,5vw,4.5rem
   <div class="menu-panel" role="dialog" aria-modal="true" aria-labelledby="menuTitle">
     <div class="menu-head">
       <div class="menu-title" id="menuTitle">Aurora Directory</div>
-      <button class="icon-btn" id="closeMenu" type="button" aria-label="Close directory">✕</button>
+      <button class="icon-btn" id="closeMenu" type="button" aria-label="Close Aurora directory">✕</button>
     </div>
-    <input class="menu-search" id="menuSearch" type="search" placeholder="Search Aurora practices and Matrix portals…" aria-label="Search Aurora practices and Matrix portals">
+    <input class="menu-search" id="menuSearch" type="search" placeholder="Search originals, public resources, and Matrix gateways…" aria-label="Search the Aurora directory" autocomplete="off">
     <div id="menuContent"></div>
   </div>
 </div>
 
 <footer class="footer">
-  <div class="wrap"><strong>Aurora Inspiration</strong><div>Elegant wellness studio · Matrix-protected navigation · local favorites only · © <span id="year"></span></div></div>
+  <div class="wrap">
+    <strong>Aurora Inspiration</strong>
+    <p>Original Verve N Veda wellness tools · clearly labeled public resources · local favorites only · no direct GitHub repository links. Aurora is educational and self-guided; it is not a substitute for medical or mental-health care.</p>
+    <div class="footer-links">
+      <a href="#originals">Aurora Originals</a>
+      <a href="#resources">Public Resources</a>
+      <a href="#matrix">Verve N Veda Matrix</a>
+      <a href="#top">Return to top</a>
+    </div>
+    <p>© <span id="year"></span> Verve N Veda</p>
+  </div>
 </footer>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-const APPS=[{"id": "auraink", "title": "AuraInk", "file": "AuraInk_index.html", "category": "creative", "icon": "✒", "desc": "A quiet writing room for intuitive words, fragments, and creative release.", "tags": "writing ink intuition creativity"}, {"id": "auraen-tune", "title": "Auraen Tune", "file": "AuraenTune_index.html", "category": "sound", "icon": "♫", "desc": "Tune attention through sound, resonance, and restorative listening.", "tags": "sound music tuning resonance"}, {"id": "aurora-inspiration", "title": "Aurora Inspiration", "file": "Aurora_Inspiration_index.html", "category": "creative", "icon": "☼", "desc": "The central inspiration studio for renewing imagination and creative direction.", "tags": "inspiration creativity renewal ideas"}, {"id": "breath-evening", "title": "Evening Breath", "file": "Breath_evening_index.html", "category": "breath", "icon": "☾", "desc": "A slower evening breath practice for softening the body before rest.", "tags": "evening breathing rest sleep"}, {"id": "breath-reset", "title": "Breath Reset", "file": "breath_reset_index.html", "category": "breath", "icon": "◌", "desc": "A brief breathing reset for moments of tension, overload, or transition.", "tags": "breath reset stress calm"}, {"id": "breathe-ground", "title": "Breathe & Ground", "file": "breathe_ground_index.html", "category": "breath", "icon": "⌄", "desc": "Return attention to breath, body, and the steadiness of the present moment.", "tags": "grounding breath body present"}, {"id": "color-alchemy", "title": "Color Alchemy", "file": "color_alchemy_index.html", "category": "creative", "icon": "◐", "desc": "Explore color as a language for mood, intuition, and creative renewal.", "tags": "color art mood creativity"}, {"id": "contribute", "title": "Contribute", "file": "contribute_index.html", "category": "community", "icon": "♡", "desc": "Support the Aurora space, share ideas, and help restorative tools continue growing.", "tags": "contribute community support share"}, {"id": "creative-mind-odyssey", "title": "Creative Mind Odyssey", "file": "creative_mind_odyssey_index.html", "category": "creative", "icon": "✦", "desc": "A guided imaginative journey through prompts, possibilities, and playful discovery.", "tags": "creative mind odyssey prompts imagination"}, {"id": "creative-wheel", "title": "Creative Wheel", "file": "creative_wheel_index.html", "category": "creative", "icon": "✺", "desc": "Turn the wheel when you need a new direction, medium, subject, or creative spark.", "tags": "wheel prompt ideas creativity"}, {"id": "daily-journal", "title": "Daily Journal", "file": "daily_journal_index.html", "category": "reflection", "icon": "▤", "desc": "A private daily space for thoughts, observations, gratitude, and gentle self-inquiry.", "tags": "journal reflection gratitude daily"}, {"id": "daily-rhythm", "title": "Daily Rhythm", "file": "daily_rhythm_index.html", "category": "rhythm", "icon": "≋", "desc": "Shape a humane rhythm for work, rest, nourishment, movement, and creativity.", "tags": "daily rhythm routine balance"}, {"id": "daily-spark", "title": "Daily Spark", "file": "daily_spark_index.html", "category": "rhythm", "icon": "✧", "desc": "Receive one small invitation to begin the day with curiosity and motion.", "tags": "daily spark inspiration prompt"}, {"id": "daily-writing-spark", "title": "Daily Writing Spark", "file": "daily_writing_spark_index.html", "category": "creative", "icon": "❦", "desc": "A fresh writing invitation for opening the page without pressure.", "tags": "writing prompt daily spark"}, {"id": "dream-script", "title": "Dream Script", "file": "dream_script_index.html", "category": "rest", "icon": "☁", "desc": "Capture dreams, night imagery, symbols, and stories before they fade.", "tags": "dream sleep journal symbols"}, {"id": "evening-ember", "title": "Evening Ember", "file": "evening_ember_index.html", "category": "rest", "icon": "◍", "desc": "A warm end-of-day ritual for setting down what can wait until tomorrow.", "tags": "evening ritual release rest"}, {"id": "evening-prayer", "title": "Evening Prayer", "file": "evening_prayer_index.html", "category": "rest", "icon": "🕯", "desc": "A quiet place for prayer, gratitude, reflection, and peaceful closure.", "tags": "prayer evening gratitude faith"}, {"id": "first-hour", "title": "The First Hour", "file": "first_hour_index.html", "category": "rhythm", "icon": "☀", "desc": "Begin the morning slowly with intention before the world becomes loud.", "tags": "morning first hour routine"}, {"id": "grounding-suite", "title": "Grounding Suite", "file": "grounding_suite_index.html", "category": "breath", "icon": "◉", "desc": "A collection of sensory and body-based practices for returning to the present.", "tags": "grounding senses body calm"}, {"id": "inspiration-mosaic", "title": "Inspiration Mosaic", "file": "insiration_mosaic_index.html", "category": "creative", "icon": "◇", "desc": "Gather fragments of color, language, image, and thought into a living inspiration board.", "tags": "inspiration mosaic collage ideas"}, {"id": "letter-to-me", "title": "Letter to Me", "file": "letter_to_me_index.html", "category": "reflection", "icon": "✉", "desc": "Write with compassion to your present, past, or future self.", "tags": "letter self reflection compassion"}, {"id": "loom-of-dawn", "title": "Loom of Dawn", "file": "loom_of_dawn_index.html", "category": "rhythm", "icon": "⌁", "desc": "Weave intention, gratitude, and possibility into the beginning of the day.", "tags": "dawn morning intention ritual"}, {"id": "morning-muse", "title": "Morning Muse", "file": "morning_muse_index.html", "category": "creative", "icon": "❀", "desc": "A gentle morning prompt room for artists, writers, thinkers, and makers.", "tags": "morning muse prompt art writing"}, {"id": "morning-reflection", "title": "Morning Reflection", "file": "morning_reflection_index.html", "category": "reflection", "icon": "☼", "desc": "Pause at the threshold of the day to notice what matters most.", "tags": "morning reflection intention"}, {"id": "morning-sanctum", "title": "Morning Sanctum", "file": "morning_sanctum_index.html", "category": "rhythm", "icon": "⌂", "desc": "A protected morning space for breath, stillness, intention, and preparation.", "tags": "morning sanctuary stillness routine"}, {"id": "niche-venn", "title": "Niche Venn", "file": "niche_venn_index.html", "category": "creative", "icon": "◑", "desc": "Discover creative intersections among your interests, strengths, values, and audience.", "tags": "niche venn ideas purpose creative"}, {"id": "one-a-day", "title": "One a Day", "file": "one_a_day_index.html", "category": "rhythm", "icon": "1", "desc": "Choose one meaningful action and give it enough space to become complete.", "tags": "one task daily focus"}, {"id": "song-embedder", "title": "Song Embedder", "file": "song_embedder_index.html", "category": "sound", "icon": "♪", "desc": "Create a personal listening space around songs that inspire, steady, or restore you.", "tags": "song music embed listening"}, {"id": "soulbook", "title": "Soulbook", "file": "soulbook_index.html", "category": "reflection", "icon": "❧", "desc": "A deeper personal book for values, memories, prayers, insights, and becoming.", "tags": "soul book journal memory"}, {"id": "spire-breathing", "title": "Spire Mindful Breathing", "file": "spire_mindful_breathing_index.html", "category": "breath", "icon": "△", "desc": "A visual mindful-breathing practice shaped around ascent, pause, and release.", "tags": "spire mindful breathing meditation"}, {"id": "starlight-jar", "title": "Starlight Jar", "file": "starlight_jar_index.html", "category": "rest", "icon": "✷", "desc": "Collect small lights from the day: kindness, beauty, courage, and moments worth keeping.", "tags": "starlight gratitude jar evening"}, {"id": "story-spark", "title": "Story Spark", "file": "story_spark_index.html", "category": "creative", "icon": "⌇", "desc": "Open a doorway into character, scene, conflict, wonder, and narrative possibility.", "tags": "story writing prompt fiction"}, {"id": "tiny-triumphs", "title": "Tiny Triumphs", "file": "tiny_triumphs_index.html", "category": "reflection", "icon": "✓", "desc": "Notice the quiet victories that are easy to miss but meaningful to remember.", "tags": "tiny triumphs progress gratitude"}, {"id": "vintage-spinnet", "title": "Vintage Spinnet", "file": "vintage_spinnet_index.html", "category": "sound", "icon": "♬", "desc": "A nostalgic musical corner for playful sound, memory, and creative atmosphere.", "tags": "vintage spinnet music sound"}];
-const MATRIX_HOME="https://www.vervenveda.com/";
-const SITES=[{"title": "Aurora Inspiration", "icon": "☼", "desc": "Rest, breath, rhythm, reflection, and creative renewal.", "matrix": "Verve N Veda Matrix"}, {"title": "Administration", "icon": "⌘", "desc": "Administrative workspaces, planning tools, and operational resources.", "matrix": "Verve N Veda Matrix"}, {"title": "ARSHIF Archives", "icon": "A", "desc": "The living archive of research, history, culture, medicine, and memory.", "matrix": "Verve N Veda Matrix"}, {"title": "Bazaar Art", "icon": "✦", "desc": "Art, artists, galleries, creative enterprise, and community culture.", "matrix": "Verve N Veda Matrix"}, {"title": "ProResource Hub", "icon": "⌬", "desc": "Professional tools for writing, code, media, productivity, and design.", "matrix": "Verve N Veda Matrix"}, {"title": "Verve N Veda", "icon": "V", "desc": "The public front door to the Verve N Veda ecosystem.", "matrix": "Verve N Veda Matrix"}, {"title": "Firmament Law", "icon": "§", "desc": "Legal-information tools and public-resource reference halls.", "matrix": "Verve N Veda Matrix"}, {"title": "Arcade", "icon": "◆", "desc": "Games, puzzles, strategy, trivia, creativity, and playful learning.", "matrix": "Verve N Veda Matrix"}, {"title": "Khaemenes Preschool", "icon": "◒", "desc": "Early-learning activities, stories, games, and foundational discovery.", "matrix": "Verve N Veda Matrix"}, {"title": "One Nation for All", "icon": "☆", "desc": "Civic engagement, public policy, unity, and community-centered ideas.", "matrix": "Verve N Veda Matrix"}, {"title": "Solanar", "icon": "☀", "desc": "Weather, Earth science, lunar cycles, and environmental observation.", "matrix": "Verve N Veda Matrix"}, {"title": "My Art Gallery", "icon": "▧", "desc": "A personal gallery space for preserving and presenting artwork.", "matrix": "Verve N Veda Matrix"}, {"title": "Khaemenes Academy", "icon": "⌂", "desc": "Sovereign education, curriculum, student portals, and lifelong learning.", "matrix": "Verve N Veda Matrix"}, {"title": "The Verifier", "icon": "⌕", "desc": "News discovery, source comparison, information literacy, and verification.", "matrix": "Verve N Veda Matrix"}, {"title": "River to Road", "icon": "≈", "desc": "Environmental stewardship, cleanup, restoration, and community action.", "matrix": "Verve N Veda Matrix"}, {"title": "PLERA Search", "icon": "◎", "desc": "A broad gateway into trusted research, learning, and public resources.", "matrix": "Verve N Veda Matrix"}];
-const CATEGORIES={"all": ["All Practices", "All"], "breath": ["Breath & Grounding", "Breath"], "rhythm": ["Morning & Rhythm", "Rhythm"], "rest": ["Evening & Rest", "Rest"], "creative": ["Creative Inspiration", "Create"], "reflection": ["Reflection & Journaling", "Reflect"], "sound": ["Sound & Atmosphere", "Sound"], "community": ["Community", "Community"]};
-const FAVORITES_KEY="aurora-inspiration-favorites-v2";
-let favorites=new Set(JSON.parse(localStorage.getItem(FAVORITES_KEY)||"[]")),favoritesOnly=false;
-const $=id=>document.getElementById(id),appUrl=a=>"./"+encodeURI(a.file),labelFor=k=>CATEGORIES[k]?.[0]||k;
-function toast(m){$('toast').textContent=m;$('toast').classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>$('toast').classList.remove('show'),1800)}
-function buildCategory(){$('category').innerHTML=Object.entries(CATEGORIES).map(([v,[l]])=>`<option value="${v}">${l}</option>`).join('')}
-function renderPractices(){$('practiceGrid').innerHTML=APPS.map(a=>`<article class="practice" data-id="${a.id}" data-category="${a.category}" data-search="${(a.title+' '+a.desc+' '+a.tags+' '+a.file+' '+labelFor(a.category)).toLowerCase()}"><div class="card-top"><span class="practice-icon" aria-hidden="true">${a.icon}</span><button class="favorite" type="button" data-favorite="${a.id}" aria-label="Save ${a.title} to favorites" aria-pressed="${favorites.has(a.id)}">${favorites.has(a.id)?'♥':'♡'}</button></div><p class="practice-cat">${labelFor(a.category)}</p><h3>${a.title}</h3><p>${a.desc}</p><div class="practice-actions"><a class="open-link" href="${appUrl(a)}">Open Practice</a><button class="copy-link" type="button" data-copy="${a.id}">Copy Link</button></div></article>`).join('');wireCards()}
-function wireCards(){document.querySelectorAll('[data-favorite]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.favorite;favorites.has(id)?favorites.delete(id):favorites.add(id);localStorage.setItem(FAVORITES_KEY,JSON.stringify([...favorites]));b.setAttribute('aria-pressed',String(favorites.has(id)));b.textContent=favorites.has(id)?'♥':'♡';updateFavoriteCount();filterPractices()}));document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{const a=APPS.find(x=>x.id===b.dataset.copy),u=new URL(appUrl(a),location.href).href;try{await navigator.clipboard.writeText(u);toast('Practice link copied.')}catch{prompt('Copy this link:',u)}}))}
-function updateFavoriteCount(){$('favCount').textContent=favorites.size;$('favoritesBtn').setAttribute('aria-pressed',String(favoritesOnly));$('favoritesBtn').style.background=favoritesOnly?'#edf3ed':'#fff'}
-function filterPractices(){const q=$('search').value.trim().toLowerCase(),cat=$('category').value;let n=0;[...$('practiceGrid').children].forEach(c=>{const show=(cat==='all'||c.dataset.category===cat)&&(!q||c.dataset.search.includes(q))&&(!favoritesOnly||favorites.has(c.dataset.id));c.hidden=!show;if(show)n++});$('resultNote').textContent=`${n} of ${APPS.length} restorative spaces shown${favoritesOnly?' · favorites only':''}.`;$('empty').classList.toggle('show',n===0)}
-function chooseRandom(cat){let pool=APPS.filter(a=>!cat||cat==='all'||a.category===cat);if(favoritesOnly)pool=pool.filter(a=>favorites.has(a.id));const a=pool[Math.floor(Math.random()*pool.length)];a?location.href=appUrl(a):toast('No practices are available in that selection.')}
-function matrixLink(title){return MATRIX_HOME}
-function renderSites(){$('siteGrid').innerHTML=SITES.map(s=>`<a class="site-card" href="${matrixLink(s.title)}" aria-label="Open the Verve N Veda Matrix to find ${s.title}"><span class="site-icon" aria-hidden="true">${s.icon}</span><h3>${s.title}</h3><p>${s.desc}</p><small>Enter through the Verve N Veda Matrix</small></a>`).join('')}
-function buildMenu(q=''){q=q.trim().toLowerCase();const aa=APPS.filter(a=>!q||(a.title+' '+a.desc+' '+a.tags+' '+a.file).toLowerCase().includes(q)),ss=SITES.filter(s=>!q||(s.title+' '+s.matrix+' '+s.desc).toLowerCase().includes(q));$('menuContent').innerHTML=`<p class="menu-group">Aurora Practices · ${aa.length}</p><div class="menu-list">${aa.map(a=>`<a class="menu-link" href="${appUrl(a)}"><i>${a.icon}</i><span><strong>${a.title}</strong><small>${labelFor(a.category)}</small></span><span>→</span></a>`).join('')||'<small>No practices matched.</small>'}</div><p class="menu-group">Verve N Veda Matrix Portals · ${ss.length}</p><div class="menu-list">${ss.map(s=>`<a class="menu-link" href="${matrixLink(s.title)}" aria-label="Open the Verve N Veda Matrix to find ${s.title}"><i>${s.icon}</i><span><strong>${s.title}</strong><small>Verve N Veda Matrix</small></span><span>→</span></a>`).join('')||'<small>No Matrix portal matched.</small>'}</div>`}
-function openMenu(){$('menuOverlay').classList.add('open');$('menuOverlay').setAttribute('aria-hidden','false');$('menuBtn').setAttribute('aria-expanded','true');document.body.classList.add('menu-open');setTimeout(()=>$('menuSearch').focus(),80)}
-function closeMenu(){$('menuOverlay').classList.remove('open');$('menuOverlay').setAttribute('aria-hidden','true');$('menuBtn').setAttribute('aria-expanded','false');document.body.classList.remove('menu-open')}
-const steps=[["Inhale","Breathe in gently through the nose.","inhale",4000],["Pause","Let the breath rest without strain.","inhale",1800],["Exhale","Release slowly and soften the shoulders.","exhale",5600],["Rest","Notice the quiet before the next breath.","",2200]];let breathing=false,bi=0,bt;
-function runBreath(){if(!breathing)return;const [s,n,c,d]=steps[bi];$('breathCard').className='breath-card '+c;$('breathStage').textContent=s;$('breathNote').textContent=n;bi=(bi+1)%steps.length;bt=setTimeout(runBreath,d)}
-function toggleBreath(){breathing=!breathing;$('breathToggle').textContent=breathing?'Pause':'Begin';if(breathing)runBreath();else{clearTimeout(bt);$('breathCard').className='breath-card';$('breathStage').textContent='Take one unhurried breath';$('breathNote').textContent='Inhale gently. Let your shoulders soften.'}}
+(()=>{
+"use strict";
 
-function auditAuroraMatrix(){
-  const html=document.documentElement.outerHTML.toLowerCase();
-  const external=[...document.querySelectorAll('a[href^="http"]')].map(a=>a.href);
-  const report={
-    auroraPractices:APPS.length,
-    matrixPortalCards:SITES.length,
-    externalLinks:external.length,
-    nonMatrixExternalLinks:external.filter(url=>!url.startsWith(MATRIX_HOME)),
-    publicMatrixOnly:external.every(url=>url.startsWith(MATRIX_HOME))
-  };
-  console.table(report);return report
+const ORIGINALS=[{"id": "auraink", "title": "AuraInk", "file": "AuraInk_index.html", "category": "creative", "icon": "✒", "subtitle": "Art Is Healing", "desc": "A private-feeling creative room for intuitive words, visual reflection, and gentle artistic release.", "tags": "art writing healing creativity reflection"}, {"id": "auraen-tune", "title": "Auraen Tune", "file": "AuraenTune_index.html", "category": "sound", "icon": "♫", "subtitle": "Frequency Tuner", "desc": "Explore tone and frequency through a simple sensory listening tool designed for calm experimentation.", "tags": "sound frequency tuner listening tone"}, {"id": "aurora-inspiration", "title": "Aurora Inspiration Game", "file": "Aurora_Inspiration_index.html", "category": "creative", "icon": "☼", "subtitle": "Creative Renewal", "desc": "A playful inspiration room for reconnecting with ideas, color, imagination, and creative momentum.", "tags": "inspiration art creativity game ideas"}, {"id": "gentle-wake", "title": "Good Night · Gentle Wake", "file": "Breath_evening_index.html", "category": "rest", "icon": "☾", "subtitle": "Evening & Morning Rhythm", "desc": "A gentle sleep-and-wake companion for closing the day softly and beginning again without harsh alarms.", "tags": "sleep evening morning wake rest alarm"}, {"id": "breath-reset", "title": "Breath & Reset", "file": "breath_reset_index.html", "category": "breath", "icon": "◌", "subtitle": "Timed Breathing", "desc": "A focused breathing timer for short pauses, transitions, stress relief, and attention resets.", "tags": "breath breathing timer reset calm"}, {"id": "breathe-ground", "title": "Breathe & Ground", "file": "breathe_ground_index.html", "category": "breath", "icon": "⌄", "subtitle": "Any-Time Reset", "desc": "Return attention to breath, body, and the steadiness of the present moment through a compact grounding routine.", "tags": "grounding breath body present reset"}, {"id": "color-alchemy", "title": "The Color Alchemist", "file": "color_alchemy_index.html", "category": "creative", "icon": "◐", "subtitle": "Studio Quest", "desc": "Explore color relationships, mood, intuition, and visual decision-making through creative play.", "tags": "color art mood alchemy creative"}, {"id": "creative-odyssey", "title": "Creative Mind Odyssey", "file": "creative_mind_odyssey_index.html", "category": "creative", "icon": "✦", "subtitle": "Sovereign Edition", "desc": "A guided imaginative journey through prompts, choices, and open-ended creative discovery.", "tags": "creative mind odyssey imagination prompts"}, {"id": "creative-wheel", "title": "Creative Wheel", "file": "creative_wheel_index.html", "category": "creative", "icon": "✺", "subtitle": "Prompt Generator", "desc": "Turn the wheel for a fresh direction, medium, subject, or low-pressure creative starting point.", "tags": "wheel prompt art creative ideas"}, {"id": "daily-journal", "title": "Daily Journal", "file": "daily_journal_index.html", "category": "reflection", "icon": "▤", "subtitle": "Private Daily Reflection", "desc": "A calm writing space for observations, gratitude, priorities, memories, and personal check-ins.", "tags": "journal reflection gratitude daily writing"}, {"id": "daily-spark", "title": "Daily Spark", "file": "daily_spark_index.html", "category": "rhythm", "icon": "✧", "subtitle": "Parchment Edition", "desc": "Receive one small invitation to begin the day with curiosity, movement, or purposeful attention.", "tags": "daily spark routine inspiration action"}, {"id": "daily-writing-spark", "title": "Daily Writing Spark", "file": "daily_writing_spark_index.html", "category": "creative", "icon": "❦", "subtitle": "Multilingual Writing Lab", "desc": "Open the page with a fresh writing invitation and a flexible studio for words, ideas, and language.", "tags": "writing prompt multilingual creativity journal"}, {"id": "dreamscript", "title": "DreamScript", "file": "dream_script_index.html", "category": "rest", "icon": "☁", "subtitle": "Night Journal", "desc": "Capture dreams, symbols, emotions, and night imagery before they fade from memory.", "tags": "dream sleep journal symbols night"}, {"id": "evening-ember", "title": "Evening Ember", "file": "evening_ember_index.html", "category": "rest", "icon": "◍", "subtitle": "Nightly Reflection", "desc": "A warm end-of-day ritual for setting down unfinished thoughts and noticing what mattered.", "tags": "evening reflection release rest night"}, {"id": "night-prayer", "title": "Night Prayer", "file": "evening_prayer_index.html", "category": "rest", "icon": "🕯", "subtitle": "Quiet Spiritual Reflection", "desc": "A peaceful place for prayer, gratitude, remembrance, and gentle closure at the end of the day.", "tags": "prayer evening gratitude faith rest"}, {"id": "first-hour", "title": "The First Hour", "file": "first_hour_index.html", "category": "rhythm", "icon": "☀", "subtitle": "Morning Sanctuary", "desc": "Begin slowly with intention, reflection, and preparation before the day becomes loud.", "tags": "morning first hour routine intention"}, {"id": "grounding-suite", "title": "Grounding Suite", "file": "grounding_suite_index.html", "category": "breath", "icon": "◉", "subtitle": "Sensory Reset Collection", "desc": "A collection of sensory and body-based practices for returning attention to the present.", "tags": "grounding senses body calm breath"}, {"id": "inspiration-mosaic", "title": "Inspiration Mosaic", "file": "inspiration_mosaic_index.html", "category": "creative", "icon": "◇", "subtitle": "Visual Idea Board", "desc": "Gather fragments of color, language, image, and thought into a living inspiration mosaic.", "tags": "inspiration mosaic collage ideas creative"}, {"id": "letter-inner-self", "title": "Letter to My Inner Self", "file": "letter_to_me_index.html", "category": "reflection", "icon": "✉", "subtitle": "Compassionate Writing", "desc": "Write with patience and compassion to your present, past, or future self.", "tags": "letter self reflection compassion writing"}, {"id": "loom-dawn", "title": "The Loom of Dawn", "file": "loom_of_dawn_index.html", "category": "rhythm", "icon": "⌁", "subtitle": "A Living Poem", "desc": "Weave language, intention, gratitude, and possibility into the beginning of the day.", "tags": "dawn morning poem intention ritual"}, {"id": "morning-muse", "title": "Morning Muse", "file": "morning_muse_index.html", "category": "creative", "icon": "❀", "subtitle": "Prompt Sanctuary", "desc": "A gentle morning prompt room for artists, writers, thinkers, and makers.", "tags": "morning muse prompt art writing"}, {"id": "morning-reflections", "title": "Morning Reflections", "file": "morning_reflection_index.html", "category": "reflection", "icon": "☼", "subtitle": "Quiet Morning Check-In", "desc": "Pause at the threshold of the day to notice your needs, hopes, and most meaningful priorities.", "tags": "morning reflection intention check in"}, {"id": "morning-sanctum", "title": "Morning Sanctum", "file": "morning_sanctum_index.html", "category": "rhythm", "icon": "⌂", "subtitle": "ARSHIF Gold Edition", "desc": "A protected morning room for stillness, intention, preparation, and a humane daily rhythm.", "tags": "morning sanctuary stillness routine"}, {"id": "niche-venn", "title": "Creative Niché Venn", "file": "niche_venn_index.html", "category": "creative", "icon": "◑", "subtitle": "Purpose & Direction", "desc": "Discover intersections among your interests, strengths, values, skills, and creative audience.", "tags": "niche venn ideas purpose strengths"}, {"id": "one-creation", "title": "One Creation at a Time", "file": "one_a_day_index.html", "category": "rhythm", "icon": "1", "subtitle": "Gentle Daily Focus", "desc": "Choose one meaningful creation or action and give it enough space to become complete.", "tags": "one task daily focus creativity"}, {"id": "song-embedder", "title": "Eiren Song Embedder", "file": "song_embedder_index.html", "category": "sound", "icon": "♪", "subtitle": "Personal Listening Space", "desc": "Build a personal listening room around music that inspires, steadies, or restores you.", "tags": "song music embed listening sound"}, {"id": "soulbook", "title": "Soulbook", "file": "soulbook_index.html", "category": "reflection", "icon": "❧", "subtitle": "Verve N Veda Edition", "desc": "A deeper personal book for values, memories, prayers, insights, and becoming.", "tags": "soul book journal memory values"}, {"id": "spire", "title": "Spire Mindful Breathing", "file": "spire_mindful_breathing_index.html", "category": "breath", "icon": "△", "subtitle": "Breathing Studio", "desc": "A visual breathing practice shaped around ascent, pause, release, and steady attention.", "tags": "spire mindful breathing meditation calm"}, {"id": "starlight-jar", "title": "Starlight Jar", "file": "starlight_jar_index.html", "category": "rest", "icon": "✷", "subtitle": "Kids Night Reflections", "desc": "Collect small lights from the day—kindness, courage, beauty, and moments worth remembering.", "tags": "starlight gratitude jar kids evening"}, {"id": "story-spark", "title": "Aurora Story Spark", "file": "story_spark_index.html", "category": "creative", "icon": "⌇", "subtitle": "Monte Carlo Story Cue", "desc": "Open a doorway into character, scene, wonder, conflict, and narrative possibility.", "tags": "story writing prompt fiction creativity"}, {"id": "tiny-triumphs", "title": "Tiny Triumphs", "file": "tiny_triumphs_index.html", "category": "reflection", "icon": "✓", "subtitle": "Progress & Gratitude", "desc": "Notice the quiet victories that are easy to miss but meaningful to remember.", "tags": "tiny triumphs progress gratitude reflection"}, {"id": "vintage-spinet", "title": "Vintage Spinet", "file": "vintage_spinnet_index.html", "category": "sound", "icon": "♬", "subtitle": "Kids Orchestra", "desc": "A playful musical corner for sound exploration, memory, rhythm, and creative atmosphere.", "tags": "vintage spinet music kids orchestra sound"}];
+const REPAIRS=[{"id": "daily-rhythm-repair", "title": "Daily Rhythm Portal", "icon": "≋", "status": "Needs page shell", "note": "The repository file is an embeddable section fragment rather than a complete standalone HTML document."}, {"id": "contribute-repair", "title": "Aurora Community Support Room", "icon": "♡", "status": "Needs full page", "note": "The current file contains only an external payment-button fragment and needs a complete Aurora page before public launch."}];
+const CATEGORIES={"all": {"label": "All Aurora Originals", "short": "All", "icon": "☼", "desc": "Browse every verified original room in the Aurora collection."}, "breath": {"label": "Breath & Grounding", "short": "Breathe", "icon": "◌", "desc": "Breathing timers, grounding practices, and sensory resets."}, "rhythm": {"label": "Morning & Daily Rhythm", "short": "Begin", "icon": "☀", "desc": "Gentle beginnings, focus, intention, and humane daily structure."}, "rest": {"label": "Evening, Sleep & Rest", "short": "Rest", "icon": "☾", "desc": "Night reflection, dream journaling, prayer, gratitude, and gentle waking."}, "creative": {"label": "Creative Renewal", "short": "Create", "icon": "✦", "desc": "Art, writing, prompts, color, imagination, and personal direction."}, "reflection": {"label": "Reflection & Personal Growth", "short": "Reflect", "icon": "❧", "desc": "Journaling, self-compassion, gratitude, values, and quiet progress."}, "sound": {"label": "Sound & Atmosphere", "short": "Listen", "icon": "♫", "desc": "Frequency, music, personal listening, and playful sound exploration."}};
+const RESOURCES=[{"id": "nccih-mindfulness", "title": "Meditation & Mindfulness", "provider": "NIH · NCCIH", "category": "Mindfulness", "icon": "◌", "url": "https://www.nccih.nih.gov/health/meditation-and-mindfulness-effectiveness-and-safety", "desc": "Evidence, possible benefits, research limitations, and safety considerations for meditation and mindfulness."}, {"id": "nccih-yoga", "title": "Yoga: Benefits & Safety", "provider": "NIH · NCCIH", "category": "Yoga", "icon": "△", "url": "https://www.nccih.nih.gov/health/tips/things-you-should-know-about-yoga", "desc": "A concise, evidence-aware overview of yoga, appropriate precautions, and safer practice."}, {"id": "move-your-way", "title": "Move Your Way", "provider": "U.S. Department of Health and Human Services", "category": "Movement", "icon": "↟", "url": "https://odphp.health.gov/moveyourway", "desc": "Accessible tools, activity ideas, and a weekly planner for adding more movement to daily life."}, {"id": "cdc-sleep", "title": "About Sleep", "provider": "Centers for Disease Control and Prevention", "category": "Sleep", "icon": "☾", "url": "https://www.cdc.gov/sleep/about/index.html", "desc": "Age-based sleep guidance, healthy sleep habits, sleep quality, and signs that may warrant professional care."}, {"id": "nimh-care", "title": "Caring for Your Mental Health", "provider": "National Institute of Mental Health", "category": "Mental Health", "icon": "♡", "url": "https://www.nimh.nih.gov/health/topics/caring-for-your-mental-health", "desc": "Practical self-care guidance, signs that professional help may be useful, and pathways to support."}, {"id": "medline-healthy", "title": "Healthy Living", "provider": "National Library of Medicine · MedlinePlus", "category": "Whole-Person Health", "icon": "＋", "url": "https://medlineplus.gov/healthyliving.html", "desc": "A broad, consumer-friendly starting point for healthy habits, prevention, screenings, and everyday well-being."}, {"id": "myplate", "title": "MyPlate", "provider": "U.S. Department of Agriculture", "category": "Nutrition", "icon": "◒", "url": "https://www.myplate.gov/", "desc": "Public nutrition tools and practical guidance for building balanced meals across different life stages."}, {"id": "who-mental", "title": "Mental Health Overview", "provider": "World Health Organization", "category": "Global Well-Being", "icon": "◎", "url": "https://www.who.int/health-topics/mental-health", "desc": "A global overview of mental well-being, risk and protective factors, care, rights, and public-health action."}];
+const NETWORK=[{"id": "matrix", "title": "Verve N Veda Matrix", "icon": "V", "url": "https://vervenveda.github.io/", "desc": "The public gateway to the full Verve N Veda ecosystem."}, {"id": "medicament", "title": "Medicament Hub", "icon": "✚", "url": "https://vervenveda.github.io/medicament-hub.github.io/", "desc": "Health information, medical resources, patient support, and wellness halls."}, {"id": "solanar", "title": "Solanar", "icon": "☀", "url": "https://vervenveda.github.io/solanar.github.io/", "desc": "Weather, Earth science, environmental observation, lunar cycles, and daily conditions."}, {"id": "academy", "title": "Khaemenes Academy", "icon": "⌂", "url": "https://vervenveda.github.io/Khaemenes_Academy.github.io/", "desc": "Learning pathways, curriculum, student resources, and lifelong education."}, {"id": "refrain", "title": "The Refrain", "icon": "♫", "url": "https://vervenveda.github.io/the_refrain.github.io/", "desc": "Music learning, listening, composition, recording, and creative sound."}, {"id": "river-road", "title": "River to Road", "icon": "≈", "url": "https://vervenveda.github.io/river_to_road.github.io/", "desc": "Nature, environmental stewardship, restoration, and community action."}];
+
+const APP_BASE="./apps/";
+const FAVORITES_KEY="aurora_verified_favorites_v3";
+const FORBIDDEN_TERMS=/\b(casino|gambling|sportsbook|roulette|blackjack|jackpot|poker|betting|affiliate|sweepstakes)\b/i;
+const EXTERNAL_HOSTS=[
+  "nccih.nih.gov","odphp.health.gov","cdc.gov","nimh.nih.gov",
+  "medlineplus.gov","myplate.gov","who.int"
+];
+const NETWORK_HOST="vervenveda.github.io";
+
+const $=id=>document.getElementById(id);
+const escapeHtml=value=>String(value).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]));
+const categoryLabel=key=>CATEGORIES[key]?.label||key;
+const appHref=app=>APP_BASE+encodeURI(app.file);
+
+function toast(message){
+  const el=$("toast");
+  el.textContent=message;
+  el.classList.add("show");
+  clearTimeout(toast.timer);
+  toast.timer=setTimeout(()=>el.classList.remove("show"),2100);
 }
-window.auditAuroraMatrix=auditAuroraMatrix;
-buildCategory();renderPractices();renderSites();buildMenu();updateFavoriteCount();filterPractices();$('year').textContent=new Date().getFullYear();
-$('search').addEventListener('input',filterPractices);$('category').addEventListener('change',filterPractices);$('favoritesBtn').addEventListener('click',()=>{favoritesOnly=!favoritesOnly;updateFavoriteCount();filterPractices()});$('randomBtn').addEventListener('click',()=>chooseRandom($('category').value));$('randomHero').addEventListener('click',()=>chooseRandom());
-document.querySelectorAll('[data-journey]').forEach(b=>b.addEventListener('click',()=>{$('category').value=b.dataset.journey;favoritesOnly=false;updateFavoriteCount();filterPractices();$('practices').scrollIntoView({behavior:'smooth'})}));
-$('menuBtn').addEventListener('click',openMenu);$('closeMenu').addEventListener('click',closeMenu);$('menuOverlay').addEventListener('click',e=>{if(e.target===$('menuOverlay'))closeMenu()});$('menuSearch').addEventListener('input',e=>buildMenu(e.target.value));$('breathToggle').addEventListener('click',toggleBreath);
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();if(e.key==='/'&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){e.preventDefault();$('search').focus()}});
+
+function readFavorites(){
+  try{
+    const parsed=JSON.parse(localStorage.getItem(FAVORITES_KEY)||"[]");
+    return new Set(Array.isArray(parsed)?parsed.filter(id=>ORIGINALS.some(app=>app.id===id)):[]);
+  }catch{
+    return new Set();
+  }
+}
+function saveFavorites(){
+  try{localStorage.setItem(FAVORITES_KEY,JSON.stringify([...favorites]));}catch{}
+}
+let favorites=readFavorites();
+let favoritesOnly=false;
+
+function isAllowedOriginalHref(href){
+  if(typeof href!=="string"||!href.startsWith(APP_BASE)||href.includes("..")||FORBIDDEN_TERMS.test(href))return false;
+  let decoded="";
+  try{decoded=decodeURI(href.slice(APP_BASE.length));}catch{return false}
+  return ORIGINALS.some(app=>app.file===decoded);
+}
+function isAllowedExternal(url){
+  try{
+    const parsed=new URL(url,location.href);
+    return parsed.protocol==="https:"&&EXTERNAL_HOSTS.some(host=>parsed.hostname===host||parsed.hostname.endsWith("."+host))&&!FORBIDDEN_TERMS.test(parsed.href);
+  }catch{return false}
+}
+function isAllowedNetwork(url){
+  try{
+    const parsed=new URL(url,location.href);
+    return parsed.protocol==="https:"&&parsed.hostname===NETWORK_HOST&&!FORBIDDEN_TERMS.test(parsed.href);
+  }catch{return false}
+}
+
+function buildCategory(){
+  $("category").innerHTML=Object.entries(CATEGORIES).map(([value,item])=>`<option value="${escapeHtml(value)}">${escapeHtml(item.label)}</option>`).join("");
+}
+
+function renderJourneys(){
+  $("journeyGrid").innerHTML=Object.entries(CATEGORIES).filter(([key])=>key!=="all").map(([key,item])=>{
+    const count=ORIGINALS.filter(app=>app.category===key).length;
+    return `<article class="journey">
+      <div class="journey-mark" aria-hidden="true">${escapeHtml(item.icon)}</div>
+      <h3>${escapeHtml(item.label)}</h3>
+      <p>${escapeHtml(item.desc)}</p>
+      <button type="button" data-journey="${escapeHtml(key)}">Open ${escapeHtml(item.short)} · ${count}</button>
+    </article>`;
+  }).join("");
+}
+
+function cardMarkup(app){
+  const saved=favorites.has(app.id);
+  return `<article class="original-card" data-id="${escapeHtml(app.id)}" data-category="${escapeHtml(app.category)}" data-search="${escapeHtml((app.title+" "+app.subtitle+" "+app.desc+" "+app.tags+" "+app.file+" "+categoryLabel(app.category)).toLowerCase())}">
+    <div class="card-top">
+      <span class="original-icon" aria-hidden="true">${escapeHtml(app.icon)}</span>
+      <button class="favorite" type="button" data-favorite="${escapeHtml(app.id)}" aria-label="${saved?"Remove":"Save"} ${escapeHtml(app.title)} ${saved?"from":"to"} favorites" aria-pressed="${saved}">${saved?"♥":"♡"}</button>
+    </div>
+    <p class="original-label">Aurora Original · ${escapeHtml(categoryLabel(app.category))}</p>
+    <h3>${escapeHtml(app.title)}</h3>
+    <div class="original-subtitle">${escapeHtml(app.subtitle)}</div>
+    <p>${escapeHtml(app.desc)}</p>
+    <div class="original-actions">
+      <a class="open-link" href="${escapeHtml(appHref(app))}" data-original>Open Original</a>
+      <button class="copy-link" type="button" data-copy="${escapeHtml(app.id)}">Copy Link</button>
+    </div>
+  </article>`;
+}
+
+function renderOriginals(){
+  $("originalGrid").innerHTML=ORIGINALS.map(cardMarkup).join("");
+  wireOriginalCards();
+}
+function wireOriginalCards(){
+  document.querySelectorAll("[data-favorite]").forEach(button=>button.addEventListener("click",()=>{
+    const id=button.dataset.favorite;
+    favorites.has(id)?favorites.delete(id):favorites.add(id);
+    saveFavorites();
+    renderOriginals();
+    updateFavoriteCount();
+    filterOriginals();
+  }));
+  document.querySelectorAll("[data-copy]").forEach(button=>button.addEventListener("click",async()=>{
+    const app=ORIGINALS.find(item=>item.id===button.dataset.copy);
+    if(!app)return;
+    const href=appHref(app);
+    if(!isAllowedOriginalHref(href)){toast("That Aurora path is not approved.");return}
+    const absolute=new URL(href,location.href).href;
+    try{
+      await navigator.clipboard.writeText(absolute);
+      toast("Aurora Original link copied.");
+    }catch{
+      prompt("Copy this Aurora link:",absolute);
+    }
+  }));
+}
+
+function updateFavoriteCount(){
+  $("favCount").textContent=String(favorites.size);
+  $("favoritesBtn").setAttribute("aria-pressed",String(favoritesOnly));
+}
+function currentFilteredApps(){
+  const query=$("search").value.trim().toLowerCase();
+  const category=$("category").value;
+  return ORIGINALS.filter(app=>{
+    const haystack=(app.title+" "+app.subtitle+" "+app.desc+" "+app.tags+" "+app.file+" "+categoryLabel(app.category)).toLowerCase();
+    return (category==="all"||app.category===category)&&(!query||haystack.includes(query))&&(!favoritesOnly||favorites.has(app.id));
+  });
+}
+function filterOriginals(){
+  const visible=new Set(currentFilteredApps().map(app=>app.id));
+  [...$("originalGrid").children].forEach(card=>card.hidden=!visible.has(card.dataset.id));
+  $("resultNote").textContent=`${visible.size} of ${ORIGINALS.length} verified Aurora Originals shown${favoritesOnly?" · favorites only":""}. Outside resources are not included in this count.`;
+  $("empty").classList.toggle("show",visible.size===0);
+}
+function openRandom(pool=ORIGINALS){
+  if(!pool.length){toast("No Aurora Originals are available in that selection.");return}
+  const app=pool[Math.floor(Math.random()*pool.length)];
+  const href=appHref(app);
+  if(!isAllowedOriginalHref(href)){toast("That Aurora path did not pass the safety check.");return}
+  location.href=href;
+}
+
+function renderResources(){
+  $("resourceGrid").innerHTML=RESOURCES.map(resource=>`<article class="resource-card">
+    <div class="resource-top"><span class="resource-icon" aria-hidden="true">${escapeHtml(resource.icon)}</span><span class="external-badge">Official outside resource</span></div>
+    <p class="resource-category">${escapeHtml(resource.category)}</p>
+    <h3>${escapeHtml(resource.title)}</h3>
+    <div class="provider">${escapeHtml(resource.provider)}</div>
+    <p>${escapeHtml(resource.desc)}</p>
+    <a href="${escapeHtml(resource.url)}" target="_blank" rel="noopener noreferrer" data-external>Open official resource ↗</a>
+  </article>`).join("");
+}
+function renderNetwork(){
+  $("networkGrid").innerHTML=NETWORK.map(site=>`<a class="network-card" href="${escapeHtml(site.url)}" data-network>
+    <span class="network-icon" aria-hidden="true">${escapeHtml(site.icon)}</span>
+    <h3>${escapeHtml(site.title)}</h3>
+    <p>${escapeHtml(site.desc)}</p>
+    <small>Open public Verve N Veda site</small>
+  </a>`).join("");
+}
+function renderRepairs(){
+  $("repairGrid").innerHTML=REPAIRS.map(item=>`<article class="repair-card">
+    <span class="repair-icon" aria-hidden="true">${escapeHtml(item.icon)}</span>
+    <h3>${escapeHtml(item.title)}</h3>
+    <span class="repair-status">${escapeHtml(item.status)}</span>
+    <p>${escapeHtml(item.note)}</p>
+  </article>`).join("");
+}
+
+function setFeatured(){
+  const now=new Date();
+  const dayNumber=Math.floor(Date.UTC(now.getFullYear(),now.getMonth(),now.getDate())/86400000);
+  const app=ORIGINALS[Math.abs(dayNumber)%ORIGINALS.length];
+  $("featuredIcon").textContent=app.icon;
+  $("featuredTitle").textContent=app.title;
+  $("featuredSubtitle").textContent=app.subtitle+" · Today’s verified Aurora Original";
+  $("featuredLink").href=appHref(app);
+}
+
+function menuLinkOriginal(app){
+  return `<a class="menu-link" href="${escapeHtml(appHref(app))}" data-original><i>${escapeHtml(app.icon)}</i><span><strong>${escapeHtml(app.title)}</strong><small>Aurora Original · ${escapeHtml(categoryLabel(app.category))}</small></span><span class="arrow">→</span></a>`;
+}
+function menuLinkResource(resource){
+  return `<a class="menu-link" href="${escapeHtml(resource.url)}" target="_blank" rel="noopener noreferrer" data-external><i>${escapeHtml(resource.icon)}</i><span><strong>${escapeHtml(resource.title)}</strong><small>Official outside resource · ${escapeHtml(resource.provider)}</small></span><span class="arrow">↗</span></a>`;
+}
+function menuLinkNetwork(site){
+  return `<a class="menu-link" href="${escapeHtml(site.url)}" data-network><i>${escapeHtml(site.icon)}</i><span><strong>${escapeHtml(site.title)}</strong><small>Public Verve N Veda gateway</small></span><span class="arrow">→</span></a>`;
+}
+function buildMenu(query=""){
+  const q=query.trim().toLowerCase();
+  const originals=ORIGINALS.filter(app=>!q||(app.title+" "+app.subtitle+" "+app.tags+" "+categoryLabel(app.category)).toLowerCase().includes(q));
+  const resources=RESOURCES.filter(item=>!q||(item.title+" "+item.provider+" "+item.category+" "+item.desc).toLowerCase().includes(q));
+  const network=NETWORK.filter(item=>!q||(item.title+" "+item.desc).toLowerCase().includes(q));
+  $("menuContent").innerHTML=`
+    <p class="menu-group">Aurora Originals · ${originals.length}</p>
+    <div class="menu-list">${originals.map(menuLinkOriginal).join("")||'<span class="menu-empty">No original rooms matched.</span>'}</div>
+    <p class="menu-group">Official Outside Resources · ${resources.length}</p>
+    <div class="menu-list">${resources.map(menuLinkResource).join("")||'<span class="menu-empty">No public resources matched.</span>'}</div>
+    <p class="menu-group">Verve N Veda Gateways · ${network.length}</p>
+    <div class="menu-list">${network.map(menuLinkNetwork).join("")||'<span class="menu-empty">No Matrix gateways matched.</span>'}</div>`;
+}
+
+function openMenu(){
+  $("menuOverlay").classList.add("open");
+  $("menuOverlay").setAttribute("aria-hidden","false");
+  $("menuBtn").setAttribute("aria-expanded","true");
+  document.body.classList.add("menu-open");
+  setTimeout(()=>$("menuSearch").focus(),80);
+}
+function closeMenu(){
+  $("menuOverlay").classList.remove("open");
+  $("menuOverlay").setAttribute("aria-hidden","true");
+  $("menuBtn").setAttribute("aria-expanded","false");
+  document.body.classList.remove("menu-open");
+}
+
+const breathSteps=[
+  ["Inhale","Breathe in gently through the nose.","inhale",4000],
+  ["Pause","Let the breath rest without strain.","inhale",1700],
+  ["Exhale","Release slowly and soften the shoulders.","exhale",5600],
+  ["Rest","Notice the quiet before the next breath.","",2200]
+];
+let breathing=false,breathIndex=0,breathTimer;
+function runBreath(){
+  if(!breathing)return;
+  const [stage,note,className,duration]=breathSteps[breathIndex];
+  $("breathCard").className="breath-card "+className;
+  $("breathStage").textContent=stage;
+  $("breathNote").textContent=note;
+  breathIndex=(breathIndex+1)%breathSteps.length;
+  breathTimer=setTimeout(runBreath,duration);
+}
+function toggleBreath(){
+  breathing=!breathing;
+  $("breathToggle").textContent=breathing?"Pause":"Begin";
+  if(breathing)runBreath();
+  else{
+    clearTimeout(breathTimer);
+    $("breathCard").className="breath-card";
+    $("breathStage").textContent="Take one unhurried breath";
+    $("breathNote").textContent="Inhale gently. Let your shoulders soften.";
+  }
+}
+
+function auditAurora(){
+  const ids=ORIGINALS.map(item=>item.id);
+  const files=ORIGINALS.map(item=>item.file);
+  const duplicates=list=>[...new Set(list.filter((value,index)=>list.indexOf(value)!==index))];
+  const originalAnchors=[...document.querySelectorAll("a[data-original]")].map(anchor=>anchor.getAttribute("href"));
+  const externalAnchors=[...document.querySelectorAll("a[data-external]")].map(anchor=>anchor.href);
+  const networkAnchors=[...document.querySelectorAll("a[data-network]")].map(anchor=>anchor.href);
+  const fullHtml=document.documentElement.outerHTML;
+  const report={
+    verifiedOriginals:ORIGINALS.length,
+    roomsInPreparation:REPAIRS.length,
+    officialResourceCards:RESOURCES.length,
+    duplicateIds:duplicates(ids),
+    duplicateFiles:duplicates(files),
+    invalidOriginalRoutes:originalAnchors.filter(href=>!isAllowedOriginalHref(href)),
+    disallowedExternalLinks:externalAnchors.filter(url=>!isAllowedExternal(url)),
+    disallowedNetworkLinks:networkAnchors.filter(url=>!isAllowedNetwork(url)),
+    directRepositoryLinks:[...document.querySelectorAll('a[href*="github.com"]')].map(anchor=>anchor.href),
+    suspiciousLinks:[...document.querySelectorAll("a[href]")].filter(anchor=>FORBIDDEN_TERMS.test((anchor.textContent||"")+" "+(anchor.getAttribute("href")||""))).map(anchor=>anchor.href)
+  };
+  console.table(report);
+  return report;
+}
+window.auditAurora=auditAurora;
+
+document.addEventListener("click",event=>{
+  const original=event.target.closest("a[data-original]");
+  if(original&&!isAllowedOriginalHref(original.getAttribute("href"))){
+    event.preventDefault();toast("This Aurora room is unavailable until its path is verified.");return;
+  }
+  const external=event.target.closest("a[data-external]");
+  if(external&&!isAllowedExternal(external.href)){
+    event.preventDefault();toast("This outside resource is not on Aurora’s reviewed-host list.");return;
+  }
+  const network=event.target.closest("a[data-network]");
+  if(network&&!isAllowedNetwork(network.href)){
+    event.preventDefault();toast("This Matrix destination is not approved.");return;
+  }
+  const journey=event.target.closest("[data-journey]");
+  if(journey){
+    $("category").value=journey.dataset.journey;
+    favoritesOnly=false;
+    updateFavoriteCount();
+    filterOriginals();
+    $("originals").scrollIntoView({behavior:"smooth"});
+  }
+});
+
+buildCategory();
+renderJourneys();
+renderOriginals();
+renderResources();
+renderNetwork();
+renderRepairs();
+setFeatured();
+buildMenu();
+updateFavoriteCount();
+filterOriginals();
+
+$("heroLiveCount").textContent=ORIGINALS.length;
+$("auditLiveCount").textContent=ORIGINALS.length;
+$("auditRepairCount").textContent=REPAIRS.length;
+$("auditResourceCount").textContent=RESOURCES.length;
+$("year").textContent=new Date().getFullYear();
+
+$("search").addEventListener("input",filterOriginals);
+$("category").addEventListener("change",filterOriginals);
+$("favoritesBtn").addEventListener("click",()=>{favoritesOnly=!favoritesOnly;updateFavoriteCount();filterOriginals()});
+$("randomBtn").addEventListener("click",()=>openRandom(currentFilteredApps()));
+$("randomHero").addEventListener("click",()=>openRandom(ORIGINALS));
+$("menuBtn").addEventListener("click",openMenu);
+$("closeMenu").addEventListener("click",closeMenu);
+$("menuOverlay").addEventListener("click",event=>{if(event.target===$("menuOverlay"))closeMenu()});
+$("menuSearch").addEventListener("input",event=>buildMenu(event.target.value));
+$("breathToggle").addEventListener("click",toggleBreath);
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape")closeMenu();
+  if(event.key==="/"&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){
+    event.preventDefault();$("search").focus();
+  }
+});
+
+auditAurora();
+})();
 </script>
 </body>
 </html>
