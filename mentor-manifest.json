@@ -1,0 +1,252 @@
+{
+  "version": 1,
+  "sourceId": "verve.aurora",
+  "name": "Aurora",
+  "classification": "wellness",
+  "mentorSearchable": true,
+  "audiences": [
+    "elementary",
+    "middle",
+    "high",
+    "higher-learning",
+    "adult",
+    "parent"
+  ],
+  "roles": [
+    "student",
+    "parent",
+    "educator"
+  ],
+  "homepage": "https://vervenveda.com/aurora.github.io/",
+  "repository": "vervenveda/aurora.github.io",
+  "resources": [
+    {
+      "id": "aurora-home",
+      "title": "Aurora",
+      "description": "",
+      "url": "https://vervenveda.com/aurora.github.io/",
+      "audiences": [
+        "elementary",
+        "middle",
+        "high",
+        "higher-learning",
+        "adult",
+        "parent"
+      ],
+      "roles": [
+        "student",
+        "parent",
+        "educator"
+      ],
+      "domains": [
+        "wellness",
+        "reflection"
+      ],
+      "skills": [],
+      "tags": [
+        "calm",
+        "reflection",
+        "wellness"
+      ],
+      "mentorEligible": true,
+      "featured": true
+    },
+    {
+      "id": "breath-reset",
+      "title": "Breath Reset",
+      "description": "",
+      "url": "https://vervenveda.com/aurora.github.io/apps/breath_reset_index.html",
+      "audiences": [
+        "elementary",
+        "middle",
+        "high",
+        "higher-learning",
+        "adult",
+        "parent"
+      ],
+      "roles": [
+        "student",
+        "parent",
+        "educator"
+      ],
+      "domains": [
+        "wellness"
+      ],
+      "skills": [
+        "paced-breathing",
+        "pause"
+      ],
+      "tags": [
+        "breathing",
+        "calm",
+        "not-medical-advice"
+      ],
+      "mentorEligible": true,
+      "minutes": 5,
+      "energy": "gentle"
+    },
+    {
+      "id": "breathe-ground",
+      "title": "Breathe & Ground",
+      "description": "",
+      "url": "https://vervenveda.com/aurora.github.io/apps/breathe_ground_index.html",
+      "audiences": [
+        "middle",
+        "high",
+        "higher-learning",
+        "adult",
+        "parent"
+      ],
+      "roles": [
+        "student",
+        "parent",
+        "educator"
+      ],
+      "domains": [
+        "wellness"
+      ],
+      "skills": [
+        "grounding",
+        "reflection"
+      ],
+      "tags": [
+        "breathing",
+        "grounding",
+        "not-medical-advice"
+      ],
+      "mentorEligible": true,
+      "minutes": 7,
+      "energy": "gentle"
+    },
+    {
+      "id": "evening-breath",
+      "title": "Evening Breath",
+      "description": "",
+      "url": "https://vervenveda.com/aurora.github.io/apps/Breath_evening_index.html",
+      "audiences": [
+        "high",
+        "higher-learning",
+        "adult",
+        "parent"
+      ],
+      "roles": [
+        "student",
+        "parent",
+        "educator"
+      ],
+      "domains": [
+        "wellness"
+      ],
+      "skills": [
+        "relaxation-routine"
+      ],
+      "tags": [
+        "evening",
+        "breathing",
+        "not-medical-advice"
+      ],
+      "mentorEligible": true,
+      "minutes": 7,
+      "energy": "gentle"
+    },
+    {
+      "id": "affirmation-garden",
+      "title": "Affirmation Garden",
+      "description": "",
+      "url": "https://vervenveda.com/aurora.github.io/apps/affirmation_garden_index.html",
+      "audiences": [
+        "middle",
+        "high",
+        "higher-learning",
+        "adult",
+        "parent"
+      ],
+      "roles": [
+        "student",
+        "parent",
+        "educator"
+      ],
+      "domains": [
+        "wellness",
+        "reflection"
+      ],
+      "skills": [
+        "reflection"
+      ],
+      "tags": [
+        "affirmations",
+        "reflection"
+      ],
+      "mentorEligible": true,
+      "minutes": 10,
+      "energy": "gentle"
+    },
+    {
+      "id": "aurora-inspiration",
+      "title": "Aurora Inspiration",
+      "description": "",
+      "url": "https://vervenveda.com/aurora.github.io/apps/Aurora_Inspiration_index.html",
+      "audiences": [
+        "middle",
+        "high",
+        "higher-learning",
+        "adult",
+        "parent"
+      ],
+      "roles": [
+        "student",
+        "parent",
+        "educator"
+      ],
+      "domains": [
+        "creative",
+        "reflection"
+      ],
+      "skills": [
+        "creative-reflection"
+      ],
+      "tags": [
+        "inspiration",
+        "creative"
+      ],
+      "mentorEligible": true,
+      "minutes": 10,
+      "energy": "gentle"
+    },
+    {
+      "id": "color-alchemy",
+      "title": "Color Alchemy",
+      "description": "",
+      "url": "https://vervenveda.com/aurora.github.io/apps/color_alchemy_index.html",
+      "audiences": [
+        "elementary",
+        "middle",
+        "high",
+        "higher-learning",
+        "adult"
+      ],
+      "roles": [
+        "student",
+        "parent",
+        "educator"
+      ],
+      "domains": [
+        "creative"
+      ],
+      "skills": [
+        "color-exploration",
+        "creativity"
+      ],
+      "tags": [
+        "art",
+        "color",
+        "creative"
+      ],
+      "mentorEligible": true,
+      "minutes": 15,
+      "energy": "creative",
+      "classification": "creative-cultural"
+    }
+  ],
+  "mentorNotes": "Aurora resources are framed as optional wellness/reflection tools, not medical, psychological, or therapeutic treatment."
+}
