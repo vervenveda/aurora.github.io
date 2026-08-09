@@ -7,8 +7,9 @@
 <meta name="theme-color" content="#edf1e7">
 <meta name="color-scheme" content="light">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'self'; worker-src 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://*.stripe.com; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://js.stripe.com; connect-src https://api.stripe.com https://r.stripe.com https://buy.stripe.com; media-src 'self'; object-src 'none'; frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://buy.stripe.com https://checkout.stripe.com; worker-src 'none'; base-uri 'self'; form-action 'self' https://checkout.stripe.com;">
 <title>Aurora Studio — Breathe · Restore · Create</title>
+<!-- Aurora Studio Landing v5 · balanced grids + slow Studio Notes ticker + contribution doorway -->
 <style>
 :root{
   --mist:#f7faf7;
@@ -215,7 +216,7 @@ h2{margin:.5rem 0 0;color:var(--sage-deep);font-size:clamp(2.65rem,5vw,4.6rem);l
 .pill{min-height:50px;padding:.82rem 1rem;border:1px solid rgba(73,102,90,.17);border-radius:999px;background:#fff;color:var(--sage-deep);font-weight:800}
 .pill[aria-pressed="true"]{background:#eaf1eb}
 .result-note{margin:.95rem .25rem 0;color:var(--muted);font-size:.86rem}
-.original-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.25rem}
+.original-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;margin-top:1.25rem}
 .original-card{
   min-height:356px;display:flex;flex-direction:column;align-items:center;padding:1.2rem;text-align:center;
   border:1px solid var(--line);border-radius:var(--radius);
@@ -265,7 +266,7 @@ h2{margin:.5rem 0 0;color:var(--sage-deep);font-size:clamp(2.65rem,5vw,4.6rem);l
 .resource-card a:hover{text-decoration:underline}
 
 /* Matrix */
-.network-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.network-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
 .network-card{
   min-height:245px;display:flex;flex-direction:column;align-items:center;padding:1.2rem;text-align:center;text-decoration:none;
   border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,255,255,.82),rgba(255,255,255,.57));box-shadow:var(--soft-shadow)
@@ -277,7 +278,7 @@ h2{margin:.5rem 0 0;color:var(--sage-deep);font-size:clamp(2.65rem,5vw,4.6rem);l
 .network-card small{margin-top:auto;padding-top:1rem;color:var(--gold-deep);font-size:.7rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
 
 /* Repairs and notes */
-.repair-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.repair-grid{display:grid;grid-template-columns:minmax(0,720px);justify-content:center;gap:1rem}
 .repair-card{
   min-height:220px;padding:1.2rem;border:1px dashed rgba(73,102,90,.25);border-radius:var(--radius);
   background:rgba(255,255,255,.48);text-align:center
@@ -417,6 +418,36 @@ body{
 .original-card,.journey,.resource-card,.network-card{background:linear-gradient(180deg,rgba(255,255,255,.90),rgba(250,247,239,.72));border-color:rgba(102,116,102,.14)}
 .wellness-note{background:linear-gradient(135deg,#536e60,#819684 72%,#a28c70)}
 
+
+/* Aurora Studio Notes ticker */
+.studio-ticker{position:relative;z-index:110;overflow:hidden;border-bottom:1px solid rgba(102,116,102,.13);background:linear-gradient(90deg,#f5f0e5,#edf3e9 46%,#f7f1e5);color:#56675f}
+.studio-ticker-inner{width:100%;min-height:44px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:.65rem}
+.ticker-label{height:44px;display:inline-flex;align-items:center;gap:.48rem;padding:0 1rem 0 max(1rem,calc((100vw - var(--max))/2));white-space:nowrap;border-right:1px solid rgba(73,102,90,.11);background:rgba(255,253,247,.68);color:var(--sage-deep);font-size:.68rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+.ticker-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px rgba(197,170,117,.13)}
+.ticker-viewport{min-width:0;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
+.ticker-track{display:flex;width:max-content;will-change:transform;animation:auroraTicker 108s linear infinite}
+.ticker-track.paused{animation-play-state:paused}.ticker-track:hover{animation-play-state:paused}
+.ticker-set{display:flex;align-items:center;gap:1.15rem;flex:0 0 auto;padding:0 1.15rem;white-space:nowrap}
+.ticker-link{display:inline-flex;align-items:center;min-height:44px;color:#617169;text-decoration:none;font-size:.76rem;font-weight:700;letter-spacing:.018em}
+.ticker-link:hover{color:var(--sage-deep)}
+.ticker-sep{color:rgba(155,121,68,.62);font-size:.62rem}
+.ticker-contribute{padding:.34rem .66rem;border:1px solid rgba(155,121,68,.28);border-radius:999px;background:rgba(255,255,255,.62);color:#876c43}
+.ticker-pause{height:32px;margin-right:max(.65rem,calc((100vw - var(--max))/2));padding:0 .7rem;border:1px solid rgba(73,102,90,.15);border-radius:999px;background:rgba(255,255,255,.72);color:var(--sage-deep);font-size:.67rem;font-weight:800;white-space:nowrap}
+@keyframes auroraTicker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* Voluntary support */
+.support-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:stretch}
+.support-card{min-height:290px;display:flex;flex-direction:column;justify-content:center;padding:clamp(1.35rem,3vw,2rem);border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(249,245,235,.76));box-shadow:var(--soft-shadow)}
+.support-card h3{margin:.55rem 0 0;color:var(--sage-deep);font-size:clamp(1.65rem,3vw,2.35rem)}
+.support-card p{margin:.8rem 0 0;color:var(--muted);font-size:.9rem;line-height:1.78}
+.support-note{margin-top:1rem;padding:.82rem .9rem;border-left:3px solid var(--gold);border-radius:10px;background:rgba(255,255,255,.62);color:var(--muted);font-size:.76rem}
+.support-stripe{align-items:center;text-align:center}.support-stripe .eyebrow{text-align:center}.support-stripe stripe-buy-button{margin-top:1rem}
+
+@media(max-width:1120px){.network-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:780px){.studio-ticker-inner{grid-template-columns:1fr auto}.ticker-label{display:none}.ticker-pause{margin-right:.5rem}.ticker-track{animation-duration:118s}.support-grid{grid-template-columns:1fr}}
+@media(max-width:650px){.ticker-link{font-size:.72rem}.ticker-set{gap:.9rem}.ticker-pause{width:38px;padding:0;font-size:0}.ticker-pause:after{content:"Ⅱ";font-size:.72rem}.ticker-pause[data-paused="true"]:after{content:"▶"}}
+@media(prefers-reduced-motion:reduce){.ticker-track{animation:none!important;transform:none!important}.ticker-viewport{overflow-x:auto;mask-image:none;-webkit-mask-image:none}}
+
 .room-overlay{position:fixed;inset:0;z-index:450;display:none;padding:clamp(.5rem,2vw,1.25rem);background:rgba(42,53,48,.42);backdrop-filter:blur(14px)}
 .room-overlay.open{display:grid;place-items:center}.room-shell{width:min(1500px,98vw);height:min(94vh,980px);display:grid;grid-template-rows:auto auto 1fr;overflow:hidden;border:1px solid rgba(255,255,255,.74);border-radius:30px;background:#fbfaf5;box-shadow:0 40px 110px rgba(38,46,41,.30)}
 .room-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.78rem .92rem;border-bottom:1px solid rgba(73,102,90,.12);background:rgba(255,253,247,.96)}
@@ -428,9 +459,43 @@ body.room-open{overflow:hidden}.aurora-voice-live{position:fixed;right:1rem;bott
 @media(prefers-reduced-motion:reduce){.aurora-voice-live{transition:none}}
 
 </style>
+<script async src="https://js.stripe.com/v3/buy-button.js"></script>
 </head>
 <body>
 <a class="skip" href="#originals">Skip to Aurora Originals</a>
+
+<section class="studio-ticker" aria-label="Aurora studio notes and connected resources">
+  <div class="studio-ticker-inner">
+    <span class="ticker-label"><span class="ticker-dot" aria-hidden="true"></span>Aurora Studio Notes</span>
+    <div class="ticker-viewport">
+      <div class="ticker-track" id="tickerTrack">
+        <div class="ticker-set">
+          <a class="ticker-link" href="./apps/breath_reset_index.html" data-original>Breath & Reset · Take a quiet minute</a><span class="ticker-sep" aria-hidden="true">☼</span>
+          <a class="ticker-link" href="./apps/grounding_suite_index.html" data-original>Grounding Suite · Return to the present</a><span class="ticker-sep" aria-hidden="true">☼</span>
+          <a class="ticker-link" href="./apps/morning_muse_index.html" data-original>Morning Muse · Begin creatively</a><span class="ticker-sep" aria-hidden="true">☼</span>
+          <a class="ticker-link" href="#resources">Trusted Wellness Resources</a><span class="ticker-sep" aria-hidden="true">☼</span>
+          <a class="ticker-link" href="https://vervenveda.github.io/bazaarart.github.io/" data-network>Bazaar Art · Create & explore</a><span class="ticker-sep" aria-hidden="true">☼</span>
+          <a class="ticker-link" href="https://vervenveda.github.io/Arshif.github.io/" data-network>ARSHIF · Read, study & reflect</a><span class="ticker-sep" aria-hidden="true">☼</span>
+          <a class="ticker-link" href="https://vervenveda.github.io/the_refrain.github.io/" data-network>The Refrain · Music & sound</a><span class="ticker-sep" aria-hidden="true">☼</span>
+          <a class="ticker-link" href="https://vervenveda.github.io/river_to_road.github.io/" data-network>River to Road · Restore through nature</a><span class="ticker-sep" aria-hidden="true">☼</span>
+          <a class="ticker-link ticker-contribute" href="#support">♡ Contribute · Support Original Work</a><span class="ticker-sep" aria-hidden="true">☼</span>
+        </div>
+        <div class="ticker-set" aria-hidden="true" inert>
+          <a class="ticker-link" href="./apps/breath_reset_index.html" tabindex="-1">Breath & Reset · Take a quiet minute</a><span class="ticker-sep">☼</span>
+          <a class="ticker-link" href="./apps/grounding_suite_index.html" tabindex="-1">Grounding Suite · Return to the present</a><span class="ticker-sep">☼</span>
+          <a class="ticker-link" href="./apps/morning_muse_index.html" tabindex="-1">Morning Muse · Begin creatively</a><span class="ticker-sep">☼</span>
+          <a class="ticker-link" href="#resources" tabindex="-1">Trusted Wellness Resources</a><span class="ticker-sep">☼</span>
+          <a class="ticker-link" href="https://vervenveda.github.io/bazaarart.github.io/" tabindex="-1">Bazaar Art · Create & explore</a><span class="ticker-sep">☼</span>
+          <a class="ticker-link" href="https://vervenveda.github.io/Arshif.github.io/" tabindex="-1">ARSHIF · Read, study & reflect</a><span class="ticker-sep">☼</span>
+          <a class="ticker-link" href="https://vervenveda.github.io/the_refrain.github.io/" tabindex="-1">The Refrain · Music & sound</a><span class="ticker-sep">☼</span>
+          <a class="ticker-link" href="https://vervenveda.github.io/river_to_road.github.io/" tabindex="-1">River to Road · Restore through nature</a><span class="ticker-sep">☼</span>
+          <a class="ticker-link ticker-contribute" href="#support" tabindex="-1">♡ Contribute · Support Original Work</a><span class="ticker-sep">☼</span>
+        </div>
+      </div>
+    </div>
+    <button class="ticker-pause" id="tickerPause" type="button" aria-pressed="false" data-paused="false" title="Pause studio notes">Pause</button>
+  </div>
+</section>
 
 <header class="site-header">
   <div class="wrap nav">
@@ -579,7 +644,7 @@ body.room-open{overflow:hidden}.aurora-voice-live{position:fixed;right:1rem;bott
     <div class="wrap">
       <div class="section-head">
         <div><p class="eyebrow">Verified public gateways</p><h2>Continue through Verve N Veda</h2></div>
-        <p>These links open public Verve N Veda landing pages—not source repositories. Aurora’s closest companions support medical information, learning, music, weather, and nature.</p>
+        <p>These links open public Verve N Veda landing pages—not source repositories. Aurora’s closest companions support health, learning, creativity, cultural study, music, weather, and nature.</p>
       </div>
       <div class="network-grid" id="networkGrid"></div>
     </div>
@@ -588,10 +653,33 @@ body.room-open{overflow:hidden}.aurora-voice-live{position:fixed;right:1rem;bott
   <section class="section alt" id="repairs">
     <div class="wrap">
       <div class="section-head">
-        <div><p class="eyebrow">Future growth</p><h2>Rooms being prepared</h2></div>
-        <p>These concepts remain part of Aurora’s plan, but their present files are not complete standalone pages. They are shown without public launch buttons until repaired.</p>
+        <div><p class="eyebrow">Future growth</p><h2>One room still being prepared</h2></div>
+        <p>The Daily Rhythm Portal remains part of Aurora’s plan, but its current repository file is an embeddable section rather than a complete standalone page. It stays centered here until its full room shell is ready.</p>
       </div>
       <div class="repair-grid" id="repairGrid"></div>
+    </div>
+  </section>
+
+
+  <section class="section" id="support" aria-labelledby="supportTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="eyebrow">Support independent creation</p><h2 id="supportTitle">Help keep Aurora quiet, useful, and growing.</h2></div>
+        <p>Voluntary contributions support the continued development, maintenance, hosting, and refinement of Aurora and other original Verve N Veda tools.</p>
+      </div>
+      <div class="support-grid">
+        <article class="support-card">
+          <p class="eyebrow">A gentle contribution doorway</p>
+          <h3>Support original wellness and creative tools.</h3>
+          <p>Aurora remains open to browse without an account. Contributions help sustain the original rooms, accessibility work, maintenance, and independent infrastructure behind the wider Verve N Veda ecosystem.</p>
+          <div class="support-note">This support is for Verve N Veda / Aurora development and is separate from political campaign contributions. No charitable or tax-deductible status is implied.</div>
+        </article>
+        <aside class="support-card support-stripe" aria-label="Contribute through Stripe">
+          <p class="eyebrow">Contribute</p>
+          <h3>Thank you for helping the work continue.</h3>
+          <stripe-buy-button buy-button-id="buy_btn_1TtUqXJv39zQCMS1skiXSbvP" publishable-key="pk_live_51RpGqiJv39zQCMS1Gms5qklNYpH8haeue2dSLG76KHSims5CbWbitNjqlwhxDvjewGefNyrh24zNMsdQSk5m3mbE00Ajsji1iw"></stripe-buy-button>
+        </aside>
+      </div>
     </div>
   </section>
 
@@ -654,6 +742,7 @@ body.room-open{overflow:hidden}.aurora-voice-live{position:fixed;right:1rem;bott
       <a href="#originals">Aurora Originals</a>
       <a href="#resources">Public Resources</a>
       <a href="#matrix">Verve N Veda Matrix</a>
+      <a href="#support">Contribute</a>
       <a href="#top">Return to top</a>
     </div>
     <p>© <span id="year"></span> Verve N Veda · Jennifer Kay Pearl</p>
@@ -668,10 +757,10 @@ body.room-open{overflow:hidden}.aurora-voice-live{position:fixed;right:1rem;bott
 "use strict";
 
 const ORIGINALS=[{"id": "auraink", "title": "AuraInk", "file": "AuraInk_index.html", "category": "creative", "icon": "✒", "subtitle": "Art Is Healing", "desc": "A private-feeling creative room for intuitive words, visual reflection, and gentle artistic release.", "tags": "art writing healing creativity reflection"}, {"id": "auraen-tune", "title": "Auraen Tune", "file": "AuraenTune_index.html", "category": "sound", "icon": "♫", "subtitle": "Frequency Tuner", "desc": "Explore tone and frequency through a simple sensory listening tool designed for calm experimentation.", "tags": "sound frequency tuner listening tone"}, {"id": "aurora-inspiration", "title": "Aurora Inspiration Game", "file": "Aurora_Inspiration_index.html", "category": "creative", "icon": "☼", "subtitle": "Creative Renewal", "desc": "A playful inspiration room for reconnecting with ideas, color, imagination, and creative momentum.", "tags": "inspiration art creativity game ideas"}, {"id": "gentle-wake", "title": "Good Night · Gentle Wake", "file": "Breath_evening_index.html", "category": "rest", "icon": "☾", "subtitle": "Evening & Morning Rhythm", "desc": "A gentle sleep-and-wake companion for closing the day softly and beginning again without harsh alarms.", "tags": "sleep evening morning wake rest alarm"}, {"id": "breath-reset", "title": "Breath & Reset", "file": "breath_reset_index.html", "category": "breath", "icon": "◌", "subtitle": "Timed Breathing", "desc": "A focused breathing timer for short pauses, transitions, stress relief, and attention resets.", "tags": "breath breathing timer reset calm"}, {"id": "breathe-ground", "title": "Breathe & Ground", "file": "breathe_ground_index.html", "category": "breath", "icon": "⌄", "subtitle": "Any-Time Reset", "desc": "Return attention to breath, body, and the steadiness of the present moment through a compact grounding routine.", "tags": "grounding breath body present reset"}, {"id": "color-alchemy", "title": "The Color Alchemist", "file": "color_alchemy_index.html", "category": "creative", "icon": "◐", "subtitle": "Studio Quest", "desc": "Explore color relationships, mood, intuition, and visual decision-making through creative play.", "tags": "color art mood alchemy creative"}, {"id": "creative-odyssey", "title": "Creative Mind Odyssey", "file": "creative_mind_odyssey_index.html", "category": "creative", "icon": "✦", "subtitle": "Sovereign Edition", "desc": "A guided imaginative journey through prompts, choices, and open-ended creative discovery.", "tags": "creative mind odyssey imagination prompts"}, {"id": "creative-wheel", "title": "Creative Wheel", "file": "creative_wheel_index.html", "category": "creative", "icon": "✺", "subtitle": "Prompt Generator", "desc": "Turn the wheel for a fresh direction, medium, subject, or low-pressure creative starting point.", "tags": "wheel prompt art creative ideas"}, {"id": "daily-journal", "title": "Daily Journal", "file": "daily_journal_index.html", "category": "reflection", "icon": "▤", "subtitle": "Private Daily Reflection", "desc": "A calm writing space for observations, gratitude, priorities, memories, and personal check-ins.", "tags": "journal reflection gratitude daily writing"}, {"id": "daily-spark", "title": "Daily Spark", "file": "daily_spark_index.html", "category": "rhythm", "icon": "✧", "subtitle": "Parchment Edition", "desc": "Receive one small invitation to begin the day with curiosity, movement, or purposeful attention.", "tags": "daily spark routine inspiration action"}, {"id": "daily-writing-spark", "title": "Daily Writing Spark", "file": "daily_writing_spark_index.html", "category": "creative", "icon": "❦", "subtitle": "Multilingual Writing Lab", "desc": "Open the page with a fresh writing invitation and a flexible studio for words, ideas, and language.", "tags": "writing prompt multilingual creativity journal"}, {"id": "dreamscript", "title": "DreamScript", "file": "dream_script_index.html", "category": "rest", "icon": "☁", "subtitle": "Night Journal", "desc": "Capture dreams, symbols, emotions, and night imagery before they fade from memory.", "tags": "dream sleep journal symbols night"}, {"id": "evening-ember", "title": "Evening Ember", "file": "evening_ember_index.html", "category": "rest", "icon": "◍", "subtitle": "Nightly Reflection", "desc": "A warm end-of-day ritual for setting down unfinished thoughts and noticing what mattered.", "tags": "evening reflection release rest night"}, {"id": "night-prayer", "title": "Night Prayer", "file": "evening_prayer_index.html", "category": "rest", "icon": "🕯", "subtitle": "Quiet Spiritual Reflection", "desc": "A peaceful place for prayer, gratitude, remembrance, and gentle closure at the end of the day.", "tags": "prayer evening gratitude faith rest"}, {"id": "first-hour", "title": "The First Hour", "file": "first_hour_index.html", "category": "rhythm", "icon": "☀", "subtitle": "Morning Sanctuary", "desc": "Begin slowly with intention, reflection, and preparation before the day becomes loud.", "tags": "morning first hour routine intention"}, {"id": "grounding-suite", "title": "Grounding Suite", "file": "grounding_suite_index.html", "category": "breath", "icon": "◉", "subtitle": "Sensory Reset Collection", "desc": "A collection of sensory and body-based practices for returning attention to the present.", "tags": "grounding senses body calm breath"}, {"id": "inspiration-mosaic", "title": "Inspiration Mosaic", "file": "inspiration_mosaic_index.html", "category": "creative", "icon": "◇", "subtitle": "Visual Idea Board", "desc": "Gather fragments of color, language, image, and thought into a living inspiration mosaic.", "tags": "inspiration mosaic collage ideas creative"}, {"id": "letter-inner-self", "title": "Letter to My Inner Self", "file": "letter_to_me_index.html", "category": "reflection", "icon": "✉", "subtitle": "Compassionate Writing", "desc": "Write with patience and compassion to your present, past, or future self.", "tags": "letter self reflection compassion writing"}, {"id": "loom-dawn", "title": "The Loom of Dawn", "file": "loom_of_dawn_index.html", "category": "rhythm", "icon": "⌁", "subtitle": "A Living Poem", "desc": "Weave language, intention, gratitude, and possibility into the beginning of the day.", "tags": "dawn morning poem intention ritual"}, {"id": "morning-muse", "title": "Morning Muse", "file": "morning_muse_index.html", "category": "creative", "icon": "❀", "subtitle": "Prompt Sanctuary", "desc": "A gentle morning prompt room for artists, writers, thinkers, and makers.", "tags": "morning muse prompt art writing"}, {"id": "morning-reflections", "title": "Morning Reflections", "file": "morning_reflection_index.html", "category": "reflection", "icon": "☼", "subtitle": "Quiet Morning Check-In", "desc": "Pause at the threshold of the day to notice your needs, hopes, and most meaningful priorities.", "tags": "morning reflection intention check in"}, {"id": "morning-sanctum", "title": "Morning Sanctum", "file": "morning_sanctum_index.html", "category": "rhythm", "icon": "⌂", "subtitle": "ARSHIF Gold Edition", "desc": "A protected morning room for stillness, intention, preparation, and a humane daily rhythm.", "tags": "morning sanctuary stillness routine"}, {"id": "niche-venn", "title": "Creative Niché Venn", "file": "niche_venn_index.html", "category": "creative", "icon": "◑", "subtitle": "Purpose & Direction", "desc": "Discover intersections among your interests, strengths, values, skills, and creative audience.", "tags": "niche venn ideas purpose strengths"}, {"id": "one-creation", "title": "One Creation at a Time", "file": "one_a_day_index.html", "category": "rhythm", "icon": "1", "subtitle": "Gentle Daily Focus", "desc": "Choose one meaningful creation or action and give it enough space to become complete.", "tags": "one task daily focus creativity"}, {"id": "song-embedder", "title": "Eiren Song Embedder", "file": "song_embedder_index.html", "category": "sound", "icon": "♪", "subtitle": "Personal Listening Space", "desc": "Build a personal listening room around music that inspires, steadies, or restores you.", "tags": "song music embed listening sound"}, {"id": "soulbook", "title": "Soulbook", "file": "soulbook_index.html", "category": "reflection", "icon": "❧", "subtitle": "Verve N Veda Edition", "desc": "A deeper personal book for values, memories, prayers, insights, and becoming.", "tags": "soul book journal memory values"}, {"id": "spire", "title": "Spire Mindful Breathing", "file": "spire_mindful_breathing_index.html", "category": "breath", "icon": "△", "subtitle": "Breathing Studio", "desc": "A visual breathing practice shaped around ascent, pause, release, and steady attention.", "tags": "spire mindful breathing meditation calm"}, {"id": "starlight-jar", "title": "Starlight Jar", "file": "starlight_jar_index.html", "category": "rest", "icon": "✷", "subtitle": "Kids Night Reflections", "desc": "Collect small lights from the day—kindness, courage, beauty, and moments worth remembering.", "tags": "starlight gratitude jar kids evening"}, {"id": "story-spark", "title": "Aurora Story Spark", "file": "story_spark_index.html", "category": "creative", "icon": "⌇", "subtitle": "Monte Carlo Story Cue", "desc": "Open a doorway into character, scene, wonder, conflict, and narrative possibility.", "tags": "story writing prompt fiction creativity"}, {"id": "tiny-triumphs", "title": "Tiny Triumphs", "file": "tiny_triumphs_index.html", "category": "reflection", "icon": "✓", "subtitle": "Progress & Gratitude", "desc": "Notice the quiet victories that are easy to miss but meaningful to remember.", "tags": "tiny triumphs progress gratitude reflection"}, {"id": "vintage-spinet", "title": "Vintage Spinet", "file": "vintage_spinnet_index.html", "category": "sound", "icon": "♬", "subtitle": "Kids Orchestra", "desc": "A playful musical corner for sound exploration, memory, rhythm, and creative atmosphere.", "tags": "vintage spinet music kids orchestra sound"}];
-const REPAIRS=[{"id": "daily-rhythm-repair", "title": "Daily Rhythm Portal", "icon": "≋", "status": "Needs page shell", "note": "The repository file is an embeddable section fragment rather than a complete standalone HTML document."}, {"id": "contribute-repair", "title": "Aurora Community Support Room", "icon": "♡", "status": "Needs full page", "note": "The current file contains only an external payment-button fragment and needs a complete Aurora page before public launch."}];
+const REPAIRS=[{"id":"daily-rhythm-repair","title":"Daily Rhythm Portal","icon":"≋","status":"Needs page shell","note":"The repository file is an embeddable section fragment rather than a complete standalone HTML document."}];
 const CATEGORIES={"all": {"label": "All Aurora Originals", "short": "All", "icon": "☼", "desc": "Browse every verified original room in the Aurora collection."}, "breath": {"label": "Breath & Grounding", "short": "Breathe", "icon": "◌", "desc": "Breathing timers, grounding practices, and sensory resets."}, "rhythm": {"label": "Morning & Daily Rhythm", "short": "Begin", "icon": "☀", "desc": "Gentle beginnings, focus, intention, and humane daily structure."}, "rest": {"label": "Evening, Sleep & Rest", "short": "Rest", "icon": "☾", "desc": "Night reflection, dream journaling, prayer, gratitude, and gentle waking."}, "creative": {"label": "Creative Renewal", "short": "Create", "icon": "✦", "desc": "Art, writing, prompts, color, imagination, and personal direction."}, "reflection": {"label": "Reflection & Personal Growth", "short": "Reflect", "icon": "❧", "desc": "Journaling, self-compassion, gratitude, values, and quiet progress."}, "sound": {"label": "Sound & Atmosphere", "short": "Listen", "icon": "♫", "desc": "Frequency, music, personal listening, and playful sound exploration."}};
 const RESOURCES=[{"id": "nccih-mindfulness", "title": "Meditation & Mindfulness", "provider": "NIH · NCCIH", "category": "Mindfulness", "icon": "◌", "url": "https://www.nccih.nih.gov/health/meditation-and-mindfulness-effectiveness-and-safety", "desc": "Evidence, possible benefits, research limitations, and safety considerations for meditation and mindfulness."}, {"id": "nccih-yoga", "title": "Yoga: Benefits & Safety", "provider": "NIH · NCCIH", "category": "Yoga", "icon": "△", "url": "https://www.nccih.nih.gov/health/tips/things-you-should-know-about-yoga", "desc": "A concise, evidence-aware overview of yoga, appropriate precautions, and safer practice."}, {"id": "move-your-way", "title": "Move Your Way", "provider": "U.S. Department of Health and Human Services", "category": "Movement", "icon": "↟", "url": "https://odphp.health.gov/moveyourway", "desc": "Accessible tools, activity ideas, and a weekly planner for adding more movement to daily life."}, {"id": "cdc-sleep", "title": "About Sleep", "provider": "Centers for Disease Control and Prevention", "category": "Sleep", "icon": "☾", "url": "https://www.cdc.gov/sleep/about/index.html", "desc": "Age-based sleep guidance, healthy sleep habits, sleep quality, and signs that may warrant professional care."}, {"id": "nimh-care", "title": "Caring for Your Mental Health", "provider": "National Institute of Mental Health", "category": "Mental Health", "icon": "♡", "url": "https://www.nimh.nih.gov/health/topics/caring-for-your-mental-health", "desc": "Practical self-care guidance, signs that professional help may be useful, and pathways to support."}, {"id": "medline-healthy", "title": "Healthy Living", "provider": "National Library of Medicine · MedlinePlus", "category": "Whole-Person Health", "icon": "＋", "url": "https://medlineplus.gov/healthyliving.html", "desc": "A broad, consumer-friendly starting point for healthy habits, prevention, screenings, and everyday well-being."}, {"id": "myplate", "title": "MyPlate", "provider": "U.S. Department of Agriculture", "category": "Nutrition", "icon": "◒", "url": "https://www.myplate.gov/", "desc": "Public nutrition tools and practical guidance for building balanced meals across different life stages."}, {"id": "who-mental", "title": "Mental Health Overview", "provider": "World Health Organization", "category": "Global Well-Being", "icon": "◎", "url": "https://www.who.int/health-topics/mental-health", "desc": "A global overview of mental well-being, risk and protective factors, care, rights, and public-health action."}];
-const NETWORK=[{"id": "matrix", "title": "Verve N Veda Matrix", "icon": "V", "url": "https://vervenveda.github.io/", "desc": "The public gateway to the full Verve N Veda ecosystem."}, {"id": "medicament", "title": "Medicament Hub", "icon": "✚", "url": "https://vervenveda.github.io/medicament-hub.github.io/", "desc": "Health information, medical resources, patient support, and wellness halls."}, {"id": "solanar", "title": "Solanar", "icon": "☀", "url": "https://vervenveda.github.io/solanar.github.io/", "desc": "Weather, Earth science, environmental observation, lunar cycles, and daily conditions."}, {"id": "academy", "title": "Khaemenes Academy", "icon": "⌂", "url": "https://vervenveda.github.io/Khaemenes_Academy.github.io/", "desc": "Learning pathways, curriculum, student resources, and lifelong education."}, {"id": "refrain", "title": "The Refrain", "icon": "♫", "url": "https://vervenveda.github.io/the_refrain.github.io/", "desc": "Music learning, listening, composition, recording, and creative sound."}, {"id": "river-road", "title": "River to Road", "icon": "≈", "url": "https://vervenveda.github.io/river_to_road.github.io/", "desc": "Nature, environmental stewardship, restoration, and community action."}];
+const NETWORK=[{"id":"matrix","title":"Verve N Veda Matrix","icon":"V","url":"https://vervenveda.github.io/","desc":"The public gateway to the full Verve N Veda ecosystem."},{"id":"medicament","title":"Medicament Hub","icon":"✚","url":"https://vervenveda.github.io/medicament-hub.github.io/","desc":"Health information, medical resources, patient support, and wellness halls."},{"id":"solanar","title":"Solanar","icon":"☀","url":"https://vervenveda.github.io/solanar.github.io/","desc":"Weather, Earth science, environmental observation, lunar cycles, and daily conditions."},{"id":"academy","title":"Khaemenes Academy","icon":"⌂","url":"https://vervenveda.github.io/Khaemenes_Academy.github.io/","desc":"Learning pathways, curriculum, student resources, and lifelong education."},{"id":"refrain","title":"The Refrain","icon":"♫","url":"https://vervenveda.github.io/the_refrain.github.io/","desc":"Music learning, listening, composition, recording, and creative sound."},{"id":"river-road","title":"River to Road","icon":"≈","url":"https://vervenveda.github.io/river_to_road.github.io/","desc":"Nature, environmental stewardship, restoration, and community action."},{"id":"bazaar-art","title":"Bazaar Art","icon":"◈","url":"https://vervenveda.github.io/bazaarart.github.io/","desc":"Creative studios, art learning, artist tools, and the wider Bazaar Art creative ecosystem."},{"id":"arshif","title":"ARSHIF","icon":"A","url":"https://vervenveda.github.io/Arshif.github.io/","desc":"Literature, philosophy, cultural memory, arts study, and reflective research."}];
 
 const APP_BASE="./apps/";
 const FAVORITES_KEY="aurora_verified_favorites_v3";
@@ -1002,6 +1091,18 @@ function toggleBreath(){
   }
 }
 
+
+function setTickerPaused(paused){
+  const track=$("tickerTrack"),btn=$("tickerPause");
+  if(!track||!btn)return;
+  track.classList.toggle("paused",paused);
+  btn.dataset.paused=String(paused);
+  btn.setAttribute("aria-pressed",String(paused));
+  btn.textContent=paused?"Play":"Pause";
+  btn.title=paused?"Play studio notes":"Pause studio notes";
+}
+function toggleTicker(){setTickerPaused(!$("tickerTrack").classList.contains("paused"));}
+
 function auditAurora(){
   const ids=ORIGINALS.map(item=>item.id);
   const files=ORIGINALS.map(item=>item.file);
@@ -1082,6 +1183,7 @@ $("closeMenu").addEventListener("click",closeMenu);
 $("menuOverlay").addEventListener("click",event=>{if(event.target===$("menuOverlay"))closeMenu()});
 $("menuSearch").addEventListener("input",event=>buildMenu(event.target.value));
 $("breathToggle").addEventListener("click",toggleBreath);
+$("tickerPause").addEventListener("click",toggleTicker);
 $("voiceToggle").addEventListener("click",toggleAuroraVoice);
 $("roomVoiceToggle").addEventListener("click",toggleAuroraVoice);
 $("roomWelcome").addEventListener("click",()=>roomWelcome());
@@ -1095,6 +1197,7 @@ $("roomFrame").addEventListener("load",()=>{
 });
 if("speechSynthesis" in window){speechSynthesis.onvoiceschanged=syncVoiceControls}
 syncVoiceControls();
+if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)setTickerPaused(true);
 document.addEventListener("keydown",event=>{
   if(event.key==="Escape"){if($("roomOverlay").classList.contains("open"))closeAuroraRoom();else closeMenu();}
   if(event.key==="/"&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){
