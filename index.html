@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Aurora Inspiration — an audited Verve N Veda sanctuary for breath, rest, creativity, reflection, sound, personal growth, and trusted public wellness resources.">
-<meta name="theme-color" content="#e6efe8">
+<meta name="theme-color" content="#edf1e7">
 <meta name="color-scheme" content="light">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'none'; worker-src 'none';">
-<title>Aurora Inspiration — Restore · Grow · Create</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'self'; worker-src 'none';">
+<title>Aurora Studio — Breathe · Restore · Create</title>
 <style>
 :root{
   --mist:#f7faf7;
@@ -374,6 +374,59 @@ h2{margin:.5rem 0 0;color:var(--sage-deep);font-size:clamp(2.65rem,5vw,4.6rem);l
   .section{padding:1.5rem 0}
   .original-card,.resource-card,.network-card,.repair-card,.wellness-note{break-inside:avoid;box-shadow:none;background:#fff;color:#111}
 }
+
+/* === Aurora Studio v4 · sunlit yoga room + persistent voice shell === */
+:root{
+  --studio-cream:#fbf7ed;--studio-warm:#f3eadb;--studio-wood:#b78d67;--studio-wood-dark:#8f694e;
+  --studio-sage:#879b88;--studio-sage-2:#b8c5b4;--studio-glow:#f4d69e;--studio-white:#fffefa;
+}
+body{
+  background:
+    radial-gradient(circle at 84% 5%,rgba(250,222,170,.36),transparent 34rem),
+    radial-gradient(circle at 8% 18%,rgba(197,213,194,.42),transparent 28rem),
+    linear-gradient(180deg,#fffdf8 0,#f7f3e9 34rem,#f8faf5 100%);
+}
+.site-header{background:rgba(255,253,247,.90);border-bottom-color:rgba(117,107,88,.12)}
+.nav-tools{display:flex;align-items:center;gap:.55rem}
+.voice-pill{min-height:44px;display:inline-flex;align-items:center;gap:.48rem;padding:.66rem .86rem;border:1px solid rgba(73,102,90,.16);border-radius:999px;background:rgba(255,255,255,.82);color:var(--sage-deep);font-size:.73rem;font-weight:800;letter-spacing:.025em}
+.voice-pill[aria-pressed="true"]{background:#e7efe7;box-shadow:0 8px 22px rgba(73,102,90,.11)}
+.hero{min-height:760px;padding-top:4.8rem;background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(248,242,230,.26))}
+.hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:118px;background:linear-gradient(180deg,transparent,rgba(178,139,103,.08));pointer-events:none}
+.breath-sanctum{
+  min-height:610px;border-radius:46px;overflow:hidden;border:1px solid rgba(128,111,86,.14);
+  background:linear-gradient(180deg,#fffdf6 0,#f9f1df 64%,#d7b48f 64.2%,#c9986f 100%);
+  box-shadow:0 36px 88px rgba(93,79,62,.18);
+}
+.breath-sanctum:before{border-color:rgba(197,170,117,.40);border-radius:37px}
+.studio-architecture{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.studio-window{position:absolute;top:54px;width:142px;height:258px;border:9px solid rgba(255,255,255,.86);border-bottom-width:12px;border-radius:78px 78px 8px 8px;background:linear-gradient(180deg,#fff8dc,#dce9dc 64%,#b8ccb7);box-shadow:inset 0 0 0 1px rgba(126,145,128,.15),0 10px 30px rgba(91,79,61,.08)}
+.studio-window:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:3px;background:rgba(255,255,255,.88)}
+.studio-window:after{content:"";position:absolute;left:0;right:0;top:48%;height:3px;background:rgba(255,255,255,.88)}
+.window-one{left:44px}.window-two{right:44px;transform:scale(.88);opacity:.86}
+.studio-sunbeam{position:absolute;top:87px;width:90px;height:390px;background:linear-gradient(180deg,rgba(255,235,181,.36),rgba(255,235,181,0));filter:blur(3px);transform:rotate(18deg)}
+.beam-one{left:160px}.beam-two{right:155px;transform:rotate(-16deg);opacity:.66}
+.studio-mat{position:absolute;left:50%;bottom:54px;width:66%;height:78px;transform:translateX(-50%) skewX(-8deg);border-radius:50%;background:linear-gradient(180deg,#9fae9d,#839682);box-shadow:0 15px 18px rgba(78,59,44,.18)}
+.studio-bolsters{position:absolute;left:44px;bottom:74px;display:grid;gap:5px}.studio-bolsters span{display:block;width:88px;height:17px;border-radius:999px;background:#a9b6a1;box-shadow:0 4px 10px rgba(77,62,49,.10)}.studio-bolsters span:nth-child(2){background:#e8dfcc;width:76px}.studio-bolsters span:nth-child(3){background:#889b88;width:96px}
+.studio-plant{position:absolute;bottom:84px;width:92px;height:155px}.plant-left{left:13px}.plant-right{right:10px;transform:scale(.92)}
+.studio-plant b{position:absolute;bottom:0;left:23px;width:48px;height:42px;border-radius:7px 7px 17px 17px;background:linear-gradient(135deg,#b78965,#8f684e)}
+.studio-plant i{position:absolute;bottom:36px;left:43px;width:20px;height:78px;border-radius:100% 0 100% 0;background:linear-gradient(135deg,#718b72,#a9bc9e);transform-origin:bottom}.studio-plant i:nth-child(1){transform:rotate(-47deg)}.studio-plant i:nth-child(2){transform:rotate(-20deg);height:96px}.studio-plant i:nth-child(3){transform:rotate(22deg);height:90px}.studio-plant i:nth-child(4){transform:rotate(48deg);height:70px}
+.ring-field{opacity:.24}.center-orb{top:47%;opacity:.48}.air-line{bottom:145px;opacity:.28}
+.mini-copy{top:1.55rem}.mini-copy strong{font-size:1.5rem}.breath-wrap{padding-bottom:1rem}
+.breath-card{background:rgba(255,254,249,.94);border-color:rgba(255,255,255,.95)}
+.section.alt{background:rgba(255,253,246,.52)}
+.original-card,.journey,.resource-card,.network-card{background:linear-gradient(180deg,rgba(255,255,255,.90),rgba(250,247,239,.72));border-color:rgba(102,116,102,.14)}
+.wellness-note{background:linear-gradient(135deg,#536e60,#819684 72%,#a28c70)}
+
+.room-overlay{position:fixed;inset:0;z-index:450;display:none;padding:clamp(.5rem,2vw,1.25rem);background:rgba(42,53,48,.42);backdrop-filter:blur(14px)}
+.room-overlay.open{display:grid;place-items:center}.room-shell{width:min(1500px,98vw);height:min(94vh,980px);display:grid;grid-template-rows:auto auto 1fr;overflow:hidden;border:1px solid rgba(255,255,255,.74);border-radius:30px;background:#fbfaf5;box-shadow:0 40px 110px rgba(38,46,41,.30)}
+.room-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.78rem .92rem;border-bottom:1px solid rgba(73,102,90,.12);background:rgba(255,253,247,.96)}
+.room-identity{display:flex;align-items:center;gap:.72rem;min-width:0}.room-mark{width:40px;height:40px;display:grid;place-items:center;flex:0 0 auto;border-radius:50%;background:linear-gradient(145deg,#f8e4bb,#dce8d7);color:#536e60}.room-identity strong,.room-identity small{display:block}.room-identity strong{font-family:var(--display);color:var(--sage-deep);font-size:1.1rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.room-identity small{margin-top:.12rem;color:var(--muted);font-size:.68rem}
+.room-actions{display:flex;align-items:center;justify-content:flex-end;gap:.42rem;flex-wrap:wrap}.room-btn,.room-close{min-height:38px;border:1px solid rgba(73,102,90,.15);border-radius:999px;background:#fff;color:var(--sage-deep);padding:.56rem .76rem;font-weight:800;font-size:.68rem;text-decoration:none}.room-btn[aria-pressed="true"]{background:#e6eee6}.room-close{width:38px;padding:0;border-radius:50%;font-size:1.1rem}.room-calmline{padding:.52rem 1rem;text-align:center;color:#69766f;background:#eff3ea;font-size:.72rem;letter-spacing:.025em}.room-frame-wrap{position:relative;min-height:0;background:white}.room-frame{width:100%;height:100%;display:block;border:0;background:#fff}.room-loading{position:absolute;inset:0;z-index:2;display:grid;place-items:center;background:linear-gradient(180deg,#fffdf7,#eff3ea);color:var(--sage-deep);font-family:var(--display);font-size:1.18rem}.room-loading.hidden{display:none}
+body.room-open{overflow:hidden}.aurora-voice-live{position:fixed;right:1rem;bottom:1rem;z-index:200;display:flex;align-items:center;gap:.55rem;padding:.66rem .78rem;border:1px solid rgba(73,102,90,.13);border-radius:999px;background:rgba(255,254,249,.94);color:var(--sage-deep);box-shadow:var(--soft-shadow);font-size:.72rem;font-weight:800;opacity:0;transform:translateY(12px);pointer-events:none;transition:.2s}.aurora-voice-live.show{opacity:1;transform:none}
+@media(max-width:900px){.voice-pill #voiceLabel{display:none}.voice-pill{width:44px;padding:0;justify-content:center}.room-bar{align-items:flex-start}.room-actions{max-width:64%}.room-btn{font-size:.62rem}.studio-window{width:118px}.window-one{left:24px}.window-two{right:24px}}
+@media(max-width:650px){.room-shell{height:97vh;border-radius:20px}.room-bar{display:grid}.room-actions{max-width:none;justify-content:flex-start}.room-identity strong{max-width:72vw}.room-btn{padding:.48rem .62rem}.studio-window{width:96px;height:210px}.studio-plant{transform:scale(.72);transform-origin:bottom}.plant-right{transform:scale(.68)}.studio-mat{width:78%}}
+@media(prefers-reduced-motion:reduce){.aurora-voice-live{transition:none}}
+
 </style>
 </head>
 <body>
@@ -391,9 +444,14 @@ h2{margin:.5rem 0 0;color:var(--sage-deep);font-size:clamp(2.65rem,5vw,4.6rem);l
       <a href="#resources">Public Resources</a>
       <a href="#matrix">Matrix</a>
     </nav>
-    <button class="icon-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menuOverlay" aria-label="Open Aurora directory">
-      <span class="menu-lines"></span>
-    </button>
+    <div class="nav-tools">
+      <button class="voice-pill" id="voiceToggle" type="button" aria-pressed="false" title="Turn Aurora's soft voice on or off">
+        <span aria-hidden="true" id="voiceIcon">🔇</span><span id="voiceLabel">Aurora Voice · Off</span>
+      </button>
+      <button class="icon-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menuOverlay" aria-label="Open Aurora directory">
+        <span class="menu-lines"></span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -401,9 +459,9 @@ h2{margin:.5rem 0 0;color:var(--sage-deep);font-size:clamp(2.65rem,5vw,4.6rem);l
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <p class="kicker">A restorative Verve N Veda sanctuary</p>
-        <h1>Aurora<span>Health · rejuvenation · personal growth</span></h1>
-        <p class="lead">A quiet, all-encompassing wellness space led by original Verve N Veda apps for breathing, rest, creativity, reflection, sound, daily rhythm, and personal renewal; supported by a separate library of trusted public-health resources.</p>
+        <p class="kicker">Aurora · the quiet teacher</p>
+        <h1>Aurora<span>Breathe · restore · grow · create</span></h1>
+        <p class="lead">A sunlit digital yoga studio for breathing, rest, creativity, reflection, sound, daily rhythm, and personal renewal. Aurora stays visually quiet: no portrait, no avatar—her presence is the room, the pacing, and an optional soft voice that can accompany you into every Aurora Original opened here.</p>
         <div class="hero-actions">
           <a class="btn primary" href="#originals">Explore Aurora Originals</a>
           <a class="btn secondary" href="#journeys">Choose a Wellness Journey</a>
@@ -414,11 +472,22 @@ h2{margin:.5rem 0 0;color:var(--sage-deep);font-size:clamp(2.65rem,5vw,4.6rem);l
           <span>outside resources clearly labeled</span>
           <span>favorites remain on this device</span>
           <span>no accounts or trackers</span>
+          <span>optional calm voice · always under your control</span>
         </div>
       </div>
 
       <div class="hero-panel">
-        <div class="breath-sanctum">
+        <div class="breath-sanctum" aria-label="Aurora's sunlit yoga studio">
+          <div class="studio-architecture" aria-hidden="true">
+            <div class="studio-window window-one"><span></span></div>
+            <div class="studio-window window-two"><span></span></div>
+            <div class="studio-sunbeam beam-one"></div>
+            <div class="studio-sunbeam beam-two"></div>
+            <div class="studio-plant plant-left"><i></i><i></i><i></i><i></i><b></b></div>
+            <div class="studio-plant plant-right"><i></i><i></i><i></i><i></i><b></b></div>
+            <div class="studio-mat"></div>
+            <div class="studio-bolsters"><span></span><span></span><span></span></div>
+          </div>
           <div class="ring-field" aria-hidden="true">
             <div class="ring one"></div><div class="ring two"></div><div class="ring three"></div>
             <div class="center-orb"></div>
@@ -542,6 +611,30 @@ h2{margin:.5rem 0 0;color:var(--sage-deep);font-size:clamp(2.65rem,5vw,4.6rem);l
   </section>
 </main>
 
+<div class="room-overlay" id="roomOverlay" aria-hidden="true">
+  <section class="room-shell" role="dialog" aria-modal="true" aria-labelledby="roomTitle">
+    <header class="room-bar">
+      <div class="room-identity">
+        <span class="room-mark" aria-hidden="true">☼</span>
+        <span><strong id="roomTitle">Aurora Original</strong><small id="roomSubtitle">A calm room inside Aurora Studio</small></span>
+      </div>
+      <div class="room-actions">
+        <button class="room-btn" id="roomVoiceToggle" type="button" aria-pressed="false">🔇 Voice Off</button>
+        <button class="room-btn" id="roomWelcome" type="button">Hear Welcome</button>
+        <button class="room-btn" id="roomRead" type="button">Read This Room</button>
+        <button class="room-btn" id="roomStop" type="button">Stop Voice</button>
+        <a class="room-btn" id="roomFullPage" href="#">Open Full Page</a>
+        <button class="room-close" id="roomClose" type="button" aria-label="Close Aurora room">×</button>
+      </div>
+    </header>
+    <div class="room-calmline" id="roomCalmline">Aurora is here quietly. Use Voice only when you want it.</div>
+    <div class="room-frame-wrap">
+      <div class="room-loading" id="roomLoading">Opening the room gently…</div>
+      <iframe id="roomFrame" class="room-frame" title="Aurora Original"></iframe>
+    </div>
+  </section>
+</div>
+
 <div class="menu-overlay" id="menuOverlay" aria-hidden="true">
   <div class="menu-panel" role="dialog" aria-modal="true" aria-labelledby="menuTitle">
     <div class="menu-head">
@@ -555,19 +648,20 @@ h2{margin:.5rem 0 0;color:var(--sage-deep);font-size:clamp(2.65rem,5vw,4.6rem);l
 
 <footer class="footer">
   <div class="wrap">
-    <strong>Aurora Inspiration</strong>
-    <p>Original Verve N Veda wellness tools · clearly labeled public resources · local favorites only · no direct GitHub repository links. Aurora is educational and self-guided; it is not a substitute for medical or mental-health care.</p>
+    <strong>Aurora Studio</strong>
+    <p>Original Verve N Veda wellness rooms · optional soft voice · clearly labeled public resources · local favorites only. Aurora is educational and self-guided; she offers calm guidance, not diagnosis or treatment.</p>
     <div class="footer-links">
       <a href="#originals">Aurora Originals</a>
       <a href="#resources">Public Resources</a>
       <a href="#matrix">Verve N Veda Matrix</a>
       <a href="#top">Return to top</a>
     </div>
-    <p>© <span id="year"></span> Verve N Veda</p>
+    <p>© <span id="year"></span> Verve N Veda · Jennifer Kay Pearl</p>
   </div>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="aurora-voice-live" id="voiceLive" aria-live="polite"><span aria-hidden="true">☼</span><span id="voiceLiveText">Aurora is speaking softly…</span></div>
 
 <script>
 (()=>{
@@ -581,6 +675,89 @@ const NETWORK=[{"id": "matrix", "title": "Verve N Veda Matrix", "icon": "V", "ur
 
 const APP_BASE="./apps/";
 const FAVORITES_KEY="aurora_verified_favorites_v3";
+const VOICE_KEY="aurora_soft_voice_v1";
+let voiceEnabled=localStorage.getItem(VOICE_KEY)==="on";
+let activeRoom=null;
+let roomReadText="";
+
+function preferredVoice(){
+  if(!("speechSynthesis" in window))return null;
+  const voices=speechSynthesis.getVoices();
+  const warmNames=["Samantha","Ava","Jenny","Aria","Serena","Sonia","Karen","Moira","Tessa","Zira","Victoria","Fiona","Google UK English Female","Google US English"];
+  return warmNames.map(name=>voices.find(v=>v.name.includes(name)&&/^en/i.test(v.lang))).find(Boolean)
+    || voices.find(v=>/^en/i.test(v.lang)&&/female|natural|premium/i.test(v.name))
+    || voices.find(v=>/^en/i.test(v.lang))||null;
+}
+function stopAuroraVoice(){
+  if("speechSynthesis" in window)speechSynthesis.cancel();
+  $("voiceLive")?.classList.remove("show");
+}
+function auroraSpeak(text,{force=false}={}){
+  if(!force&&!voiceEnabled)return;
+  if(!("speechSynthesis" in window)){toast("Aurora voice is not available in this browser.");return}
+  const clean=String(text||"").replace(/\s+/g," ").trim();
+  if(!clean)return;
+  stopAuroraVoice();
+  const utter=new SpeechSynthesisUtterance(clean);
+  const voice=preferredVoice();
+  if(voice)utter.voice=voice;
+  utter.lang=voice?.lang||"en-US";
+  utter.rate=.82;utter.pitch=.96;utter.volume=.68;
+  utter.onstart=()=>{if($("voiceLive")){ $("voiceLiveText").textContent="Aurora is speaking softly…";$("voiceLive").classList.add("show") }};
+  utter.onend=utter.onerror=()=>$("voiceLive")?.classList.remove("show");
+  speechSynthesis.speak(utter);
+}
+function syncVoiceControls(){
+  const supported="speechSynthesis" in window;
+  [["voiceToggle","voiceIcon","voiceLabel"],["roomVoiceToggle",null,null]].forEach(([id,icon,label])=>{
+    const btn=$(id);if(!btn)return;
+    btn.disabled=!supported;btn.setAttribute("aria-pressed",String(voiceEnabled));
+    if(id==="roomVoiceToggle")btn.textContent=voiceEnabled?"🔊 Voice On":"🔇 Voice Off";
+    if(icon)$(icon).textContent=voiceEnabled?"🔊":"🔇";
+    if(label)$(label).textContent=voiceEnabled?"Aurora Voice · On":"Aurora Voice · Off";
+  });
+}
+function toggleAuroraVoice(){
+  if(!("speechSynthesis" in window)){toast("Aurora voice is not available in this browser.");return}
+  voiceEnabled=!voiceEnabled;localStorage.setItem(VOICE_KEY,voiceEnabled?"on":"off");syncVoiceControls();
+  if(voiceEnabled)auroraSpeak("Hello. I am Aurora. I will keep my voice soft, and I will only speak when you choose to hear me.",{force:true});
+  else stopAuroraVoice();
+}
+function roomWelcome(app=activeRoom){
+  if(!app)return;
+  const cat=CATEGORIES[app.category]?.short||"this room";
+  auroraSpeak(`Welcome to ${app.title}. ${app.desc} Take your time. Nothing here needs to be rushed.`,{force:true});
+}
+function extractRoomText(){
+  try{
+    const doc=$("roomFrame").contentDocument;
+    if(!doc)return "";
+    const root=doc.querySelector("main")||doc.body;
+    const clone=root.cloneNode(true);
+    clone.querySelectorAll("script,style,noscript,nav,footer,button,input,select,textarea,iframe").forEach(n=>n.remove());
+    return (clone.innerText||clone.textContent||"").replace(/\s+/g," ").trim().slice(0,3600);
+  }catch{return ""}
+}
+function readAuroraRoom(){
+  const text=extractRoomText();
+  if(!text){toast("This room does not expose readable text to Aurora yet.");return}
+  roomReadText=text;auroraSpeak(text,{force:true});
+}
+function openAuroraRoom(app){
+  if(!app)return;
+  const href=appHref(app);
+  if(!isAllowedOriginalHref(href)){toast("That Aurora path did not pass the safety check.");return}
+  activeRoom=app;roomReadText="";
+  $("roomTitle").textContent=app.title;$("roomSubtitle").textContent=`${app.subtitle} · ${categoryLabel(app.category)}`;
+  $("roomFullPage").href=href;$("roomFrame").title=app.title;$("roomLoading").classList.remove("hidden");
+  $("roomFrame").src=href;$("roomOverlay").classList.add("open");$("roomOverlay").setAttribute("aria-hidden","false");document.body.classList.add("room-open");
+  syncVoiceControls();
+  if(voiceEnabled)setTimeout(()=>roomWelcome(app),240);
+}
+function closeAuroraRoom(){
+  stopAuroraVoice();$("roomOverlay").classList.remove("open");$("roomOverlay").setAttribute("aria-hidden","true");document.body.classList.remove("room-open");$("roomFrame").src="about:blank";activeRoom=null;
+}
+
 const FORBIDDEN_TERMS=/\b(casino|gambling|sportsbook|roulette|blackjack|jackpot|poker|betting|affiliate|sweepstakes)\b/i;
 const EXTERNAL_HOSTS=[
   "nccih.nih.gov","odphp.health.gov","cdc.gov","nimh.nih.gov",
@@ -719,7 +896,7 @@ function openRandom(pool=ORIGINALS){
   const app=pool[Math.floor(Math.random()*pool.length)];
   const href=appHref(app);
   if(!isAllowedOriginalHref(href)){toast("That Aurora path did not pass the safety check.");return}
-  location.href=href;
+  openAuroraRoom(app);
 }
 
 function renderResources(){
@@ -802,20 +979,21 @@ const breathSteps=[
   ["Exhale","Release slowly and soften the shoulders.","exhale",5600],
   ["Rest","Notice the quiet before the next breath.","",2200]
 ];
-let breathing=false,breathIndex=0,breathTimer;
+let breathing=false,breathIndex=0,breathTimer,breathVoiceSteps=0;
 function runBreath(){
   if(!breathing)return;
   const [stage,note,className,duration]=breathSteps[breathIndex];
   $("breathCard").className="breath-card "+className;
   $("breathStage").textContent=stage;
   $("breathNote").textContent=note;
+  if(voiceEnabled&&breathVoiceSteps<4){auroraSpeak(`${stage}. ${note}`);breathVoiceSteps++;}
   breathIndex=(breathIndex+1)%breathSteps.length;
   breathTimer=setTimeout(runBreath,duration);
 }
 function toggleBreath(){
   breathing=!breathing;
   $("breathToggle").textContent=breathing?"Pause":"Begin";
-  if(breathing)runBreath();
+  if(breathing){breathVoiceSteps=0;runBreath();}
   else{
     clearTimeout(breathTimer);
     $("breathCard").className="breath-card";
@@ -851,8 +1029,13 @@ window.auditAurora=auditAurora;
 
 document.addEventListener("click",event=>{
   const original=event.target.closest("a[data-original]");
-  if(original&&!isAllowedOriginalHref(original.getAttribute("href"))){
-    event.preventDefault();toast("This Aurora room is unavailable until its path is verified.");return;
+  if(original){
+    if(!isAllowedOriginalHref(original.getAttribute("href"))){event.preventDefault();toast("This Aurora room is unavailable until its path is verified.");return;}
+    event.preventDefault();
+    const decoded=decodeURI((original.getAttribute("href")||"").replace(APP_BASE,""));
+    const app=ORIGINALS.find(item=>item.file===decoded);
+    if(app){closeMenu();openAuroraRoom(app);}else toast("Aurora could not identify that room.");
+    return;
   }
   const external=event.target.closest("a[data-external]");
   if(external&&!isAllowedExternal(external.href)){
@@ -899,8 +1082,21 @@ $("closeMenu").addEventListener("click",closeMenu);
 $("menuOverlay").addEventListener("click",event=>{if(event.target===$("menuOverlay"))closeMenu()});
 $("menuSearch").addEventListener("input",event=>buildMenu(event.target.value));
 $("breathToggle").addEventListener("click",toggleBreath);
+$("voiceToggle").addEventListener("click",toggleAuroraVoice);
+$("roomVoiceToggle").addEventListener("click",toggleAuroraVoice);
+$("roomWelcome").addEventListener("click",()=>roomWelcome());
+$("roomRead").addEventListener("click",readAuroraRoom);
+$("roomStop").addEventListener("click",stopAuroraVoice);
+$("roomClose").addEventListener("click",closeAuroraRoom);
+$("roomOverlay").addEventListener("click",event=>{if(event.target===$("roomOverlay"))closeAuroraRoom()});
+$("roomFrame").addEventListener("load",()=>{
+  $("roomLoading").classList.add("hidden");
+  if(activeRoom)$("roomCalmline").textContent=`${activeRoom.title} is open. Aurora Voice ${voiceEnabled?"is on":"is off"}; use the controls whenever you want guidance.`;
+});
+if("speechSynthesis" in window){speechSynthesis.onvoiceschanged=syncVoiceControls}
+syncVoiceControls();
 document.addEventListener("keydown",event=>{
-  if(event.key==="Escape")closeMenu();
+  if(event.key==="Escape"){if($("roomOverlay").classList.contains("open"))closeAuroraRoom();else closeMenu();}
   if(event.key==="/"&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){
     event.preventDefault();$("search").focus();
   }
