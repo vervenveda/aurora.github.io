@@ -1,0 +1,83 @@
+name: Aurora Sanctuary Audit
+
+on:
+  push:
+    branches: [main, watercolor-sanctuary-2026-08-23]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Validate sanctuary architecture
+        run: |
+          python - <<'PY'
+          import json, pathlib, re
+
+          root=pathlib.Path('.')
+          index=(root/'index.html').read_text(encoding='utf-8')
+          js=(root/'assets'/'aurora-sanctuary.js').read_text(encoding='utf-8')
+          css=(root/'assets'/'aurora-sanctuary.css').read_text(encoding='utf-8')
+
+          required=[
+            root/'assets'/'aurora-meadow.svg',
+            root/'assets'/'aurora-evening.svg',
+            root/'assets'/'aurora-sanctuary.css',
+            root/'assets'/'aurora-sanctuary.js',
+            root/'mentor-manifest.json',
+            root/'README.md',
+          ]
+          for path in required:
+            assert path.exists(), f'Missing required file: {path}'
+
+          assert 'aurora-meadow.svg' in css, 'Meadow watercolor must remain part of sanctuary design'
+          assert 'aurora-evening.svg' in css, 'Evening watercolor must remain part of sanctuary design'
+          assert 'studio-window' not in index, 'Legacy faux studio illustration returned to landing page'
+          assert 'studio-ticker' not in index, 'Legacy moving studio ticker returned to landing page'
+          assert 'aurora-sanctuary.css' in index and 'aurora-sanctuary.js' in index
+          assert 'prefers-reduced-motion:reduce' in css
+          assert 'Skip to main content' in index
+          assert 'not medical, psychological, psychiatric, or therapeutic treatment' in index
+          assert '<link rel="canonical" href="https://vervenveda.com/aurora.github.io/">' in index
+
+          files=re.findall(r'file:"([^"]+_index\.html)"',js)
+          ids=re.findall(r'\{id:"([^"]+)",title:',js)
+          assert len(files)>=32, f'Expected at least 32 Aurora rooms, found {len(files)}'
+          assert len(files)==len(set(files)), 'Duplicate room filenames found'
+          assert len(ids)>=32 and len(ids)==len(set(ids)), 'Room IDs must be unique'
+          missing=[name for name in files if not (root/'apps'/name).exists()]
+          assert not missing, 'Missing Aurora room files: '+', '.join(missing)
+
+          manifest=json.loads((root/'mentor-manifest.json').read_text(encoding='utf-8'))
+          assert manifest.get('homepage')=='https://vervenveda.com/aurora.github.io/'
+          assert manifest.get('classification')=='wellness'
+          assert 'not medical' in manifest.get('mentorNotes','').lower()
+
+          external=re.findall(r'https://[^"\']+',js)
+          assert external and all(url.startswith('https://') for url in external)
+
+          readme=(root/'README.md').read_text(encoding='utf-8')
+          assert 'Watercolor Sanctuary design' in readme
+          assert 'Privacy and local preferences' in readme
+          assert 'Wellness boundary' in readme
+
+          print(f'Validated {len(files)} Aurora rooms, watercolor assets, local-state boundary, canonical URL, and public wellness framing.')
+          PY
+
+      - name: Syntax-check JavaScript
+        run: node --check assets/aurora-sanctuary.js
+
+      - name: Validate JSON
+        run: python -m json.tool mentor-manifest.json >/dev/null
