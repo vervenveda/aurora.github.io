@@ -1,252 +1,55 @@
 {
-  "version": 1,
+  "version": 2,
   "sourceId": "verve.aurora",
   "name": "Aurora",
   "classification": "wellness",
   "mentorSearchable": true,
-  "audiences": [
-    "elementary",
-    "middle",
-    "high",
-    "higher-learning",
-    "adult",
-    "parent"
-  ],
-  "roles": [
-    "student",
-    "parent",
-    "educator"
-  ],
   "homepage": "https://vervenveda.com/aurora.github.io/",
   "repository": "vervenveda/aurora.github.io",
-  "resources": [
-    {
-      "id": "aurora-home",
-      "title": "Aurora",
-      "description": "",
-      "url": "https://vervenveda.com/aurora.github.io/",
-      "audiences": [
-        "elementary",
-        "middle",
-        "high",
-        "higher-learning",
-        "adult",
-        "parent"
-      ],
-      "roles": [
-        "student",
-        "parent",
-        "educator"
-      ],
-      "domains": [
-        "wellness",
-        "reflection"
-      ],
-      "skills": [],
-      "tags": [
-        "calm",
-        "reflection",
-        "wellness"
-      ],
-      "mentorEligible": true,
-      "featured": true
-    },
-    {
-      "id": "breath-reset",
-      "title": "Breath Reset",
-      "description": "",
-      "url": "https://vervenveda.com/aurora.github.io/apps/breath_reset_index.html",
-      "audiences": [
-        "elementary",
-        "middle",
-        "high",
-        "higher-learning",
-        "adult",
-        "parent"
-      ],
-      "roles": [
-        "student",
-        "parent",
-        "educator"
-      ],
-      "domains": [
-        "wellness"
-      ],
-      "skills": [
-        "paced-breathing",
-        "pause"
-      ],
-      "tags": [
-        "breathing",
-        "calm",
-        "not-medical-advice"
-      ],
-      "mentorEligible": true,
-      "minutes": 5,
-      "energy": "gentle"
-    },
-    {
-      "id": "breathe-ground",
-      "title": "Breathe & Ground",
-      "description": "",
-      "url": "https://vervenveda.com/aurora.github.io/apps/breathe_ground_index.html",
-      "audiences": [
-        "middle",
-        "high",
-        "higher-learning",
-        "adult",
-        "parent"
-      ],
-      "roles": [
-        "student",
-        "parent",
-        "educator"
-      ],
-      "domains": [
-        "wellness"
-      ],
-      "skills": [
-        "grounding",
-        "reflection"
-      ],
-      "tags": [
-        "breathing",
-        "grounding",
-        "not-medical-advice"
-      ],
-      "mentorEligible": true,
-      "minutes": 7,
-      "energy": "gentle"
-    },
-    {
-      "id": "evening-breath",
-      "title": "Evening Breath",
-      "description": "",
-      "url": "https://vervenveda.com/aurora.github.io/apps/Breath_evening_index.html",
-      "audiences": [
-        "high",
-        "higher-learning",
-        "adult",
-        "parent"
-      ],
-      "roles": [
-        "student",
-        "parent",
-        "educator"
-      ],
-      "domains": [
-        "wellness"
-      ],
-      "skills": [
-        "relaxation-routine"
-      ],
-      "tags": [
-        "evening",
-        "breathing",
-        "not-medical-advice"
-      ],
-      "mentorEligible": true,
-      "minutes": 7,
-      "energy": "gentle"
-    },
-    {
-      "id": "affirmation-garden",
-      "title": "Affirmation Garden",
-      "description": "",
-      "url": "https://vervenveda.com/aurora.github.io/apps/affirmation_garden_index.html",
-      "audiences": [
-        "middle",
-        "high",
-        "higher-learning",
-        "adult",
-        "parent"
-      ],
-      "roles": [
-        "student",
-        "parent",
-        "educator"
-      ],
-      "domains": [
-        "wellness",
-        "reflection"
-      ],
-      "skills": [
-        "reflection"
-      ],
-      "tags": [
-        "affirmations",
-        "reflection"
-      ],
-      "mentorEligible": true,
-      "minutes": 10,
-      "energy": "gentle"
-    },
-    {
-      "id": "aurora-inspiration",
-      "title": "Aurora Inspiration",
-      "description": "",
-      "url": "https://vervenveda.com/aurora.github.io/apps/Aurora_Inspiration_index.html",
-      "audiences": [
-        "middle",
-        "high",
-        "higher-learning",
-        "adult",
-        "parent"
-      ],
-      "roles": [
-        "student",
-        "parent",
-        "educator"
-      ],
-      "domains": [
-        "creative",
-        "reflection"
-      ],
-      "skills": [
-        "creative-reflection"
-      ],
-      "tags": [
-        "inspiration",
-        "creative"
-      ],
-      "mentorEligible": true,
-      "minutes": 10,
-      "energy": "gentle"
-    },
-    {
-      "id": "color-alchemy",
-      "title": "Color Alchemy",
-      "description": "",
-      "url": "https://vervenveda.com/aurora.github.io/apps/color_alchemy_index.html",
-      "audiences": [
-        "elementary",
-        "middle",
-        "high",
-        "higher-learning",
-        "adult"
-      ],
-      "roles": [
-        "student",
-        "parent",
-        "educator"
-      ],
-      "domains": [
-        "creative"
-      ],
-      "skills": [
-        "color-exploration",
-        "creativity"
-      ],
-      "tags": [
-        "art",
-        "color",
-        "creative"
-      ],
-      "mentorEligible": true,
-      "minutes": 15,
-      "energy": "creative",
-      "classification": "creative-cultural"
-    }
+  "audiences": ["elementary", "middle", "high", "higher-learning", "adult", "parent"],
+  "roles": ["student", "parent", "educator"],
+  "collections": [
+    {"id":"breath","title":"Breath & Grounding","energy":"gentle"},
+    {"id":"rhythm","title":"Morning & Daily Rhythm","energy":"gentle"},
+    {"id":"rest","title":"Evening, Sleep & Rest","energy":"gentle"},
+    {"id":"creative","title":"Creative Renewal","energy":"creative"},
+    {"id":"reflection","title":"Reflection & Growth","energy":"gentle"},
+    {"id":"sound","title":"Sound & Atmosphere","energy":"creative"}
   ],
-  "mentorNotes": "Aurora resources are framed as optional wellness/reflection tools, not medical, psychological, or therapeutic treatment."
+  "resources": [
+    {"id":"aurora-home","title":"Aurora","description":"Watercolor sanctuary entrance to the full Aurora collection.","url":"https://vervenveda.com/aurora.github.io/","domains":["wellness","reflection","creative"],"tags":["calm","reflection","creativity","rest"],"mentorEligible":true,"featured":true},
+    {"id":"auraink","title":"AuraInk","description":"Intuitive words and visual reflection.","url":"https://vervenveda.com/aurora.github.io/apps/AuraInk_index.html","domains":["creative","reflection"],"tags":["art","writing","reflection"],"mentorEligible":true,"energy":"creative"},
+    {"id":"auraen-tune","title":"Auraen Tune","description":"Tone and frequency listening exploration.","url":"https://vervenveda.com/aurora.github.io/apps/AuraenTune_index.html","domains":["creative","sound"],"tags":["listening","tone","frequency"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"aurora-inspiration","title":"Aurora Inspiration","description":"Creative prompts, color, and imagination.","url":"https://vervenveda.com/aurora.github.io/apps/Aurora_Inspiration_index.html","domains":["creative"],"tags":["inspiration","creativity","ideas"],"mentorEligible":true,"energy":"creative"},
+    {"id":"gentle-wake","title":"Good Night · Gentle Wake","description":"Soft evening and morning rhythm without harsh alarms.","url":"https://vervenveda.com/aurora.github.io/apps/Breath_evening_index.html","domains":["wellness","rest"],"tags":["sleep","evening","morning"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"breath-reset","title":"Breath & Reset","description":"Short paced-breathing pauses and attention resets.","url":"https://vervenveda.com/aurora.github.io/apps/breath_reset_index.html","domains":["wellness"],"tags":["breathing","pause","calm","not-medical-advice"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"breathe-ground","title":"Breathe & Ground","description":"Compact grounding routine using breath and present-moment attention.","url":"https://vervenveda.com/aurora.github.io/apps/breathe_ground_index.html","domains":["wellness","reflection"],"tags":["grounding","breathing","present-moment","not-medical-advice"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"color-alchemy","title":"The Color Alchemist","description":"Color relationships, mood, and creative decision-making.","url":"https://vervenveda.com/aurora.github.io/apps/color_alchemy_index.html","domains":["creative"],"tags":["art","color","creativity"],"mentorEligible":true,"energy":"creative"},
+    {"id":"creative-odyssey","title":"Creative Mind Odyssey","description":"Guided imaginative prompts and open-ended discovery.","url":"https://vervenveda.com/aurora.github.io/apps/creative_mind_odyssey_index.html","domains":["creative"],"tags":["imagination","prompts","creativity"],"mentorEligible":true,"energy":"creative"},
+    {"id":"creative-wheel","title":"Creative Wheel","description":"Low-pressure random creative starting points.","url":"https://vervenveda.com/aurora.github.io/apps/creative_wheel_index.html","domains":["creative"],"tags":["prompt","ideas","art"],"mentorEligible":true,"energy":"creative"},
+    {"id":"daily-journal","title":"Daily Journal","description":"Private-feeling daily observations, gratitude, priorities, and memories.","url":"https://vervenveda.com/aurora.github.io/apps/daily_journal_index.html","domains":["reflection"],"tags":["journal","gratitude","reflection"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"daily-spark","title":"Daily Spark","description":"One small daily invitation for curiosity or purposeful attention.","url":"https://vervenveda.com/aurora.github.io/apps/daily_spark_index.html","domains":["reflection","creative"],"tags":["daily","inspiration","routine"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"daily-writing-spark","title":"Daily Writing Spark","description":"Flexible multilingual writing prompts and idea starters.","url":"https://vervenveda.com/aurora.github.io/apps/daily_writing_spark_index.html","domains":["creative","language"],"tags":["writing","prompt","multilingual"],"mentorEligible":true,"energy":"creative"},
+    {"id":"dreamscript","title":"DreamScript","description":"Night journal for dreams, symbols, and remembered imagery.","url":"https://vervenveda.com/aurora.github.io/apps/dream_script_index.html","domains":["reflection","rest"],"tags":["dream","journal","night"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"evening-ember","title":"Evening Ember","description":"Warm end-of-day reflection and release.","url":"https://vervenveda.com/aurora.github.io/apps/evening_ember_index.html","domains":["reflection","rest"],"tags":["evening","reflection","gratitude"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"night-prayer","title":"Night Prayer","description":"Optional spiritual reflection, gratitude, and gentle closure.","url":"https://vervenveda.com/aurora.github.io/apps/evening_prayer_index.html","domains":["reflection","rest"],"tags":["prayer","gratitude","evening"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"first-hour","title":"The First Hour","description":"A slow morning room for intention and preparation.","url":"https://vervenveda.com/aurora.github.io/apps/first_hour_index.html","domains":["reflection","wellness"],"tags":["morning","routine","intention"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"grounding-suite","title":"Grounding Suite","description":"Sensory and body-attention practices for returning to the present.","url":"https://vervenveda.com/aurora.github.io/apps/grounding_suite_index.html","domains":["wellness"],"tags":["grounding","senses","breathing","not-medical-advice"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"inspiration-mosaic","title":"Inspiration Mosaic","description":"Visual idea board for fragments of color, language, and thought.","url":"https://vervenveda.com/aurora.github.io/apps/inspiration_mosaic_index.html","domains":["creative"],"tags":["collage","inspiration","ideas"],"mentorEligible":true,"energy":"creative"},
+    {"id":"letter-inner-self","title":"Letter to My Inner Self","description":"Compassionate reflective writing to present, past, or future self.","url":"https://vervenveda.com/aurora.github.io/apps/letter_to_me_index.html","domains":["reflection"],"tags":["writing","self-reflection","compassion"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"loom-dawn","title":"The Loom of Dawn","description":"Living morning poem using gratitude, intention, and possibility.","url":"https://vervenveda.com/aurora.github.io/apps/loom_of_dawn_index.html","domains":["creative","reflection"],"tags":["poetry","morning","intention"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"morning-muse","title":"Morning Muse","description":"Gentle morning prompts for artists, writers, thinkers, and makers.","url":"https://vervenveda.com/aurora.github.io/apps/morning_muse_index.html","domains":["creative"],"tags":["morning","prompt","creativity"],"mentorEligible":true,"energy":"creative"},
+    {"id":"morning-reflections","title":"Morning Reflections","description":"Quiet check-in for needs, hopes, and meaningful priorities.","url":"https://vervenveda.com/aurora.github.io/apps/morning_reflection_index.html","domains":["reflection"],"tags":["morning","reflection","intention"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"morning-sanctum","title":"Morning Sanctum","description":"Stillness, intention, and humane morning rhythm.","url":"https://vervenveda.com/aurora.github.io/apps/morning_sanctum_index.html","domains":["reflection","wellness"],"tags":["morning","stillness","routine"],"mentorEligible":true,"featured":true,"energy":"gentle"},
+    {"id":"niche-venn","title":"Creative Niché Venn","description":"Explore intersections among interests, strengths, values, skills, and audience.","url":"https://vervenveda.com/aurora.github.io/apps/niche_venn_index.html","domains":["creative","reflection"],"tags":["purpose","strengths","ideas"],"mentorEligible":true,"energy":"creative"},
+    {"id":"one-creation","title":"One Creation at a Time","description":"Gentle daily focus on one meaningful creation or action.","url":"https://vervenveda.com/aurora.github.io/apps/one_a_day_index.html","domains":["creative","reflection"],"tags":["focus","daily","creativity"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"song-embedder","title":"Eiren Song Embedder","description":"Personal listening space for music that inspires or steadies.","url":"https://vervenveda.com/aurora.github.io/apps/song_embedder_index.html","domains":["creative","sound"],"tags":["music","listening","sound"],"mentorEligible":true,"energy":"creative"},
+    {"id":"soulbook","title":"Soulbook","description":"Long-form personal book for values, memories, prayers, and insights.","url":"https://vervenveda.com/aurora.github.io/apps/soulbook_index.html","domains":["reflection"],"tags":["journal","memory","values"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"spire","title":"Spire Mindful Breathing","description":"Visual breathing practice using ascent, pause, and release.","url":"https://vervenveda.com/aurora.github.io/apps/spire_mindful_breathing_index.html","domains":["wellness"],"tags":["breathing","mindfulness","calm","not-medical-advice"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"starlight-jar","title":"Starlight Jar","description":"Youth-friendly night reflection on kindness, courage, beauty, and gratitude.","url":"https://vervenveda.com/aurora.github.io/apps/starlight_jar_index.html","domains":["reflection","rest"],"tags":["kids","gratitude","evening"],"mentorEligible":true,"energy":"gentle"},
+    {"id":"story-spark","title":"Aurora Story Spark","description":"Story cues for character, scene, wonder, and narrative possibility.","url":"https://vervenveda.com/aurora.github.io/apps/story_spark_index.html","domains":["creative","language"],"tags":["story","writing","prompt"],"mentorEligible":true,"energy":"creative"},
+    {"id":"tiny-triumphs","title":"Tiny Triumphs","description":"Notice and record small meaningful victories and progress.","url":"https://vervenveda.com/aurora.github.io/apps/tiny_triumphs_index.html","domains":["reflection"],"tags":["gratitude","progress","reflection"],"mentorEligible":true,"featured":true,"energy":"gentle"},
+    {"id":"vintage-spinet","title":"Vintage Spinet","description":"Playful sound exploration, memory, and rhythm for younger listeners.","url":"https://vervenveda.com/aurora.github.io/apps/vintage_spinnet_index.html","domains":["creative","sound"],"tags":["kids","music","rhythm"],"mentorEligible":true,"energy":"creative"}
+  ],
+  "mentorNotes": "Aurora resources are optional reflection, creativity, rest, breathing, and wellness-support tools. They are not medical, psychological, psychiatric, or therapeutic treatment. Mentors should never present an Aurora room as diagnosis, emergency care, or a substitute for professional support. Spiritual rooms are optional and should be offered only when relevant to the learner's stated interest or context."
 }
