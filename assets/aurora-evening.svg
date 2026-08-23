@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1300" role="img" aria-labelledby="title desc">
+  <title id="title">Golden watercolor evening</title>
+  <desc id="desc">A warm amber landscape with a soft sun, layered trees, distant hills, and quiet evening haze.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7d5626"/>
+      <stop offset=".16" stop-color="#aa7330"/>
+      <stop offset=".48" stop-color="#d7a351"/>
+      <stop offset=".72" stop-color="#bd8232"/>
+      <stop offset="1" stop-color="#7b461e"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="66%" cy="41%" r="20%">
+      <stop offset="0" stop-color="#ffe8a8" stop-opacity=".93"/>
+      <stop offset=".28" stop-color="#ffd986" stop-opacity=".56"/>
+      <stop offset="1" stop-color="#f5c66d" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="wash" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency=".009 .017" numOctaves="4" seed="19" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="20"/>
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+    <filter id="grain" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="4" seed="6" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .11 0"/>
+    </filter>
+  </defs>
+
+  <rect width="1000" height="1300" fill="url(#sky)"/>
+  <rect width="1000" height="1300" fill="url(#sun)"/>
+
+  <g filter="url(#wash)">
+    <path d="M0 610 C115 565 180 630 278 590 C380 548 450 570 535 624 C622 677 699 642 792 600 C860 570 927 582 1000 615 L1000 860 L0 860 Z" fill="#805325" opacity=".44"/>
+    <path d="M0 690 C116 626 190 722 306 684 C418 648 473 718 584 688 C708 655 760 724 884 680 C932 663 970 665 1000 674 L1000 936 L0 936 Z" fill="#69431f" opacity=".52"/>
+    <path d="M0 826 C135 750 236 842 352 810 C465 778 574 854 687 806 C806 758 888 829 1000 788 L1000 1090 L0 1090 Z" fill="#8d541c" opacity=".59"/>
+    <path d="M0 956 C110 884 216 958 330 938 C463 915 546 982 668 944 C808 900 891 967 1000 930 L1000 1300 L0 1300 Z" fill="#6b371d" opacity=".67"/>
+    <path d="M0 1040 C173 980 312 1065 455 1032 C600 998 760 1068 1000 1008 L1000 1300 L0 1300 Z" fill="#4e2e22" opacity=".58"/>
+  </g>
+
+  <g opacity=".36" filter="url(#wash)">
+    <ellipse cx="188" cy="727" rx="150" ry="132" fill="#3f321f"/>
+    <ellipse cx="820" cy="745" rx="176" ry="128" fill="#4b341f"/>
+    <ellipse cx="470" cy="817" rx="225" ry="92" fill="#6a4620"/>
+  </g>
+
+  <g opacity=".16" fill="#f5d58e">
+    <path d="M0 280 C150 238 266 304 414 270 C590 230 700 288 1000 235 L1000 300 C748 347 578 300 420 338 C247 378 120 315 0 350 Z"/>
+    <path d="M0 410 C151 358 290 418 442 392 C604 365 758 430 1000 372 L1000 425 C790 475 637 423 459 450 C276 479 133 423 0 470 Z"/>
+  </g>
+
+  <circle cx="660" cy="530" r="57" fill="#f6d58b" opacity=".58"/>
+  <circle cx="660" cy="530" r="82" fill="#ffe7a5" opacity=".08"/>
+
+  <rect width="1000" height="1300" filter="url(#grain)" opacity=".74"/>
+  <rect x="16" y="16" width="968" height="1268" rx="28" fill="none" stroke="#f9e7b6" stroke-opacity=".12" stroke-width="10"/>
+</svg>
