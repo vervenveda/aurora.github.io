@@ -98,7 +98,7 @@
   function categoryName(key){return CATEGORIES[key]?.label||key}
   function internalRoomURL(room){
     if(!room||!/^[A-Za-z0-9 _.'()&+-]+_index\.html$/.test(room.file))return null;
-    try{const url=new URL(`./apps/${encodeURI(room.file)}`,location.href);return url.origin===location.origin?url:null}catch{return null}
+    try{const url=new URL(`./apps/${encodeURI(room.file)}`,location.href);url.searchParams.set("v","20261016");return url.origin===location.origin?url:null}catch{return null}
   }
   function safeExternalURL(value){try{const url=new URL(value);return url.protocol==="https:"&&!url.username&&!url.password?url:null}catch{return null}}
 
