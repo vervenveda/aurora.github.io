@@ -121,7 +121,11 @@ const LEVELS=[
   {min:96,title:"Keeper of Balance",line:"Color bends to your stillness."},
   {min:100,title:"Grand Alchemist",line:"Light itself bows to your craft."}
 ];
-let data=JSON.parse(localStorage.getItem('alchemyData')||'{"level":0,"bestScore":0}');
+let data={level:0,bestScore:0};
+try{
+  const stored=JSON.parse(localStorage.getItem('alchemyData')||'{}');
+  if(stored && typeof stored==='object' && !Array.isArray(stored)) data={...data,...stored};
+}catch(_){}
 let target=[0,0,0];
 
 function rgb(a){return `rgb(${a[0]},${a[1]},${a[2]})`;}

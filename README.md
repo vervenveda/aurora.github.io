@@ -1,87 +1,77 @@
 # Aurora
 
-**Aurora** is a quiet public Verve N Veda sanctuary for breath, rest, reflection, creativity, sound, and humane daily rhythm.
+Aurora is a quiet public Verve N Veda studio for breath, rest, reflection, creativity, sound, and humane daily rhythm.
 
-Live site: https://vervenveda.com/aurora.github.io/
+Live site: <https://vervenveda.com/aurora.github.io/>
 
-## Purpose
+## The collection
 
-Aurora gathers small original rooms that can be used independently: breathing timers, grounding prompts, morning and evening rituals, journals, creative prompts, listening tools, gratitude spaces, prayer/reflection rooms, and gentle creative experiments.
+The landing page presents 44 original, self-contained rooms across six paths:
 
-The public entrance is intentionally calm. It is designed to feel more like entering a quiet studio or garden than opening a productivity dashboard.
+- Breath & Grounding
+- Morning & Daily Rhythm
+- Evening, Sleep & Rest
+- Creative Renewal
+- Reflection & Growth
+- Sound & Atmosphere
 
-## Watercolor Sanctuary design
+The complete room registry is in `assets/aurora-sanctuary.js`. The corresponding discovery metadata is in `mentor-manifest.json`. The audit requires those inventories to match every non-utility `apps/*_index.html` file exactly.
 
-The landing page uses two local watercolor-inspired landscape assets:
+## Design system
 
-- `assets/aurora-meadow.svg` — the pale green and gold entrance landscape.
-- `assets/aurora-evening.svg` — the warm amber Evening & Rest landscape.
+The entrance uses an original parchment, sage, and antique-gold visual system with restrained 7 px corners and two smooth local SVG scenes:
 
-They are stored locally with the site. Aurora does not load stock photography or third-party background imagery.
+- `assets/aurora-meadow.svg` — a light-filled studio at dawn
+- `assets/aurora-evening.svg` — a warm evening studio
 
-The visual direction emphasizes breathing room, low contrast, soft paper tones, restrained motion, simple typography, and quiet navigation.
+The artwork avoids raster assets, turbulence filters, and animation-heavy effects. System fonts and locally stored assets keep rendering calm and predictable.
+
+## Runtime architecture
+
+Aurora is a static application built with plain HTML, CSS, and browser JavaScript. It has:
+
+- no Node.js runtime;
+- no Wix dependency, embeds, signatures, or error routes;
+- no front-end framework;
+- no required account;
+- no backend for journals or room activity;
+- no remote font or general-purpose CDN dependency.
+
+The optional contribution doorway loads Stripe's official browser component. User-selected music links and explicitly opened public resources can leave Aurora; those boundaries are visible to the visitor.
 
 ## Privacy and local preferences
 
-Aurora does not require an account to browse its original rooms.
+Favorites, saved reflections, room entries, and the optional voice setting stay in the visitor's browser when local storage is available. The landing page does not send those values to Aurora.
 
-Small interface preferences such as favorites and the optional Aurora Voice setting are stored in the visitor's own browser when local storage is available. The landing page does not send journal entries, reflection text, favorites, or room activity to Aurora.
-
-External public resources are clearly separated from Aurora originals and open on their own official websites.
+Saved user text is restored as text or through narrow allowlist sanitization. Saved media addresses are limited to credential-free `http` or `https` URLs before they can become links, audio sources, or YouTube embeds.
 
 ## Wellness boundary
 
-Aurora is a reflection, creativity, and wellness-support environment. It is **not** medical, psychological, psychiatric, or therapeutic treatment, and it does not provide diagnosis or emergency care.
-
-Where health information is useful, the public page links directly to established resources including NIH/NCCIH, CDC, NIMH, MedlinePlus, USDA, and WHO.
+Aurora is a reflection, creativity, and wellness-support environment. It is **not** medical, psychological, psychiatric, or therapeutic treatment, and it does not provide diagnosis or emergency care. Tone tools are presented as listening experiments without claims of medical efficacy.
 
 ## Accessibility
 
-The sanctuary entrance includes:
+The sanctuary entrance includes keyboard-visible focus states, a skip link, responsive layouts, reduced-motion support, keyboard dismissal and focus containment for room dialogs, text labels alongside decorative symbols, and an opt-in browser speech feature.
 
-- keyboard-visible focus states;
-- a skip-to-content link;
-- responsive layouts;
-- reduced-motion support;
-- keyboard dismissal and focus containment for room dialogs;
-- an optional browser speech-synthesis reading feature;
-- plain-text labels in addition to decorative symbols.
+## Forensic audit
 
-Aurora Voice is opt-in and remains off until the visitor enables it.
+Run the repository-wide check with:
 
-## Structure
-
-```text
-index.html
-assets/
-  aurora-meadow.svg
-  aurora-evening.svg
-  aurora-sanctuary.css
-  aurora-sanctuary.js
-apps/
-  ...Aurora original rooms...
-mentor-manifest.json
-README.md
+```bash
+python scripts/audit_aurora.py
 ```
 
-The original rooms remain separate, self-contained pages under `apps/`. The landing page acts as a calm directory and opens same-origin rooms without requiring visitors to leave the sanctuary.
+The audit verifies all 46 HTML documents (the landing page, 44 rooms, and the contribution utility), every local file reference, required metadata, referenced DOM IDs, inline JavaScript syntax, registry/manifest parity, unresolved placeholders, forbidden remote dependencies, and the wellness boundary. GitHub Actions runs the same command on pushes and pull requests to `main`.
 
-## Public contribution doorway
+The detailed 2026-10-16 findings and remediation record are in `FORENSIC_AUDIT_2026-10-16.md`.
 
-Aurora may display an optional Stripe contribution button. Stripe is an external payment provider and is isolated from Aurora's local favorites and reflection features. Public support for Aurora / Verve N Veda development is separate from political campaign contributions, and no charitable or tax-deductible status is implied.
+## Repository map
 
-## Development principles
-
-Aurora favors:
-
-- local-first behavior where practical;
-- no unnecessary accounts;
-- no hidden claims of medical efficacy;
-- transparent external links;
-- accessible interaction;
-- calm rather than attention-maximizing design;
-- original lightweight HTML, CSS, JavaScript, and local visual assets.
-
-## Status
-
-Aurora is an evolving public collection. Individual rooms may be revised as accessibility, usability, content, and safety audits continue.
+```text
+index.html                         public studio entrance
+assets/                            local design system and landing logic
+apps/                              44 rooms plus contribution utility
+mentor-manifest.json               discovery and safety metadata
+scripts/audit_aurora.py            fail-closed repository audit
+.github/workflows/aurora-audit.yml continuous verification
+```

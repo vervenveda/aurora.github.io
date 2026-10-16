@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>One Creation at A Time</title>
   <!-- Fonts (swap URLs for CITZEN/Brandon Grotesque if needed) -->
-  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@444;777&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 7px;
@@ -560,7 +559,11 @@ const KINDNESS_PROMPTS = [
 
 let streak = Number(localStorage.getItem("kindStreak")) || 0;
 let lastChecked = localStorage.getItem("kindLast") || "";
-let completed = JSON.parse(localStorage.getItem("kindCompleted")||"[]");
+let completed = [];
+try {
+  const stored = JSON.parse(localStorage.getItem("kindCompleted") || "[]");
+  if (Array.isArray(stored)) completed = stored;
+} catch (_) {}
 let currentPrompt = "";
 
 function getRandomPrompt() {

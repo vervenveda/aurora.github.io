@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Aurora — a quiet Verve N Veda sanctuary for breath, rest, reflection, creativity, gentle rhythm, sound, and trusted public wellness resources.">
-<meta name="theme-color" content="#f8f5ea">
+<meta name="description" content="Aurora — a peaceful Verve N Veda studio for breath, reflection, creativity, gentle rhythm, sound, and rest.">
+<meta name="theme-color" content="#f7f3e8">
 <meta name="color-scheme" content="light">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://*.stripe.com; style-src 'self' 'unsafe-inline'; script-src 'self' https://js.stripe.com; connect-src https://api.stripe.com https://r.stripe.com https://buy.stripe.com; media-src 'self'; object-src 'none'; frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://buy.stripe.com https://checkout.stripe.com; worker-src 'none'; base-uri 'self'; form-action 'self' https://checkout.stripe.com;">
-<meta property="og:title" content="Aurora — A Quiet Place to Return to Yourself">
-<meta property="og:description" content="Breath · rest · reflection · creativity · gentle rhythm.">
+<meta property="og:title" content="Aurora — A Peaceful Place to Return to Yourself">
+<meta property="og:description" content="A private-feeling studio for breath, rest, reflection, creativity, and gentle daily rhythm.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vervenveda.com/aurora.github.io/">
 <link rel="canonical" href="https://vervenveda.com/aurora.github.io/">
 <link rel="stylesheet" href="./assets/aurora-sanctuary.css">
-<title>Aurora — Breathe · Restore · Create</title>
+<title>Aurora — A Peaceful Verve N Veda Studio</title>
 <script src="./assets/aurora-sanctuary.js" defer></script>
 <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 </head>
@@ -28,7 +28,7 @@
       <span class="brand-copy"><strong>Aurora</strong><small>Verve N Veda Sanctuary</small></span>
     </a>
     <nav class="nav-links" aria-label="Primary navigation">
-      <a href="#journeys">Journeys</a>
+      <a href="#journeys">Practices</a>
       <a href="#featured">Featured</a>
       <a href="#evening">Evening</a>
       <a href="#library">Library</a>
@@ -42,15 +42,24 @@
   <section class="hero" aria-labelledby="heroTitle">
     <div class="wrap hero-inner">
       <div class="hero-copy">
-        <p class="eyebrow">A quiet place to return to yourself</p>
+        <p class="eyebrow">A peaceful place to return to yourself</p>
         <h1 id="heroTitle">Aurora</h1>
-        <p class="hero-subtitle">Breathe · Rest · Reflect · Create · Begin Again</p>
-        <p class="hero-lead">Come in for five minutes or stay awhile. Aurora gathers gentle spaces for breathing, journaling, art, music, morning rhythm, evening rest, gratitude, prayer, and quiet creative renewal.</p>
+        <p class="hero-subtitle">Breathe · Restore · Reflect · Create</p>
+        <p class="hero-lead">A light-filled studio for unhurried breath, grounded reflection, creative renewal, gentle mornings, and softer evenings.</p>
         <div class="hero-actions">
           <a class="btn primary" href="#breathDock">Begin with one breath</a>
-          <a class="btn secondary" href="#journeys">Choose a journey</a>
+          <a class="btn secondary" href="#journeys">Choose a practice</a>
         </div>
-        <p class="hero-note">No account is required. Your favorites and voice preference stay in this browser.</p>
+        <p class="hero-note">No account. No pressure. Your favorites and voice preference stay in this browser.</p>
+        <div class="hero-details" aria-label="Aurora qualities">
+          <span><strong id="roomCount">44</strong> original rooms</span>
+          <span>Local-first</span>
+          <span>Made for quiet focus</span>
+        </div>
+      </div>
+      <div class="hero-visual" role="img" aria-label="A serene abstract studio at dawn with soft light, a yoga mat, and botanical line art">
+        <div class="visual-seal" aria-hidden="true"><span>◌</span></div>
+        <blockquote>“Take the pace that lets you hear yourself.”</blockquote>
       </div>
     </div>
 
@@ -68,8 +77,8 @@
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Choose what you need today</p>
-        <h2 id="journeyTitle">Six quiet ways in.</h2>
-        <p>There is no prescribed path through Aurora. Begin where the day meets you.</p>
+        <h2 id="journeyTitle">Six ways into stillness.</h2>
+        <p>There is no prescribed path through Aurora. Choose one gentle practice and begin where the day meets you.</p>
       </div>
       <div class="journey-grid" id="journeyGrid"></div>
     </div>
@@ -78,9 +87,9 @@
   <section class="section alt" id="featured" aria-labelledby="featuredTitle">
     <div class="wrap">
       <div class="section-head">
-        <p class="eyebrow">A few gentle doorways</p>
-        <h2 id="featuredTitle">Start small.</h2>
-        <p>These rooms are a calm introduction to the larger Aurora collection.</p>
+        <p class="eyebrow">Studio recommendations</p>
+        <h2 id="featuredTitle">A thoughtful place to begin.</h2>
+        <p>Six simple rooms selected from the complete Aurora collection.</p>
       </div>
       <div class="feature-grid" id="featuredGrid"></div>
     </div>
@@ -101,9 +110,9 @@
   <section class="section" id="library" aria-labelledby="libraryTitle">
     <div class="wrap">
       <div class="section-head">
-        <p class="eyebrow">The full Aurora collection</p>
-        <h2 id="libraryTitle">The quiet library.</h2>
-        <p>Search every Aurora original without turning the entrance into a dashboard. Favorites are local to this device.</p>
+        <p class="eyebrow">The complete Aurora collection</p>
+        <h2 id="libraryTitle">Your practice library.</h2>
+        <p>Search every original Aurora room by need or mood. Favorites remain private to this device.</p>
       </div>
       <div class="library-shell">
         <div class="controls" aria-label="Aurora library filters">
@@ -183,6 +192,6 @@
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<a href="https://vervenveda.com/beta/" aria-label="Open Verve N Veda Beta Program" style="position:fixed;right:14px;bottom:14px;z-index:2147483000;padding:10px 13px;border:1px solid #b6934d;border-radius:7px;background:#fffaf0;color:#171717;text-decoration:none;font:500 13px/1.3 Georgia,serif">β Beta Program</a>
+<a class="beta-door" href="https://vervenveda.com/beta/" aria-label="Open Verve N Veda Beta Program">β Beta Program</a>
 </body>
 </html>

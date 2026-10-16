@@ -94,9 +94,9 @@
 <div class="section" id="freq">
   <h2>Frequency Tuner</h2>
   <div>
-    <button onclick="playFreq(432,'Healing 432 Hz restores calm and cellular balance.')">432 Hz Healing</button>
-    <button onclick="playFreq(528,'528 Hz resonates with love and transformation.')">528 Hz Love</button>
-    <button onclick="playFreq(639,'639 Hz encourages harmony and connection.')">639 Hz Harmony</button>
+    <button onclick="playFreq(432,'432 Hz pure tone is now playing.')">432 Hz</button>
+    <button onclick="playFreq(528,'528 Hz pure tone is now playing.')">528 Hz</button>
+    <button onclick="playFreq(639,'639 Hz pure tone is now playing.')">639 Hz</button>
   </div>
 
   <div class="manual-row">
@@ -111,6 +111,7 @@
     <div class="wave" id="wave"></div>
   </div>
   <div id="desc"></div>
+  <p style="max-width:34rem;margin:16px auto 0;font-size:13px;color:#4e342e">For comfortable listening only; this sound tool does not provide medical treatment. Keep the volume low and stop if you feel discomfort.</p>
 </div>
 
 <script>
@@ -126,13 +127,19 @@
 
   function ensureAudioContext() {
     // Create or reuse a single AudioContext
+    const AudioAPI = window.AudioContext || window.webkitAudioContext;
+    if (!AudioAPI) {
+      desc.textContent = "Audio generation is not supported in this browser.";
+      return false;
+    }
     if (!audioCtx || audioCtx.state === "closed") {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      audioCtx = new AudioAPI();
     }
     if (audioCtx.state === "suspended") {
       // Resume on user gesture
       audioCtx.resume();
     }
+    return true;
   }
 
   function adjustWave(freq) {
@@ -179,7 +186,7 @@
   }
 
   function startTone(freq) {
-    ensureAudioContext();
+    if (!ensureAudioContext()) return;
 
     // Stop any previous oscillator
     if (oscillator) {

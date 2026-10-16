@@ -6,7 +6,6 @@
   <title>The First Hour™ — Morning Sanctuary</title>
 
   <!-- Sacred Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -686,27 +685,61 @@
       localStorage.setItem('ms_music_songs', JSON.stringify(songs));
     }
 
+    function safeMediaURL(value) {
+      try {
+        const parsed = new URL(value, window.location.href);
+        if (!['http:', 'https:'].includes(parsed.protocol) || parsed.username || parsed.password) return null;
+        return parsed;
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function youtubeId(parsed) {
+      const host = parsed.hostname.toLowerCase().replace(/^www\./, '');
+      let id = '';
+      if (host === 'youtu.be') id = parsed.pathname.split('/').filter(Boolean)[0] || '';
+      if (host === 'youtube.com' || host === 'm.youtube.com') {
+        id = parsed.pathname.startsWith('/shorts/')
+          ? parsed.pathname.split('/')[2] || ''
+          : parsed.searchParams.get('v') || '';
+      }
+      return /^[A-Za-z0-9_-]{6,20}$/.test(id) ? id : '';
+    }
+
     function renderSongs() {
       songList.innerHTML = "";
-      songs.forEach((url, i) => {
+      songs.forEach((storedUrl, i) => {
         const li = document.createElement('li');
-        const isAudio = /\.(mp3|wav|ogg)(\?|$)/i.test(url);
-        const isYT = /(youtu\.be|youtube\.com)/i.test(url);
+        const parsed = safeMediaURL(storedUrl);
+        if (!parsed) return;
+        const url = parsed.href;
+        const isAudio = /\.(mp3|wav|ogg)(\?|$)/i.test(parsed.pathname + parsed.search);
+        const ytId = youtubeId(parsed);
 
         if (isAudio) {
-          li.innerHTML = '<audio controls src="' + url + '"></audio>';
-        } else if (isYT) {
-          let ytId = "";
-          if (url.includes("v=")) {
-            ytId = url.split("v=")[1].split("&")[0];
-          } else {
-            ytId = url.split("/").pop().split("?")[0];
-          }
-          li.innerHTML = '<iframe width="180" height="40" style="border-radius:7px;border:none;" ' +
-            'src="https://www.youtube.com/embed/' + ytId + '?rel=0" ' +
-            'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+          const audio = document.createElement('audio');
+          audio.controls = true;
+          audio.src = url;
+          li.appendChild(audio);
+        } else if (ytId) {
+          const frame = document.createElement('iframe');
+          frame.width = '180';
+          frame.height = '40';
+          frame.style.cssText = 'border-radius:7px;border:none;';
+          frame.src = 'https://www.youtube.com/embed/' + ytId + '?rel=0';
+          frame.title = 'Saved YouTube audio';
+          frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+          frame.allowFullscreen = true;
+          li.appendChild(frame);
         } else {
-          li.innerHTML = '<a href="' + url + '" target="_blank" style="font-size:13px;">' + url + '</a>';
+          const link = document.createElement('a');
+          link.href = url;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.style.fontSize = '13px';
+          link.textContent = url;
+          li.appendChild(link);
         }
 
         const del = document.createElement('button');
@@ -725,9 +758,12 @@
     }
 
     addSongBtn.addEventListener('click', () => {
-      const url = musicUrl.value.trim();
-      if (!url || url.length < 4) return;
-      songs.push(url);
+      const parsed = safeMediaURL(musicUrl.value.trim());
+      if (!parsed) {
+        alert('Please enter a valid http or https address.');
+        return;
+      }
+      songs.push(parsed.href);
       saveSongs();
       musicUrl.value = "";
       renderSongs();

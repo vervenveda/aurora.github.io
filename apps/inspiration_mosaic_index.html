@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=400, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Inspiration Mosaic</title>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Epilogue:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --gold: #ffe568;
@@ -279,6 +278,13 @@
       box-shadow: 0 4px 14px #e7d49922;
     }
     #pdfExportBtn:hover { background: var(--violet); color:#fff; }
+    @media print{
+      body>*{display:none!important}
+      #viewMosaicModal{position:static!important;display:block!important;background:#fff!important}
+      #viewMosaicContent{width:100%!important;max-width:none!important;box-shadow:none!important}
+      #closeViewMosaicBtn{display:none!important}
+      #fullMosaicGrid{page-break-inside:avoid}
+    }
   </style>
 </head>
 <body>
@@ -294,7 +300,7 @@
   <div id="mosaicGrid"></div>
   <button id="addTileBtn">+ Add to Your Mosaic</button>
   <button id="viewMosaicBtn">View Your Mosaic</button>
-  <button id="pdfExportBtn">Export as PDF</button>
+  <button id="pdfExportBtn">Print / Save PDF</button>
   <div id="progressMsg"></div>
 </div>
 
@@ -323,12 +329,6 @@
     <div style="text-align:center;margin:22px 0 8px 0;color:#7d6a42;font-size:1.1em;">This is your unique inspiration artwork.<br>Download each tile, remix, or share with friends!</div>
   </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<!-- SCRIPT will follow in the next message! -->
-<a href="https://vervenveda.com/beta/" aria-label="Open Beta Program" style="position:fixed;right:14px;bottom:14px;z-index:2147483000;padding:10px;background:#fffaf0;color:#171717;border:1px solid #b6934d;border-radius:7px;text-decoration:none">β Beta Program</a>
-</body>
-</html>
-
 <script>
 // ===== Inspiration Mosaic Core Logic =====
 
@@ -380,6 +380,10 @@ const affirmations = [
   "Keep building your masterpiece."
 ];
 
+function escapeHTML(value){
+  return String(value || "").replace(/[&<>"']/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[character]));
+}
+
 // --- Helpers for localStorage
 function saveState() {
   localStorage.setItem("mosaicTiles", JSON.stringify(mosaicTiles));
@@ -388,10 +392,15 @@ function saveState() {
   localStorage.setItem("mosaicBG", backgroundIdx);
 }
 function loadState() {
-  mosaicTiles = JSON.parse(localStorage.getItem("mosaicTiles")||"[]");
-  currentLevel = Number(localStorage.getItem("mosaicLevel"))||0;
-  pointScore = Number(localStorage.getItem("mosaicPoints"))||0;
-  backgroundIdx = Number(localStorage.getItem("mosaicBG"))||0;
+  try {
+    const savedTiles = JSON.parse(localStorage.getItem("mosaicTiles") || "[]");
+    mosaicTiles = Array.isArray(savedTiles) ? savedTiles : [];
+  } catch (_) {
+    mosaicTiles = [];
+  }
+  currentLevel = Math.min(LEVELS.length - 1, Math.max(0, Number(localStorage.getItem("mosaicLevel")) || 0));
+  pointScore = Math.max(0, Number(localStorage.getItem("mosaicPoints")) || 0);
+  backgroundIdx = Math.min(BACKGROUNDS.length - 1, Math.max(0, Number(localStorage.getItem("mosaicBG")) || 0));
 }
 
 // --- Mosaic logic
@@ -475,9 +484,9 @@ function renderMosaic() {
     };
     // Content
     if (tile.image) {
-      box.innerHTML = `<img src="${tile.image}" alt="Mosaic Tile"><div class="tile-content">${tile.text||""}</div>`;
+      box.innerHTML = `<img src="${tile.image}" alt="Mosaic Tile"><div class="tile-content">${escapeHTML(tile.text)}</div>`;
     } else if (tile.text) {
-      box.innerHTML = `<div class="tile-content">${tile.text}</div>`;
+      box.innerHTML = `<div class="tile-content">${escapeHTML(tile.text)}</div>`;
     } else {
       box.innerHTML = `<div class="tile-content" style="opacity:0.6;font-weight:500;font-size:1.03em;">${randomPrompt()}</div>`;
       filled = false;
@@ -593,9 +602,9 @@ document.getElementById("viewMosaicBtn").onclick = function() {
     const box = document.createElement("div");
     box.className = "tileBox filled";
     if (tile.image) {
-      box.innerHTML = `<img src="${tile.image}" alt="Tile"><div class="tile-content">${tile.text||""}</div>`;
+      box.innerHTML = `<img src="${tile.image}" alt="Tile"><div class="tile-content">${escapeHTML(tile.text)}</div>`;
     } else if (tile.text) {
-      box.innerHTML = `<div class="tile-content">${tile.text}</div>`;
+      box.innerHTML = `<div class="tile-content">${escapeHTML(tile.text)}</div>`;
     }
     grid.appendChild(box);
   });
@@ -605,40 +614,10 @@ document.getElementById("closeViewMosaicBtn").onclick = function() {
   document.getElementById("viewMosaicModal").style.display = "none";
 };
 
-// --- Export as PDF
+// --- Print or save through the browser's native PDF destination
 document.getElementById("pdfExportBtn").onclick = function(){
-  const { jsPDF } = window.jspdf;
-  let {rows, cols} = LEVELS[currentLevel];
-  const pdf = new jsPDF({ orientation:"landscape", unit:"pt", format:[cols*150+100, rows*150+140] });
-  // background
-  pdf.setFillColor(251,231,158);
-  pdf.rect(0,0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight(), 'F');
-  // grid
-  mosaicTiles.forEach((tile,idx)=>{
-    let x = 50 + (idx%cols)*150, y = 60 + Math.floor(idx/cols)*150;
-    pdf.setDrawColor(207,174,52);
-    pdf.rect(x,y,140,140);
-    if(tile.image){
-      let img = tile.image;
-      pdf.addImage(img, "JPEG", x+8, y+8, 124, 90, "", "FAST");
-      if(tile.text){
-        pdf.setFont("helvetica","bold");
-        pdf.setTextColor(80,60,28);
-        pdf.setFontSize(15);
-        pdf.text(tile.text, x+70, y+120, {align:"center", maxWidth:110});
-      }
-    } else if(tile.text){
-      pdf.setFont("helvetica","bold");
-      pdf.setTextColor(87,80,36);
-      pdf.setFontSize(23);
-      pdf.text(tile.text, x+70, y+80, {align:"center", maxWidth:120});
-    }
-  });
-  pdf.setFont("helvetica","bold");
-  pdf.setTextColor(182,137,40);
-  pdf.setFontSize(18);
-  pdf.text("Inspiration Mosaic – Created at MyArtGallery.online", pdf.internal.pageSize.getWidth()/2, pdf.internal.pageSize.getHeight()-32, {align:"center"});
-  pdf.save("inspiration-mosaic.pdf");
+  document.getElementById("viewMosaicBtn").click();
+  setTimeout(()=>window.print(),120);
 };
 
 // --- Initial load
@@ -648,3 +627,6 @@ document.getElementById("pdfExportBtn").onclick = function(){
   renderMosaic();
 })();
 </script>
+<a href="https://vervenveda.com/beta/" aria-label="Open Beta Program" style="position:fixed;right:14px;bottom:14px;z-index:2147483000;padding:10px;background:#fffaf0;color:#171717;border:1px solid #b6934d;border-radius:7px;text-decoration:none">β Beta Program</a>
+</body>
+</html>

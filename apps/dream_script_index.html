@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@400;500&family=Montserrat:wght@300;500;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -719,10 +718,12 @@ function renderSavedList(){
     div.className = 'saved-item';
     div.dataset.id = entry.id;
     const title = entry.title || '(untitled dream)';
-    div.innerHTML = `
-      <span>${title}</span>
-      <span class="date">${entry.date}</span>
-    `;
+    const titleNode=document.createElement('span');
+    titleNode.textContent=title;
+    const dateNode=document.createElement('span');
+    dateNode.className='date';
+    dateNode.textContent=entry.date || '';
+    div.append(titleNode,dateNode);
     div.addEventListener('click', ()=>loadEntry(entry.id));
     list.appendChild(div);
   });

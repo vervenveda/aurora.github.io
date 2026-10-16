@@ -1417,7 +1417,7 @@ function showResultModal() {
           Tag @MyArtGalleryOnline • #AuroraInspires #MyArtGallery
         </div>
         <div class="aurora-breadcrumb" style="margin-top:18px;">
-          <a href="/home">← Back to Home for more creativity</a>
+          <a href="../">← Back to Aurora</a>
         </div>
       </div>
     </div>
@@ -1427,14 +1427,14 @@ function showResultModal() {
     const shareUrl = "https://www.myartgallery.online";
     const shareText = `Aurora inspired me to: "${chosenPrompt}" 🎨✨ Join the creativity at My Art Gallery! ${shareUrl} #AuroraInspires #MyArtGallery`;
     const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
-    window.open(url, "_blank");
+    window.open(url, "_blank", "noopener,noreferrer");
   };
   window.igShare = function() {
-    window.open('https://www.instagram.com/', '_blank');
+    window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer');
     setTimeout(()=>alert("Post your creation or this prompt:\n\n" + chosenPrompt + "\n\nTag us: @MyArtGalleryOnline #AuroraInspires #MyArtGallery"), 250);
   };
   window.ttShare = function() {
-    window.open('https://www.tiktok.com/', '_blank');
+    window.open('https://www.tiktok.com/', '_blank', 'noopener,noreferrer');
     setTimeout(()=>alert("Create a TikTok with your result and use:\n#AuroraInspires #MyArtGallery\nTag: @MyArtGalleryOnline"), 250);
   };
 }

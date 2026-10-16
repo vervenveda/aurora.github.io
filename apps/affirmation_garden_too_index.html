@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Affirmation Garden</title>
+<title>Affirmation Garden · Nurturing Strength</title>
 
 <style>
 :root{
@@ -110,7 +110,7 @@ body{
 
 <div class="affirmation-wrap">
   <div class="affirmation-card">
-    <div class="affirmation-title">Affirmation Garden</div>
+    <div class="affirmation-title">Affirmation Garden · Nurturing Strength</div>
 
     <div id="affirmationText" class="affirmation-text"></div>
     <div id="affirmationReflection" class="affirmation-reflection"></div>
@@ -274,12 +274,16 @@ function showAffirmation(){
 document.getElementById("newAffirmation").onclick = showAffirmation;
 
 document.getElementById("saveAffirmation").onclick = () => {
-  const saved = JSON.parse(localStorage.getItem("saved_affirmations") || "[]");
+  let saved = [];
+  try {
+    const value = JSON.parse(localStorage.getItem("aurora_affirmations_nurture_v1") || "[]");
+    if (Array.isArray(value)) saved = value;
+  } catch (_) {}
   saved.push({
     text: affirmationText.textContent,
     time: new Date().toISOString()
   });
-  localStorage.setItem("saved_affirmations", JSON.stringify(saved));
+  localStorage.setItem("aurora_affirmations_nurture_v1", JSON.stringify(saved));
   savedNote.textContent = "Saved locally 🌿";
 };
 

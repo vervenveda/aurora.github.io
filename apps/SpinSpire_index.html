@@ -608,7 +608,7 @@ function fbShare() {
   const text = promptArea.innerText.trim();
   if (!text || text === "Spinning..." || text === "Click “Spin!” to get your prompt.") return;
   const shareText = encodeURIComponent("My SpinSpire™ prompt: " + text + " #SpinSpire #ArtPrompt");
-  window.open("https://www.facebook.com/sharer/sharer.php?u=https://myartgallery.online&quote=" + shareText, "_blank");
+  window.open("https://www.facebook.com/sharer/sharer.php?u=https://myartgallery.online&quote=" + shareText, "_blank", "noopener,noreferrer");
 }
 
 // ------- Favorites / Quantum Log actions -------

@@ -371,7 +371,11 @@ weaveBtn.addEventListener('click', () => {
   weaveEcho.classList.add('visible');
 
   // add a "star-thread" representing this line in memory
-  const stored = JSON.parse(localStorage.getItem('loom_user_threads') || '[]');
+  let stored = [];
+  try {
+    const parsed = JSON.parse(localStorage.getItem('loom_user_threads') || '[]');
+    if (Array.isArray(parsed)) stored = parsed;
+  } catch (_) {}
   stored.push({ line, at: new Date().toISOString() });
   localStorage.setItem('loom_user_threads', JSON.stringify(stored));
 

@@ -550,30 +550,41 @@ function loadSongs() {
 function saveSongs() {
   localStorage.setItem('spire_music', JSON.stringify(songs));
 }
+function safeMediaURL(value) {
+  try {
+    const url=new URL(value);
+    return (url.protocol==='https:' || url.protocol==='http:') && !url.username && !url.password ? url : null;
+  } catch { return null; }
+}
+function youtubeId(url) {
+  const host=url.hostname.replace(/^www\./,'');
+  if(host==='youtu.be')return url.pathname.split('/').filter(Boolean)[0] || '';
+  if(host==='youtube.com' || host.endsWith('.youtube.com'))return url.searchParams.get('v') || (url.pathname.startsWith('/embed/') ? url.pathname.split('/')[2] : '');
+  return '';
+}
 function renderSongs() {
   songList.innerHTML = "";
-  songs.forEach((url,i)=>{
-    let isAudio = url.match(/\.(mp3|wav|ogg)($|\?)/i);
-    let isYT = url.match(/(youtu\.be|youtube\.com)/i);
+  songs.forEach((value,i)=>{
+    const url=safeMediaURL(value);
+    if(!url)return;
+    const isAudio=/\.(mp3|wav|ogg)$/i.test(url.pathname);
+    const ytId=youtubeId(url).replace(/[^A-Za-z0-9_-]/g,'').slice(0,32);
     let li = document.createElement('li');
     if(isAudio) {
-      li.innerHTML = `<audio src="${url}" controls></audio>`;
-    } else if(isYT) {
-      let ytId = url.split("v=")[1]||url.split("/").pop();
-      if(ytId&&ytId.indexOf("&")!==-1) ytId = ytId.split("&")[0];
-      li.innerHTML = `<iframe width="120" height="34" style="vertical-align:middle;" 
-        src="https://www.youtube.com/embed/${ytId}?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+      const audio=document.createElement('audio');audio.src=url.href;audio.controls=true;li.appendChild(audio);
+    } else if(ytId) {
+      const frame=document.createElement('iframe');frame.width='150';frame.height='84';frame.title='Saved YouTube audio';frame.loading='lazy';frame.src=`https://www.youtube.com/embed/${ytId}?rel=0`;frame.allow='encrypted-media';li.appendChild(frame);
     } else {
-      li.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+      const link=document.createElement('a');link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';link.textContent=url.href;li.appendChild(link);
     }
-    li.innerHTML += `<button class="del" title="Delete" onclick="delSong(${i})">&times;</button>`;
+    const del=document.createElement('button');del.className='del';del.title='Delete';del.type='button';del.textContent='×';del.addEventListener('click',()=>delSong(i));li.appendChild(del);
     songList.appendChild(li);
   });
 }
 function addSong() {
-  let url = musicUrl.value.trim();
-  if(url.length < 6) return;
-  songs.push(url);
+  const url=safeMediaURL(musicUrl.value.trim());
+  if(!url){alert('Please enter a complete http or https URL.');return}
+  songs.push(url.href);
   saveSongs();
   musicUrl.value = "";
   renderSongs();

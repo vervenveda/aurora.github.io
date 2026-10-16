@@ -551,6 +551,19 @@
    ========================================================== */
 
 const $ = id => document.getElementById(id);
+function sanitizeEditorHTML(value){
+  const template=document.createElement("template");
+  template.innerHTML=String(value || "");
+  const allowed=new Set(["B","STRONG","I","EM","U","BR","P","DIV","UL","OL","LI","BLOCKQUOTE","H1","H2","H3"]);
+  template.content.querySelectorAll("*").forEach(element=>{
+    if(!allowed.has(element.tagName)){
+      element.replaceWith(document.createTextNode(element.textContent || ""));
+      return;
+    }
+    [...element.attributes].forEach(attribute=>element.removeAttribute(attribute.name));
+  });
+  return template.innerHTML;
+}
 
 /* ---------- i18n strings ---------- */
 const STRINGS = {
@@ -1058,7 +1071,7 @@ function saveEntry(){
       style: styleSelect.value,
       mood: moodSelect.value,
       prompt: promptBox.textContent || "",
-      html: editor.innerHTML || "",
+      html: sanitizeEditorHTML(editor.innerHTML),
       font: fontSelect.value || "default",
       images: currentImages
     };
@@ -1099,7 +1112,7 @@ function loadEntry(){
       promptBox.textContent = "";
       promptEmpty.style.display = "inline";
     }
-    editor.innerHTML = data.html || "";
+    editor.innerHTML = sanitizeEditorHTML(data.html);
     if(data.font){
       fontSelect.value = data.font;
     }else{

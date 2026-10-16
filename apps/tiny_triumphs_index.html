@@ -6,7 +6,6 @@
 <title>Tiny Triumphs — Sovereign Gold Edition (Night Sanctum Glow)</title>
 
 <!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -582,7 +581,11 @@ const TASKS = [
 
 // --- Core State ---
 let index = 0;
-let completed = JSON.parse(localStorage.getItem("tt_completed")||"[]");
+let completed = [];
+try {
+  const stored = JSON.parse(localStorage.getItem("tt_completed") || "[]");
+  if (Array.isArray(stored)) completed = stored;
+} catch (_) {}
 if(completed.length < TASKS.length) completed = Array(TASKS.length).fill(false);
 
 // --- Elements ---

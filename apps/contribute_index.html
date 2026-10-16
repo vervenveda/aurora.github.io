@@ -1,9 +1,28 @@
-<script async
-  src="https://js.stripe.com/v3/buy-button.js">
-</script>
-
-<stripe-buy-button
-  buy-button-id="buy_btn_1TtUqXJv39zQCMS1skiXSbvP"
-  publishable-key="pk_live_51RpGqiJv39zQCMS1Gms5qklNYpH8haeue2dSLG76KHSims5CbWbitNjqlwhxDvjewGefNyrh24zNMsdQSk5m3mbE00Ajsji1iw"
->
-</stripe-buy-button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="An optional contribution doorway supporting Aurora and Verve N Veda development.">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://js.stripe.com; connect-src https://api.stripe.com https://r.stripe.com https://buy.stripe.com; frame-src https://js.stripe.com https://hooks.stripe.com https://buy.stripe.com https://checkout.stripe.com; img-src 'self' data: https://*.stripe.com; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action https://checkout.stripe.com;">
+<title>Contribute to Aurora</title>
+<style>
+:root{--paper:#f7f3e8;--cream:#fffdf7;--sage:#354b40;--gold:#ad8953;--ink:#26332d;--muted:#667068;--line:rgba(53,75,64,.18);--radius:7px}
+*{box-sizing:border-box}body{min-height:100vh;margin:0;display:grid;place-items:center;padding:24px;color:var(--ink);background:radial-gradient(circle at 50% 0,#fffdf7,var(--paper) 68%);font-family:"Avenir Next","Segoe UI",Arial,sans-serif}.card{width:min(620px,100%);padding:clamp(24px,6vw,55px);border:1px solid var(--line);border-radius:var(--radius);background:rgba(255,253,247,.92);box-shadow:0 24px 70px rgba(44,61,51,.1);text-align:center}.eyebrow{margin:0;color:#7c623e;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}h1{margin:10px 0 0;color:var(--sage);font:500 clamp(38px,8vw,62px)/1.02 "Iowan Old Style",Georgia,serif}p{max-width:500px;margin:16px auto;color:var(--muted);line-height:1.7}.boundary{padding:11px;border-left:3px solid var(--gold);border-radius:0 var(--radius) var(--radius) 0;background:#faf5e8;font-size:12px;text-align:left}.stripe{min-height:90px;margin-top:22px;display:grid;place-items:center}.back{display:inline-block;margin-top:20px;color:var(--sage);font-size:13px;font-weight:700;text-underline-offset:3px}
+</style>
+<script async src="https://js.stripe.com/v3/buy-button.js"></script>
+</head>
+<body>
+<main class="card">
+  <p class="eyebrow">An optional doorway</p>
+  <h1>Help Aurora remain open.</h1>
+  <p>Aurora can be explored without an account or payment. Contributions support maintenance, accessibility, original creative tools, and independent Verve N Veda infrastructure.</p>
+  <div class="boundary">Support for Aurora / Verve N Veda development is separate from political campaign contributions. No charitable or tax-deductible status is implied.</div>
+  <div class="stripe" aria-label="Contribute through Stripe">
+    <stripe-buy-button buy-button-id="buy_btn_1TtUqXJv39zQCMS1skiXSbvP" publishable-key="pk_live_51RpGqiJv39zQCMS1Gms5qklNYpH8haeue2dSLG76KHSims5CbWbitNjqlwhxDvjewGefNyrh24zNMsdQSk5m3mbE00Ajsji1iw"></stripe-buy-button>
+  </div>
+  <a class="back" href="../">Return to Aurora</a>
+</main>
+</body>
+</html>

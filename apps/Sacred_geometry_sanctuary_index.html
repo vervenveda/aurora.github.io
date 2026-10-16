@@ -5,7 +5,6 @@
   <title>PLERA Sacred Geometry Sanctuary — Kids Guide</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root{
       --midnight:#0f0f1f;
@@ -192,6 +191,26 @@
       padding-left:20px;
     }
 
+    /* Studio controls */
+    .studio{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(250px,.86fr);
+      gap:14px;
+      align-items:center;
+      padding:14px;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:7px;
+      background:#fffdf7;
+    }
+    .canvas-wrap{aspect-ratio:1;display:grid;place-items:center;border-radius:7px;background:radial-gradient(circle,#fffdf8 0,#eee8d7 72%,#dfe5d7 100%);overflow:hidden}
+    #mandala{width:100%;height:100%}
+    .studio-controls{display:grid;gap:9px}
+    .studio-controls label{display:grid;gap:4px;color:#51483c;font-size:var(--small)}
+    .studio-controls input,.studio-controls select{width:100%;min-height:40px;padding:7px 9px;border:1px solid rgba(0,0,0,.16);border-radius:7px;background:#fff;color:var(--ink);font:inherit}
+    .studio-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:3px}
+    .studio-actions button{min-height:40px;padding:8px 11px;border:1px solid #324d94;border-radius:7px;background:var(--accent);color:#fff;font:600 var(--small) "Cormorant Garamond",Georgia,serif;cursor:pointer}
+    .studio-actions button.secondary{border-color:rgba(0,0,0,.16);background:#fff;color:#3b3328}
+
     /* Big button */
     .btn-row{
       display:flex;
@@ -201,7 +220,7 @@
     .btn{
       appearance:none; border:none; cursor:pointer;
       padding:11px 21px;
-      border-radius:var(--radius-md);
+      border-radius:7px;
       font-family:"Cinzel",serif;
       font-size:var(--small);
       letter-spacing:.02em;
@@ -250,15 +269,45 @@
       <h1 class="title">Sacred Geometry Sanctuary</h1>
       <p class="subtitle">Kids Quick Guide · Make your own glowing mandala</p>
 
-      <!-- Optional: remove if guide sits directly above the game on the same page -->
       <div class="btn-row">
-        <a class="btn" href="YOUR_GAME_URL_HERE" target="_blank" rel="noopener">
-          🎮 Open the Game
+        <a class="btn" href="#studio">
+          Open the Studio
         </a>
       </div>
     </header>
 
     <div class="content">
+      <section id="studio" class="section" style="border-top:none;margin-top:0;padding-top:0" aria-labelledby="studioTitle">
+        <h2 id="studioTitle">Build a Quiet Mandala</h2>
+        <div class="studio">
+          <div class="canvas-wrap">
+            <svg id="mandala" viewBox="0 0 500 500" role="img" aria-label="Your generated geometric mandala">
+              <rect width="500" height="500" fill="#fffdf7"/>
+              <g id="mandalaLayers"></g>
+              <circle cx="250" cy="250" r="18" fill="#d9b878"/>
+              <text id="intentionText" x="250" y="258" text-anchor="middle" font-size="16" fill="#2a261f"></text>
+            </svg>
+          </div>
+          <div class="studio-controls">
+            <label>Intention
+              <input id="intention" maxlength="24" placeholder="Calm, brave, loved…">
+            </label>
+            <label>Shape
+              <select id="shape"><option value="circle">Circle</option><option value="petal">Lotus petals</option><option value="star">Star</option></select>
+            </label>
+            <label>Color
+              <input id="layerColor" type="color" value="#4f74c8">
+            </label>
+            <div class="studio-actions">
+              <button id="addLayer" type="button">Add layer</button>
+              <button id="clearMandala" class="secondary" type="button">Clear</button>
+              <button id="saveMandala" class="secondary" type="button">Save SVG</button>
+            </div>
+            <p class="small-text" id="studioStatus" aria-live="polite">Choose a shape and color, then add a layer.</p>
+          </div>
+        </div>
+      </section>
+
       <!-- Steps -->
       <section aria-label="Three simple steps" class="section" style="border-top:none; margin-top:0; padding-top:0;">
         <div class="steps">
@@ -266,8 +315,7 @@
             <div class="step-icon">💭</div>
             <div class="step-text">
               <h2>Step 1 · Choose a Feeling</h2>
-              <p>In the box at the top, type a feeling or wish like <strong>“Brave”</strong>, <strong>“Calm”</strong>, or <strong>“Loved”</strong>.  
-                 Then click <strong>Manifest</strong>. A soft glowing color appears in the middle.</p>
+              <p>In the studio, type a short feeling or wish like <strong>“Brave”</strong>, <strong>“Calm”</strong>, or <strong>“Loved”</strong>. It will rest at the center of your pattern.</p>
             </div>
           </article>
 
@@ -275,7 +323,7 @@
             <div class="step-icon">✨</div>
             <div class="step-text">
               <h2>Step 2 · Add Shapes & Colors</h2>
-              <p>Pick a <strong>Theme</strong>, a <strong>Shape</strong> (circle, star, lotus, spiral…), and a <strong>Color</strong>.  
+              <p>Pick a <strong>Shape</strong> (circle, star, or lotus petals) and a <strong>Color</strong>.
                  Click <strong>Add Layer</strong> to add a new ring to your mandala.</p>
             </div>
           </article>
@@ -283,9 +331,8 @@
           <article class="step">
             <div class="step-icon">⚔️</div>
             <div class="step-text">
-              <h2>Step 3 · Watch & Battle</h2>
-              <p>Watch your mandala gently move.  
-                 If you’d like, choose a battle shape and press <strong>Start Battle</strong> to see your mandala give you little power boosts.</p>
+              <h2>Step 3 · Notice & Save</h2>
+              <p>Pause with your finished pattern, notice its balance, and save the SVG to your device if you want to keep it.</p>
             </div>
           </article>
         </div>
@@ -298,10 +345,6 @@
         <div class="row">
           <div class="button-list">
             <div class="button-item">
-              <span class="button-label">Manifest 💡</span>
-              <span class="button-desc">Uses your words to make a special glow color in the center.</span>
-            </div>
-            <div class="button-item">
               <span class="button-label">Add Layer ➕</span>
               <span class="button-desc">Adds a new ring with the shape and color you picked.</span>
             </div>
@@ -313,18 +356,13 @@
               <span class="button-label">Clear Mandala 🧽</span>
               <span class="button-desc">Erases all rings so you can start fresh.</span>
             </div>
-            <div class="button-item">
-              <span class="button-label">Start Battle ⚔️</span>
-              <span class="button-desc">Lets your shape “fight” the computer’s shape. The log shows what happened.</span>
-            </div>
           </div>
         </div>
 
         <p style="margin-top:10px; font-size:var(--small); color:#5b5245;">
-          <span class="tag">Circle</span> strong at protecting ·
-          <span class="tag">Triangle</span> strong at attacking ·
-          <span class="tag">Spiral</span> helps you heal ·
-          <span class="tag">Lotus</span> & <span class="tag">Star</span> mix bonuses
+          <span class="tag">Circle</span> calm balance ·
+          <span class="tag">Lotus</span> layered growth ·
+          <span class="tag">Star</span> bright direction
         </p>
       </section>
 
@@ -346,6 +384,59 @@
       Khaemenes Academy · PLERA Sacred Geometry Sanctuary — Kids Guide
     </footer>
   </main>
+<script>
+(()=>{
+  "use strict";
+  const ns="http://www.w3.org/2000/svg";
+  const layers=document.getElementById("mandalaLayers");
+  const intention=document.getElementById("intention");
+  const label=document.getElementById("intentionText");
+  const status=document.getElementById("studioStatus");
+  let layerCount=0;
+
+  function svgEl(name,attrs){
+    const el=document.createElementNS(ns,name);
+    Object.entries(attrs).forEach(([key,value])=>el.setAttribute(key,String(value)));
+    return el;
+  }
+  function starPoints(radius,inner){
+    const points=[];
+    for(let i=0;i<16;i++){
+      const angle=-Math.PI/2+i*Math.PI/8;
+      const r=i%2?inner:radius;
+      points.push(`${250+Math.cos(angle)*r},${250+Math.sin(angle)*r}`);
+    }
+    return points.join(" ");
+  }
+  function addLayer(){
+    if(layerCount>=7){status.textContent="Seven layers is a complete mandala. Clear to begin another.";return}
+    const radius=48+layerCount*26;
+    const color=document.getElementById("layerColor").value;
+    const shape=document.getElementById("shape").value;
+    const group=svgEl("g",{fill:"none",stroke:color,"stroke-width":5,"stroke-opacity":.84});
+    if(shape==="circle")group.appendChild(svgEl("circle",{cx:250,cy:250,r:radius}));
+    if(shape==="star")group.appendChild(svgEl("polygon",{points:starPoints(radius,radius*.58)}));
+    if(shape==="petal"){
+      for(let i=0;i<12;i++)group.appendChild(svgEl("ellipse",{cx:250,cy:250-radius*.55,rx:radius*.18,ry:radius*.5,transform:`rotate(${i*30} 250 250)`}));
+    }
+    layers.appendChild(group);layerCount++;
+    label.textContent=intention.value.trim().slice(0,24);
+    status.textContent=`Layer ${layerCount} added. Your pattern is taking shape.`;
+  }
+  function clear(){layers.replaceChildren();layerCount=0;label.textContent="";status.textContent="The studio is clear and ready."}
+  function save(){
+    const svg=document.getElementById("mandala").cloneNode(true);
+    svg.setAttribute("xmlns",ns);
+    const blob=new Blob([new XMLSerializer().serializeToString(svg)],{type:"image/svg+xml"});
+    const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="aurora-mandala.svg";a.click();setTimeout(()=>URL.revokeObjectURL(url),0);
+    status.textContent="Your mandala was saved as an SVG image.";
+  }
+  intention.addEventListener("input",()=>{label.textContent=intention.value.trim().slice(0,24)});
+  document.getElementById("addLayer").addEventListener("click",addLayer);
+  document.getElementById("clearMandala").addEventListener("click",clear);
+  document.getElementById("saveMandala").addEventListener("click",save);
+})();
+</script>
 <a href="https://vervenveda.com/beta/" aria-label="Open Beta Program" style="position:fixed;right:14px;bottom:14px;z-index:2147483000;padding:10px;background:#fffaf0;color:#171717;border:1px solid #b6934d;border-radius:7px;text-decoration:none">β Beta Program</a>
 </body>
 </html>

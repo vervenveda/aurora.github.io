@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Soulbook 2026 – Verve N Veda Edition</title>
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0d0e11;
@@ -412,6 +411,10 @@ function saveEntries(arr) {
   localStorage.setItem("soulbook2026", JSON.stringify(arr));
 }
 
+function escapeHTML(value) {
+  return String(value || "").replace(/[&<>"']/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[character]));
+}
+
 // Render list of entries (with optional filter)
 function renderEntries(filter = "") {
   const list = document.getElementById("entriesList");
@@ -435,12 +438,12 @@ function renderEntries(filter = "") {
     div.className = "entry-item";
     div.innerHTML = `
       <div class="entry-date">
-        ${entry.date}
-        ${entry.time ? (" <span style='color:#ffe9b7;font-size:.97em'>" + entry.time + "</span>") : ""}
+        ${escapeHTML(entry.date)}
+        ${entry.time ? (" <span style='color:#ffe9b7;font-size:.97em'>" + escapeHTML(entry.time) + "</span>") : ""}
       </div>
-      <div><b>🕊️ Wish:</b> ${entry.wish || ""}</div>
-      <div><b>📝 Reflection:</b> ${entry.reflection || ""}</div>
-      <div><b>🚀 Goal:</b> ${entry.goal || ""}</div>
+      <div><b>🕊️ Wish:</b> ${escapeHTML(entry.wish)}</div>
+      <div><b>📝 Reflection:</b> ${escapeHTML(entry.reflection)}</div>
+      <div><b>🚀 Goal:</b> ${escapeHTML(entry.goal)}</div>
       <div class="entry-actions">
         <button onclick="editEntry(${getEntries().length - 1 - idx})">Edit</button>
         <button onclick="deleteEntry(${getEntries().length - 1 - idx})">Delete</button>

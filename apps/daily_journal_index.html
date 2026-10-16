@@ -4,7 +4,6 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title> Daily Journal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <style id="mainStyle">
     body {
       background: #f7f3eb;
@@ -281,20 +280,29 @@
     // Section fields
     const fields = ["vision","energy","visuals","actions","gratitude","diary"];
     function getEntryKey(dateStr) { return "elegant_adult_journal_" + dateStr; }
+    function savedText(value) {
+      const template = document.createElement("template");
+      template.innerHTML = String(value || "");
+      return template.content.textContent || "";
+    }
 
     // Save/load
     function loadEntry(dateStr) {
       const key = getEntryKey(dateStr);
-      const entry = JSON.parse(localStorage.getItem(key) || "{}");
+      let entry = {};
+      try {
+        const parsed = JSON.parse(localStorage.getItem(key) || "{}");
+        if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) entry = parsed;
+      } catch (_) {}
       fields.forEach(id => {
-        document.getElementById(id).innerHTML = entry[id] || "";
+        document.getElementById(id).textContent = savedText(entry[id]);
       });
     }
     function saveEntry() {
       const key = getEntryKey(entryDate.value);
       const entry = {};
       fields.forEach(id => {
-        entry[id] = document.getElementById(id).innerHTML;
+        entry[id] = document.getElementById(id).innerText || "";
       });
       localStorage.setItem(key, JSON.stringify(entry));
       showSaved();
@@ -310,7 +318,11 @@
         const key = localStorage.key(i);
         if(!key.startsWith("elegant_adult_journal_")) continue;
         const date = key.slice("elegant_adult_journal_".length);
-        dump[date] = JSON.parse(localStorage.getItem(key));
+        try {
+          dump[date] = JSON.parse(localStorage.getItem(key));
+        } catch (_) {
+          dump[date] = {};
+        }
       }
       const blob = new Blob([JSON.stringify(dump,null,2)], {type:"application/json"});
       const url = URL.createObjectURL(blob);

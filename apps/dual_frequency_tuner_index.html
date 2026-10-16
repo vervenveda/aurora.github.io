@@ -33,9 +33,9 @@ label{font-weight:bold;}
   <h2>🎧 Dual Frequency & Binaural Tuner</h2>
 
   <div>
-    <button onclick="preset(432,440,'432 Hz Healing Balance')">432 Hz Healing</button>
-    <button onclick="preset(528,536,'528 Hz Love Resonance')">528 Hz Love</button>
-    <button onclick="preset(639,647,'639 Hz Harmony Connection')">639 Hz Harmony</button>
+    <button onclick="preset(432,440,'Playing a gentle 8 Hz interval.')">432 / 440 Hz</button>
+    <button onclick="preset(528,536,'Playing a gentle 8 Hz interval.')">528 / 536 Hz</button>
+    <button onclick="preset(639,647,'Playing a gentle 8 Hz interval.')">639 / 647 Hz</button>
   </div>
 
   <h3>Left Channel</h3>
@@ -60,13 +60,21 @@ label{font-weight:bold;}
   </div>
 
   <div class="voice" id="voiceLine">Ready to tune your frequency.</div>
+  <p style="max-width:34rem;margin:16px auto 0;font-size:13px;color:#555">For comfortable listening only; this sound tool does not provide medical treatment. Keep the volume low and stop if you feel discomfort.</p>
 </div>
 
 <script>
 let ctx,oscL,oscR,gainL,gainR,dest,recorder,chunks=[];
 
 function setup(){
-  if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)();
+  const AudioAPI=window.AudioContext||window.webkitAudioContext;
+  if(!AudioAPI){
+    document.getElementById('voiceLine').textContent="Audio generation is not supported in this browser.";
+    return false;
+  }
+  if(!ctx) ctx=new AudioAPI();
+  if(ctx.state==="suspended") ctx.resume();
+  return true;
 }
 
 function preset(l,r,msg){
@@ -84,11 +92,13 @@ function updateLabel(){
 
 function playDual(){
   stopTone();
-  setup();
+  if(!setup()) return;
   oscL=ctx.createOscillator();
   oscR=ctx.createOscillator();
   gainL=ctx.createGain();
   gainR=ctx.createGain();
+  gainL.gain.value=.08;
+  gainR.gain.value=.08;
 
   oscL.frequency.value=parseFloat(document.getElementById('leftFreq').value);
   oscR.frequency.value=parseFloat(document.getElementById('rightFreq').value);
@@ -103,30 +113,39 @@ function playDual(){
   oscL.start();
   oscR.start();
 
-  recorder=new MediaRecorder(dest.stream);
-  recorder.ondataavailable=e=>chunks.push(e.data);
-  recorder.onstop=saveRecording;
+  recorder=null;
+  if('MediaRecorder' in window){
+    recorder=new MediaRecorder(dest.stream);
+    recorder.ondataavailable=e=>chunks.push(e.data);
+    recorder.onstop=saveRecording;
+  }
 
   document.getElementById('voiceLine').textContent=
     `Playing L:${oscL.frequency.value} Hz | R:${oscR.frequency.value} Hz | Δ=${Math.abs(oscL.frequency.value-oscR.frequency.value).toFixed(2)} Hz`;
 }
 
 function stopTone(){
-  if(oscL){oscL.stop();oscL.disconnect();}
-  if(oscR){oscR.stop();oscR.disconnect();}
+  if(recorder && recorder.state==="recording") recorder.stop();
+  if(oscL){try{oscL.stop();}catch(_){} oscL.disconnect();oscL=null;}
+  if(oscR){try{oscR.stop();}catch(_){} oscR.disconnect();oscR=null;}
   document.getElementById('voiceLine').textContent="Tone stopped.";
 }
 
 function speak(msg){
   const line=document.getElementById('voiceLine');
   line.textContent=msg;
-  const utter=new SpeechSynthesisUtterance(msg);
-  speechSynthesis.speak(utter);
+  if('speechSynthesis' in window && 'SpeechSynthesisUtterance' in window){
+    const utter=new SpeechSynthesisUtterance(msg);
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utter);
+  }
 }
 
 // Recording
 function startRecording(){
+  if(!('MediaRecorder' in window)){alert("Recording is not supported in this browser.");return;}
   if(!recorder){alert("Start playback first to record.");return;}
+  if(recorder.state!=="inactive") return;
   chunks=[];
   recorder.start();
   document.getElementById('voiceLine').textContent="🎙️ Recording...";
@@ -142,13 +161,16 @@ function stopRecording(){
 }
 
 function saveRecording(){
-  const blob=new Blob(chunks,{type:'audio/wav'});
+  const mime=(recorder && recorder.mimeType)||'audio/webm';
+  const blob=new Blob(chunks,{type:mime});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
   a.href=url;
-  a.download='binaural_tone.wav';
+  a.download='dual_tone.'+(mime.includes('ogg')?'ogg':'webm');
+  document.body.appendChild(a);
   a.click();
-  URL.revokeObjectURL(url);
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),0);
   document.getElementById('voiceLine').textContent="🎵 Recording saved to your device.";
 }
 </script>

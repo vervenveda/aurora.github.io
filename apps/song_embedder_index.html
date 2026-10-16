@@ -6,7 +6,6 @@
   <title>Eiren Song Embedder</title>
 
   <!-- Poppins font (it was referenced but not loaded before) -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -411,7 +410,7 @@
     function isLikelyURL(url) {
       try {
         const u = new URL(url);
-        return !!u.protocol && !!u.host;
+        return ['http:', 'https:'].includes(u.protocol) && !!u.host && !u.username && !u.password;
       } catch {
         return false;
       }

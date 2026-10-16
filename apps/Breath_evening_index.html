@@ -113,7 +113,11 @@ showSuggestion();
 
 let alarms={};
 function loadSaved(){
-  const saved=JSON.parse(localStorage.getItem('alarms')||'{}');
+  let saved={};
+  try{
+    const parsed=JSON.parse(localStorage.getItem('alarms')||'{}');
+    if(parsed && typeof parsed==='object' && !Array.isArray(parsed)) saved=parsed;
+  }catch(_){}
   alarms=saved;
   if(saved.bedtime) document.getElementById('bedtime').value=saved.bedtime;
   if(saved.wakeup) document.getElementById('wakeup').value=saved.wakeup;

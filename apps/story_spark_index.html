@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Aurora Story Spark – Monte Carlo Story Cue</title>
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#050814;
@@ -641,27 +640,29 @@
     const text = storyText.value || "";
     const cue  = cueBox.textContent || "";
     const win = window.open("","_blank","width=700,height=900");
-    win.document.write(`
-      <html><head>
-        <title>Aurora Story Spark – Print</title>
-        <style>
-          body{font-family:"DM Sans",system-ui,sans-serif;padding:24px;color:#111;background:#fafafa;}
-          h1{font-family:"Cinzel",serif;font-size:1.4rem;margin-bottom:10px;}
-          h2{font-size:1rem;margin-top:18px;margin-bottom:6px;}
-          pre{white-space:pre-wrap;word-wrap:break-word;font-family:inherit;font-size:.95rem;}
-        </style>
-      </head>
-      <body>
-        <h1>Aurora Story Spark</h1>
-        <h2>Opening Cue</h2>
-        <pre>${cue.replace(/[<&>]/g,s=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[s]))}</pre>
-        <h2>Your Story</h2>
-        <pre>${text.replace(/[<&>]/g,s=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[s]))}</pre>
-        <script>window.print();<\/script>
-      <a href="https://vervenveda.com/beta/" aria-label="Open Beta Program" style="position:fixed;right:14px;bottom:14px;z-index:2147483000;padding:10px;background:#fffaf0;color:#171717;border:1px solid #b6934d;border-radius:7px;text-decoration:none">β Beta Program</a>
-</body></html>
-    `);
-    win.document.close();
+    if(!win){
+      setStatus("Allow pop-ups to open the print view.","err");
+      return;
+    }
+    win.opener = null;
+    const doc = win.document;
+    doc.title = "Aurora Story Spark – Print";
+    const style = doc.createElement("style");
+    style.textContent = 'body{font-family:system-ui,sans-serif;padding:24px;color:#111;background:#fafafa}h1{font-family:Georgia,serif;font-size:1.4rem;margin-bottom:10px}h2{font-size:1rem;margin:18px 0 6px}pre{white-space:pre-wrap;word-wrap:break-word;font:inherit}';
+    doc.head.appendChild(style);
+    const heading = doc.createElement("h1");
+    heading.textContent = "Aurora Story Spark";
+    const cueHeading = doc.createElement("h2");
+    cueHeading.textContent = "Opening Cue";
+    const cueText = doc.createElement("pre");
+    cueText.textContent = cue;
+    const storyHeading = doc.createElement("h2");
+    storyHeading.textContent = "Your Story";
+    const storyCopy = doc.createElement("pre");
+    storyCopy.textContent = text;
+    doc.body.append(heading,cueHeading,cueText,storyHeading,storyCopy);
+    win.focus();
+    win.print();
   }
 
   function copyStory(){
