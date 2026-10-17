@@ -27,7 +27,7 @@ System fonts and locally stored code keep rendering calm and predictable.
 
 Aurora is a static application built with plain HTML, CSS, and browser JavaScript. It has:
 
-- no Node.js runtime;
+- no Node.js production runtime or hosting dependency;
 - no Wix dependency, embeds, signatures, or error routes;
 - no front-end framework;
 - no required account;
@@ -39,6 +39,8 @@ The optional contribution doorway loads Stripe's official browser component. Use
 ## Privacy and local preferences
 
 Favorites, saved reflections, room entries, and the optional voice setting stay in the visitor's browser when local storage is available. The landing page does not send those values to Aurora.
+
+Each room uses a path-derived storage namespace, so similarly named keys in different tools cannot overwrite one another. Existing pre-isolation values are imported once for continuity.
 
 Saved user text is restored as text or through narrow allowlist sanitization. Saved media addresses are limited to credential-free `http` or `https` URLs before they can become links, audio sources, or YouTube embeds.
 
@@ -58,9 +60,9 @@ Run the repository-wide check with:
 python scripts/audit_aurora.py
 ```
 
-The audit verifies all 46 HTML documents (the landing page, 44 rooms, and the contribution utility), every local file reference, required metadata, referenced DOM IDs, inline JavaScript syntax, registry/manifest parity, unresolved placeholders, forbidden remote dependencies, and the wellness boundary. GitHub Actions runs the same command on pushes and pull requests to `main`.
+The audit verifies all 46 HTML documents (the landing page, 44 rooms, and the contribution utility), every local file reference, required metadata, unique and referenced DOM IDs, inline JavaScript syntax, room isolation assets, registry/manifest parity, unresolved placeholders, forbidden remote dependencies, sandbox policy, and the wellness boundary. GitHub Actions runs the same command on pushes and pull requests to `main`.
 
-The detailed 2026-10-16 findings and remediation record are in `FORENSIC_AUDIT_2026-10-16.md`.
+The repository-wide findings are in `FORENSIC_AUDIT_2026-10-16.md`. The room-by-room isolation and execution record is in `FORENSIC_ROOM_AUDIT_2026-10-17.md`.
 
 ## Repository map
 

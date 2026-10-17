@@ -6,6 +6,8 @@ Aurora now has a complete, enforceable inventory of **44 original rooms**. Every
 
 The production architecture remains a static GitHub Pages application. Node.js is not a runtime dependency. Wix is not present. Browser-local entries remain local unless a visitor explicitly follows an external link or uses the separately identified Stripe contribution doorway.
 
+The follow-up 2026-10-17 room isolation audit verified the presentation and representative execution path of all 44 tools. See `FORENSIC_ROOM_AUDIT_2026-10-17.md` for the app-by-app matrix and repairs.
+
 ## Material findings and remediation
 
 | Severity | Finding | Resolution |
