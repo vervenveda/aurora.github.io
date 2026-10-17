@@ -19,12 +19,9 @@ The complete room registry is in `assets/aurora-sanctuary.js`. The corresponding
 
 ## Design system
 
-The entrance uses an original parchment, sage, and antique-gold visual system with restrained 7 px corners and two smooth local SVG scenes:
+The entrance uses a parchment, sage, and antique-gold visual system with restrained 7 px corners. The landing page is intentionally art-free while original artwork is being prepared: its atmosphere comes from typography, spacing, borders, and quiet CSS color fields rather than stock or generated imagery.
 
-- `assets/aurora-meadow.svg` — a light-filled studio at dawn
-- `assets/aurora-evening.svg` — a warm evening studio
-
-The artwork avoids raster assets, turbulence filters, and animation-heavy effects. System fonts and locally stored assets keep rendering calm and predictable.
+System fonts and locally stored code keep rendering calm and predictable.
 
 ## Runtime architecture
 

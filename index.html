@@ -13,9 +13,9 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vervenveda.com/aurora.github.io/">
 <link rel="canonical" href="https://vervenveda.com/aurora.github.io/">
-<link rel="stylesheet" href="./assets/aurora-sanctuary.css?v=20261016">
+<link rel="stylesheet" href="./assets/aurora-sanctuary.css?v=20261017">
 <title>Aurora — A Peaceful Verve N Veda Studio</title>
-<script src="./assets/aurora-sanctuary.js?v=20261016" defer></script>
+<script src="./assets/aurora-sanctuary.js?v=20261017" defer></script>
 <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 </head>
 <body>
@@ -32,6 +32,7 @@
       <a href="#featured">Featured</a>
       <a href="#evening">Evening</a>
       <a href="#library">Library</a>
+      <a href="#continuum">Creative Continuum</a>
       <a href="#resources">Resources</a>
       <button class="voice-toggle" id="voiceToggle" type="button" aria-pressed="false">Aurora Voice · Off</button>
     </nav>
@@ -57,10 +58,13 @@
           <span>Made for quiet focus</span>
         </div>
       </div>
-      <div class="hero-visual" role="img" aria-label="A serene abstract studio at dawn with soft light, a yoga mat, and botanical line art">
-        <div class="visual-seal" aria-hidden="true"><span>◌</span></div>
-        <blockquote>“Take the pace that lets you hear yourself.”</blockquote>
-      </div>
+      <aside class="hero-visual" aria-label="A quiet note from Aurora">
+        <div class="visual-note">
+          <p class="eyebrow">A quiet threshold</p>
+          <blockquote>“Take the pace that lets you hear yourself.”</blockquote>
+          <p>There is room here for silence, unfinished thoughts, and one small beginning.</p>
+        </div>
+      </aside>
     </div>
 
     <div class="breath-dock" id="breathDock" role="group" aria-label="One-breath practice">
@@ -97,12 +101,49 @@
 
   <section class="evening" id="evening" aria-labelledby="eveningTitle">
     <div class="wrap evening-grid">
-      <div class="evening-art" role="img" aria-label="Golden watercolor evening landscape"></div>
+      <aside class="evening-pause" aria-label="Evening reflection">
+        <p class="eyebrow">A quiet interval</p>
+        <p class="evening-prompt">Let the day become quiet before you ask anything more of it.</p>
+        <p>One room. One small ritual. Nothing to perform.</p>
+      </aside>
       <div class="evening-copy">
         <p class="eyebrow">When the day becomes quiet</p>
         <h2 id="eveningTitle">Evening, sleep & rest.</h2>
         <p>Warm, low-pressure rooms for setting the day down: dream notes, prayer, gratitude, gentle waking, and small lights worth remembering.</p>
         <div class="rest-list" id="restList"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section continuum-section" id="continuum" aria-labelledby="continuumTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">One creative continuum</p>
+        <h2 id="continuumTitle">Settle. Make. Listen.</h2>
+        <p>Aurora, Bazaar Art, and The Refrain are neighboring Verve N Veda studios. Move between them without losing the thread of your practice.</p>
+      </div>
+      <div class="continuum-grid" aria-label="Connected Verve N Veda creative studios">
+        <article class="continuum-card current" aria-current="page">
+          <span class="continuum-mark" aria-hidden="true">◌</span>
+          <p class="continuum-step">01 · Settle</p>
+          <h3>Aurora</h3>
+          <p>Begin with breath, reflection, rest, and the quiet attention that makes creative work possible.</p>
+          <span class="continuum-action">You are here</span>
+        </article>
+        <a class="continuum-card" href="https://vervenveda.com/bazaarart.github.io/">
+          <span class="continuum-mark" aria-hidden="true">✦</span>
+          <p class="continuum-step">02 · Make</p>
+          <h3>Bazaar Art</h3>
+          <p>Carry the spark into visual studios, creative education, artist resources, and exhibition pathways.</p>
+          <span class="continuum-action">Enter the art studio →</span>
+        </a>
+        <a class="continuum-card" href="https://vervenveda.com/the_refrain.github.io/">
+          <span class="continuum-mark" aria-hidden="true">♪</span>
+          <p class="continuum-step">03 · Listen</p>
+          <h3>The Refrain</h3>
+          <p>Turn attention into music through composition, lyrics, learning, instruments, and listening.</p>
+          <span class="continuum-action">Enter the music house →</span>
+        </a>
       </div>
     </div>
   </section>
@@ -165,7 +206,7 @@
     <div>
       <strong>Aurora</strong>
       <p>A quiet public sanctuary for breath, rest, reflection, creativity, sound, and humane daily rhythm. Built to be useful without demanding attention.</p>
-      <p>© <span id="year"></span> Verve N Veda.</p>
+      <p>© <span id="year"></span> Jennifer Kay Pearl · Verve N Veda.</p>
     </div>
     <nav class="network-links" id="networkLinks" aria-label="Verve N Veda public network"></nav>
   </div>

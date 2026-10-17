@@ -135,8 +135,6 @@ def main() -> int:
     errors: list[str] = []
     required = [
         ROOT / "index.html",
-        ROOT / "assets" / "aurora-meadow.svg",
-        ROOT / "assets" / "aurora-evening.svg",
         ROOT / "assets" / "aurora-sanctuary.css",
         ROOT / "assets" / "aurora-sanctuary.js",
         ROOT / "mentor-manifest.json",
@@ -194,8 +192,9 @@ def main() -> int:
             fail(f"Landing page is missing {message}", errors)
     if "prefers-reduced-motion:reduce" not in css:
         fail("Stylesheet is missing reduced-motion support", errors)
-    if "filter id=\"" in (ROOT / "assets" / "aurora-meadow.svg").read_text(encoding="utf-8"):
-        fail("Hero artwork reintroduced SVG filters that can render choppily", errors)
+    for temporary_art in ("aurora-meadow.svg", "aurora-evening.svg"):
+        if temporary_art in index or temporary_art in css:
+            fail(f"Landing page reintroduced temporary artwork: {temporary_art}", errors)
 
     if errors:
         print("Aurora audit failed:", file=sys.stderr)

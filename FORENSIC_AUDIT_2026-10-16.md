@@ -21,7 +21,7 @@ The production architecture remains a static GitHub Pages application. Node.js i
 | Medium | Audio tools made unsupported frequency-healing claims and assumed recording/speech APIs existed. | Reframed as listening experiments, added comfort guidance, and added feature detection. |
 | Medium | Corrupted local JSON could prevent Daily Journal or Inspiration Mosaic from loading. | Added guarded parsing, type validation, and safe defaults. |
 | Low | Remote font, PDF, and audio CDNs weakened predictable rendering and privacy boundaries. | Removed them; PDF output now uses the browser's print/save flow and the letter chime is generated locally. |
-| Low | The hero artwork used a blurred SVG glow and the previous layout felt visually busy. | Rebuilt the entrance around smooth vectors, system fonts, restrained 7 px geometry, a calmer studio composition, and reduced motion. |
+| Low | The hero artwork used a blurred SVG glow and the previous layout felt visually busy. | Rebuilt the entrance around system fonts, restrained 7 px geometry, calm CSS color fields, and reduced motion. Temporary illustrations were removed on 2026-10-17 so the landing remains art-free until original artwork is ready. |
 
 ## Verification coverage
 
@@ -37,7 +37,7 @@ The production architecture remains a static GitHub Pages application. Node.js i
 - reintroduced remote font/general-purpose CDN dependencies;
 - unaudited service-worker registration;
 - missing reduced-motion or wellness-boundary text;
-- reintroduced SVG filters in the primary hero artwork.
+- references to the retired temporary landing-page illustrations.
 
 ## Residual boundaries
 
