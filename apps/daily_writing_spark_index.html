@@ -743,13 +743,40 @@ const STRINGS = {
   }
 };
 
-/* ---------- Prompt catalog (same as before) ---------- */
-const PROMPTS = { /* (same PROMPTS object as previous version — omitted here for brevity in comment,
-                     but in the actual file keep the full PROMPTS object exactly as above) */ };
+/* ---------- Prompt catalog ---------- */
+const promptSet = prompts => ({
+  calm: prompts,
+  playful: prompts,
+  brave: prompts,
+  reflective: prompts
+});
 
-// --- Full PROMPTS object from previous answer goes here (unchanged) ---
-/* For space, I'm not collapsing it here in comments; when you paste, keep the full PROMPTS
-   block that includes en/es/fr/ar like in the earlier version. */
+const PROMPTS = {
+  en: {
+    journal: promptSet(["What deserves a little more room today?","Name one detail you want to remember.","What feels quietly possible right now?"]),
+    story: promptSet(["A door appears where no door stood yesterday.","Two strangers recognize the same forgotten song.","The smallest object in the room knows a secret."]),
+    gratitude: promptSet(["Who made today gentler, and how?","Notice three ordinary comforts around you.","What ability in yourself are you grateful for?"]),
+    letter: promptSet(["Write to yourself one year from today.","Offer your younger self one patient sentence.","Write a note to the part of you that kept going."])
+  },
+  es: {
+    journal: promptSet(["¿Qué merece un poco más de espacio hoy?","Nombra un detalle que quieras recordar.","¿Qué posibilidad tranquila percibes ahora?"]),
+    story: promptSet(["Aparece una puerta donde ayer no había ninguna.","Dos desconocidos reconocen la misma canción olvidada.","El objeto más pequeño de la habitación guarda un secreto."]),
+    gratitude: promptSet(["¿Quién hizo tu día más amable y cómo?","Observa tres comodidades sencillas a tu alrededor.","¿Qué capacidad tuya agradeces hoy?"]),
+    letter: promptSet(["Escríbete una carta desde dentro de un año.","Ofrece una frase paciente a tu yo más joven.","Escribe a la parte de ti que siguió adelante."])
+  },
+  fr: {
+    journal: promptSet(["Qu’est-ce qui mérite un peu plus d’espace aujourd’hui ?","Nommez un détail que vous voulez garder en mémoire.","Quelle possibilité tranquille percevez-vous maintenant ?"]),
+    story: promptSet(["Une porte apparaît là où il n’y en avait aucune hier.","Deux inconnus reconnaissent la même chanson oubliée.","Le plus petit objet de la pièce connaît un secret."]),
+    gratitude: promptSet(["Qui a rendu votre journée plus douce, et comment ?","Remarquez trois réconforts simples autour de vous.","Quelle capacité en vous appréciez-vous aujourd’hui ?"]),
+    letter: promptSet(["Écrivez-vous depuis un an dans le futur.","Offrez une phrase patiente à votre jeune moi.","Écrivez à la part de vous qui a continué."])
+  },
+  ar: {
+    journal: promptSet(["ما الذي يستحق مساحة أوسع قليلًا اليوم؟","اذكري تفصيلًا واحدًا تريدين الاحتفاظ به.","ما الإمكانية الهادئة التي تشعرين بها الآن؟"]),
+    story: promptSet(["ظهر باب في مكان لم يكن فيه باب بالأمس.","تعرّف غريبان إلى الأغنية المنسية نفسها.","أصغر شيء في الغرفة يعرف سرًا."]),
+    gratitude: promptSet(["من جعل يومك ألطف، وكيف؟","لاحظي ثلاث وسائل راحة بسيطة حولك.","ما القدرة التي تشعرين بالامتنان لامتلاكها؟"]),
+    letter: promptSet(["اكتبي لنفسك من عام في المستقبل.","قدّمي جملة صبورة لذاتك الأصغر.","اكتبي إلى الجزء منك الذي واصل الطريق."])
+  }
+};
 
 /* ---------- State helpers ---------- */
 
