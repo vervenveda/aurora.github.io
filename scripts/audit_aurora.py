@@ -17,13 +17,24 @@ APPS = ROOT / "apps"
 UTILITY_PAGES = {"contribute_index.html"}
 EXPECTED_ROOMS = 44
 PLACEHOLDERS = ("YOUR_GAME_URL_HERE", "YOUR_API_KEY", "CHANGEME", "TODO_URL")
-FORBIDDEN_REMOTE = ("fonts.googleapis.com", "fonts.gstatic.com", "cdnjs.cloudflare.com", "cdn.pixabay.com")
+FORBIDDEN_REMOTE = (
+    "fonts.googleapis.com",
+    "fonts.gstatic.com",
+    "cdnjs.cloudflare.com",
+    "cdn.pixabay.com",
+    "cdn-icons-png.flaticon.com",
+    "gleitz.github.io/midi-js-soundfonts",
+    "myartgallery.online",
+)
+ROOM_STYLE = "../assets/aurora-room.css"
+ROOM_RUNTIME = "../assets/aurora-room-runtime.js"
 
 
 class PageParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.ids: set[str] = set()
+        self.id_counts: dict[str, int] = {}
         self.references: list[tuple[str, str]] = []
         self.inline_scripts: list[str] = []
         self._in_script = False
@@ -35,6 +46,7 @@ class PageParser(HTMLParser):
         values = {key.lower(): value or "" for key, value in attrs}
         if values.get("id"):
             self.ids.add(values["id"])
+            self.id_counts[values["id"]] = self.id_counts.get(values["id"], 0) + 1
         for attribute in ("src", "href", "poster"):
             if values.get(attribute):
                 self.references.append((attribute, values[attribute]))
@@ -105,6 +117,11 @@ def audit_html(page: Path, errors: list[str]) -> None:
         fail(f"{rel}: missing non-empty title", errors)
     if not re.search(r'<meta\s+[^>]*name=["\']viewport["\']', text, re.I):
         fail(f"{rel}: missing viewport metadata", errors)
+    if re.search(r'user-scalable\s*=\s*no|maximum-scale\s*=\s*1(?:\.0)?', text, re.I):
+        fail(f"{rel}: viewport prevents visitor zoom", errors)
+    for duplicate_id, count in sorted(parser.id_counts.items()):
+        if count > 1:
+            fail(f"{rel}: duplicate element ID #{duplicate_id}", errors)
 
     for token in PLACEHOLDERS:
         if token in text:
@@ -116,6 +133,14 @@ def audit_html(page: Path, errors: list[str]) -> None:
         fail(f"{rel}: service worker registration is not allowed without an audited worker", errors)
     if "document.write" in text:
         fail(f"{rel}: document.write is prohibited", errors)
+    if re.search(r'\b(?:src|href)\s*=\s*["\']\s*["\']', text, re.I):
+        fail(f"{rel}: empty src/href attribute creates an invalid initial resource", errors)
+
+    if page.parent == APPS and page.name not in UTILITY_PAGES:
+        if f'href="{ROOM_STYLE}"' not in text:
+            fail(f"{rel}: missing shared room presentation guardrails", errors)
+        if f'src="{ROOM_RUNTIME}"' not in text:
+            fail(f"{rel}: missing shared room isolation runtime", errors)
 
     for attribute, value in parser.references:
         target = resolve_local(page, value)
@@ -137,6 +162,8 @@ def main() -> int:
         ROOT / "index.html",
         ROOT / "assets" / "aurora-sanctuary.css",
         ROOT / "assets" / "aurora-sanctuary.js",
+        ROOT / "assets" / "aurora-room.css",
+        ROOT / "assets" / "aurora-room-runtime.js",
         ROOT / "mentor-manifest.json",
         ROOT / "README.md",
     ]
@@ -151,6 +178,11 @@ def main() -> int:
     js_path = ROOT / "assets" / "aurora-sanctuary.js"
     js = js_path.read_text(encoding="utf-8")
     check_javascript(js, "assets/aurora-sanctuary.js", errors)
+    check_javascript(
+        (ROOT / "assets" / "aurora-room-runtime.js").read_text(encoding="utf-8"),
+        "assets/aurora-room-runtime.js",
+        errors,
+    )
     registered_files = re.findall(r'file:"([^"]+_index\.html)"', js)
     registered_ids = re.findall(r'\{id:"([^"]+)",title:', js)
     actual_rooms = {path.name for path in APPS.glob("*_index.html")} - UTILITY_PAGES
@@ -192,6 +224,13 @@ def main() -> int:
             fail(f"Landing page is missing {message}", errors)
     if "prefers-reduced-motion:reduce" not in css:
         fail("Stylesheet is missing reduced-motion support", errors)
+    room_css = (ROOT / "assets" / "aurora-room.css").read_text(encoding="utf-8")
+    if "prefers-reduced-motion:reduce" not in room_css:
+        fail("Room stylesheet is missing reduced-motion support", errors)
+    if 'sandbox="allow-scripts allow-same-origin' not in index:
+        fail("Room viewer is missing its sandbox policy", errors)
+    if 'referrerpolicy="no-referrer"' not in index:
+        fail("Room viewer is missing its referrer policy", errors)
     for temporary_art in ("aurora-meadow.svg", "aurora-evening.svg"):
         if temporary_art in index or temporary_art in css:
             fail(f"Landing page reintroduced temporary artwork: {temporary_art}", errors)
@@ -204,7 +243,8 @@ def main() -> int:
 
     print(
         f"Aurora audit passed: {EXPECTED_ROOMS} rooms, {len(pages)} HTML pages, "
-        "complete registry/manifest coverage, local references, DOM IDs, and JavaScript syntax."
+        "complete registry/manifest coverage, isolated storage, sandboxed viewing, "
+        "local references, unique DOM IDs, responsive guardrails, and JavaScript syntax."
     )
     return 0
 

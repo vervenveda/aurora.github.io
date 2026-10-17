@@ -98,7 +98,7 @@
   function categoryName(key){return CATEGORIES[key]?.label||key}
   function internalRoomURL(room){
     if(!room||!/^[A-Za-z0-9 _.'()&+-]+_index\.html$/.test(room.file))return null;
-    try{const url=new URL(`./apps/${encodeURI(room.file)}`,location.href);url.searchParams.set("v","20261017");return url.origin===location.origin?url:null}catch{return null}
+    try{const url=new URL(`./apps/${encodeURI(room.file)}`,location.href);url.searchParams.set("v","20261017b");return url.origin===location.origin?url:null}catch{return null}
   }
   function safeExternalURL(value){try{const url=new URL(value);return url.protocol==="https:"&&!url.username&&!url.password?url:null}catch{return null}}
 
@@ -134,12 +134,12 @@
   function openRoom(room){
     const url=internalRoomURL(room);if(!room||!url){toast("That Aurora room could not be opened safely.");return}
     activeRoom=room;lastFocus=document.activeElement;
-    $("roomTitle").textContent=room.title;$("roomMeta").textContent=room.subtitle;$("roomMark").textContent=room.icon;$("roomFrame").title=room.title;$("roomLoading").classList.remove("hidden");$("roomFrame").src=url.href;
+    $("roomTitle").textContent=room.title;$("roomMeta").textContent=room.subtitle;$("roomMark").textContent=room.icon;$("roomStatus").textContent="Aurora is opening this room in its own isolated viewer.";$("roomFrame").title=room.title;$("roomLoading").classList.remove("hidden");$("roomFrame").src=url.href;
     $("roomOverlay").classList.add("open");$("roomOverlay").setAttribute("aria-hidden","false");document.body.classList.add("room-open");$("roomClose").focus();
   }
   function closeRoom(){
     if(!$("roomOverlay").classList.contains("open"))return;
-    $("roomOverlay").classList.remove("open");$("roomOverlay").setAttribute("aria-hidden","true");document.body.classList.remove("room-open");$("roomFrame").src="about:blank";$("roomLoading").classList.remove("hidden");activeRoom=null;window.speechSynthesis?.cancel?.();lastFocus?.focus?.();
+    $("roomOverlay").classList.remove("open");$("roomOverlay").setAttribute("aria-hidden","true");document.body.classList.remove("room-open");$("roomFrame").src="about:blank";$("roomLoading").classList.remove("hidden");$("roomStatus").textContent="Aurora opens original rooms here so you can return to the sanctuary without losing your place.";activeRoom=null;window.speechSynthesis?.cancel?.();lastFocus?.focus?.();
   }
   function trapRoomFocus(event){
     if(event.key!=="Tab"||!$("roomOverlay").classList.contains("open"))return;
@@ -174,7 +174,8 @@
     $("categoryFilter").innerHTML='<option value="">All paths</option>'+Object.entries(CATEGORIES).map(([key,item])=>`<option value="${escapeHtml(key)}">${escapeHtml(item.label)}</option>`).join("");
     renderLibrary();syncFavoriteToggle();syncVoice();
     $("roomSearch").addEventListener("input",renderLibrary);$("categoryFilter").addEventListener("change",renderLibrary);$("favoritesToggle").addEventListener("click",()=>{favoritesOnly=!favoritesOnly;syncFavoriteToggle();renderLibrary()});
-    $("voiceToggle").addEventListener("click",toggleVoice);$("breathStart").addEventListener("click",toggleBreath);$("roomClose").addEventListener("click",closeRoom);$("roomRead").addEventListener("click",readRoom);$("roomFrame").addEventListener("load",()=>$("roomLoading").classList.add("hidden"));
+    $("voiceToggle").addEventListener("click",toggleVoice);$("breathStart").addEventListener("click",toggleBreath);$("roomClose").addEventListener("click",closeRoom);$("roomRead").addEventListener("click",readRoom);$("roomFrame").addEventListener("load",()=>{$("roomLoading").classList.add("hidden");if(activeRoom)$("roomStatus").textContent=`${activeRoom.title} is ready. Its saved state is isolated from every other Aurora room.`});
+    window.addEventListener("message",event=>{if(event.origin!==location.origin||event.source!==$("roomFrame").contentWindow||event.data?.type!=="aurora-room-error")return;$("roomStatus").textContent=`${activeRoom?.title||"This room"} encountered an error. The rest of Aurora remains available.`;toast("This room needs attention. Its error was isolated.")});
     $("roomOverlay").addEventListener("mousedown",event=>{if(event.target===$("roomOverlay"))closeRoom()});
     document.addEventListener("keydown",event=>{if(event.key==="Escape")closeRoom();trapRoomFocus(event);if(event.key==="/"&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||"")){event.preventDefault();$("roomSearch").focus()}});
     $("year").textContent=String(new Date().getFullYear());

@@ -170,6 +170,8 @@
       .centerbox{padding:12vw 2vw;}
     }
   </style>
+<link rel="stylesheet" href="../assets/aurora-room.css">
+<script src="../assets/aurora-room-runtime.js"></script>
 </head>
 <body>
 <div class="centerbox">
@@ -608,7 +610,8 @@ function fbShare() {
   const text = promptArea.innerText.trim();
   if (!text || text === "Spinning..." || text === "Click “Spin!” to get your prompt.") return;
   const shareText = encodeURIComponent("My SpinSpire™ prompt: " + text + " #SpinSpire #ArtPrompt");
-  window.open("https://www.facebook.com/sharer/sharer.php?u=https://myartgallery.online&quote=" + shareText, "_blank", "noopener,noreferrer");
+  const shareURL = encodeURIComponent("https://vervenveda.com/aurora.github.io/");
+  window.open("https://www.facebook.com/sharer/sharer.php?u=" + shareURL + "&quote=" + shareText, "_blank", "noopener,noreferrer");
 }
 
 // ------- Favorites / Quantum Log actions -------

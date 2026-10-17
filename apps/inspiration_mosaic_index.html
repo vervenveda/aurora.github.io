@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=400, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inspiration Mosaic</title>
   <!-- Google Fonts -->
   <style>
@@ -286,6 +286,8 @@
       #fullMosaicGrid{page-break-inside:avoid}
     }
   </style>
+<link rel="stylesheet" href="../assets/aurora-room.css">
+<script src="../assets/aurora-room-runtime.js"></script>
 </head>
 <body>
 <div id="mainWrap">
@@ -311,7 +313,7 @@
     <div style="font-size:1.12em;font-weight:700;color:#bb8737;margin-bottom:7px;">Add Your Inspiration</div>
     <input type="text" id="tileText" maxlength="30" placeholder="Your word or phrase" style="margin-bottom:6px;"><br>
     <input type="file" id="tileImage" accept="image/png, image/jpeg, image/webp"><br>
-    <img id="imgPreview"><br>
+    <img id="imgPreview" alt="Selected inspiration preview" hidden><br>
     <button id="saveTileBtn" style="margin-top:7px;font-size:1.06em;padding:6px 22px;border-radius:10px;background:var(--aqua);">Add Tile</button>
     <div id="modalMsg"></div>
   </div>
@@ -521,12 +523,15 @@ function renderMosaic() {
 // --- Modal for tile add/edit ---
 let editingIdx = null;
 function openTileModal(idx) {
+  if(!mosaicTiles[idx])return;
   editingIdx = idx;
   document.getElementById("modalBG").style.display = "flex";
   const t = mosaicTiles[idx];
   document.getElementById("tileText").value = t.text||"";
   document.getElementById("tileImage").value = "";
-  document.getElementById("imgPreview").style.display = "none";
+  const preview = document.getElementById("imgPreview");
+  preview.hidden = true;
+  preview.removeAttribute("src");
   document.getElementById("modalMsg").textContent = "";
 }
 function closeTileModal() {
@@ -577,10 +582,10 @@ document.getElementById("tileImage").addEventListener('change', function(){
   const file = this.files[0];
   const preview = document.getElementById("imgPreview");
   if (file) {
-    if (file.size > 1024*1024) { document.getElementById("modalMsg").textContent = "Image must be under 1MB."; this.value = ""; preview.style.display = "none"; return;}
-    if (!['image/png','image/jpeg','image/webp'].includes(file.type)) { document.getElementById("modalMsg").textContent = "Only JPG, PNG, or WebP allowed."; this.value = ""; preview.style.display = "none"; return;}
+    if (file.size > 1024*1024) { document.getElementById("modalMsg").textContent = "Image must be under 1MB."; this.value = ""; preview.hidden = true; preview.removeAttribute("src"); return;}
+    if (!['image/png','image/jpeg','image/webp'].includes(file.type)) { document.getElementById("modalMsg").textContent = "Only JPG, PNG, or WebP allowed."; this.value = ""; preview.hidden = true; preview.removeAttribute("src"); return;}
     const reader = new FileReader();
-    reader.onload = function(evt){ preview.src = evt.target.result; preview.style.display="block"; };
+    reader.onload = function(evt){ preview.src = evt.target.result; preview.hidden=false; };
     reader.readAsDataURL(file);
   }
 });
@@ -588,7 +593,10 @@ document.getElementById("tileImage").addEventListener('change', function(){
 // --- Add tile button
 document.getElementById("addTileBtn").onclick = function(){
   let idx = mosaicTiles.findIndex(t => (!t.text && !t.image));
-  if (idx < 0) idx = mosaicTiles.length;
+  if (idx < 0) {
+    showAffirmation("Your mosaic is complete. Edit a tile or open the full view.");
+    return;
+  }
   openTileModal(idx);
 };
 

@@ -173,6 +173,8 @@
       button, .share-btn{font-size:1em;padding:13px 2vw;}
     }
   </style>
+<link rel="stylesheet" href="../assets/aurora-room.css">
+<script src="../assets/aurora-room-runtime.js"></script>
 </head>
 <body>
   <div class="game-wrap" id="gameWrap">
@@ -1424,8 +1426,8 @@ function showResultModal() {
   `;
   // attach sharing functions
   window.fbShare = function() {
-    const shareUrl = "https://www.myartgallery.online";
-    const shareText = `Aurora inspired me to: "${chosenPrompt}" 🎨✨ Join the creativity at My Art Gallery! ${shareUrl} #AuroraInspires #MyArtGallery`;
+    const shareUrl = "https://vervenveda.com/aurora.github.io/";
+    const shareText = `Aurora inspired me to: "${chosenPrompt}" 🎨✨ Explore the creative rooms at Aurora. ${shareUrl} #AuroraInspires #VerveNVeda`;
     const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };

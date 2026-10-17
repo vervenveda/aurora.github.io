@@ -37,13 +37,17 @@ button{
   font-family:'Cinzel',serif;transition:background .2s;
 }
 button:hover{background:var(--whitegold)}
-.color-btn{width:28px;height:28px;border-radius:50%;border:2px solid #333;margin:3px;display:inline-block;cursor:pointer;}
+.color-btn{width:32px;height:32px;padding:0;border-radius:50%;border:2px solid rgba(255,255,255,.72);margin:3px;display:inline-block;cursor:pointer;}
 #gradientPicker{width:60px;height:28px;border:none;border-radius:8px;margin-left:6px;cursor:pointer;}
 canvas{border:3px solid #fff;border-radius:12px;background:#fff;margin-top:10px;touch-action:none;}
-#templateGallery img{opacity:0;transform:scale(.9);animation:fadeIn .8s forwards ease-in;}
+.template-btn{width:86px;min-height:86px;display:grid;place-items:center;gap:2px;opacity:0;transform:scale(.9);animation:fadeIn .8s forwards ease-in;background:#fff;color:#213a6f;box-shadow:0 0 12px rgba(255,255,255,.3);}
+.template-btn .symbol{font:42px/1 Georgia,serif}
+.template-btn small{font:600 11px/1.2 Arial,sans-serif}
 @keyframes fadeIn{to{opacity:1;transform:scale(1)}}
 footer{margin:30px 0 10px;font-size:14px;color:rgba(255,255,255,0.6);}
 </style>
+<link rel="stylesheet" href="../assets/aurora-room.css">
+<script src="../assets/aurora-room-runtime.js"></script>
 </head>
 
 <body>
@@ -58,32 +62,32 @@ footer{margin:30px 0 10px;font-size:14px;color:rgba(255,255,255,0.6);}
 </header>
 
 <!-- Language Toggle -->
-<button id="langBtn">🌐 English</button>
+<button type="button" id="langBtn">🌐 English</button>
 
 <!-- Drawing Toolbar -->
 <div id="toolbar">
-  <button data-key="brush">🖌 Brush</button>
-  <button data-key="marker">🖍 Marker</button>
-  <button data-key="pencil">✏ Pencil</button>
-  <button data-key="crayon">🖍 Crayon</button>
-  <button data-key="watercolor">💧 Watercolor</button>
-  <br><button data-key="glow">✨ Glow</button>
-  <button data-key="rainbow">🌈 Rainbow</button>
-  <button data-key="eraser">🩹 Eraser</button>
-  <button id="clearBtn">🧹 Clear</button>
+  <button type="button" data-key="brush">🖌 Brush</button>
+  <button type="button" data-key="marker">🖍 Marker</button>
+  <button type="button" data-key="pencil">✏ Pencil</button>
+  <button type="button" data-key="crayon">🖍 Crayon</button>
+  <button type="button" data-key="watercolor">💧 Watercolor</button>
+  <br><button type="button" data-key="glow">✨ Glow</button>
+  <button type="button" data-key="rainbow">🌈 Rainbow</button>
+  <button type="button" data-key="eraser">🩹 Eraser</button>
+  <button type="button" id="clearBtn">🧹 Clear</button>
 </div>
 
 <!-- Color Palette -->
 <div id="colors">
-  <div class="color-btn" style="background:red" data-color="red"></div>
-  <div class="color-btn" style="background:orange" data-color="orange"></div>
-  <div class="color-btn" style="background:yellow" data-color="yellow"></div>
-  <div class="color-btn" style="background:green" data-color="green"></div>
-  <div class="color-btn" style="background:blue" data-color="blue"></div>
-  <div class="color-btn" style="background:purple" data-color="purple"></div>
-  <div class="color-btn" style="background:pink" data-color="pink"></div>
-  <div class="color-btn" style="background:black" data-color="black"></div>
-  <div class="color-btn" style="background:white" data-color="white"></div>
+  <button type="button" class="color-btn" style="background:red" data-color="red" aria-label="Red"></button>
+  <button type="button" class="color-btn" style="background:orange" data-color="orange" aria-label="Orange"></button>
+  <button type="button" class="color-btn" style="background:yellow" data-color="yellow" aria-label="Yellow"></button>
+  <button type="button" class="color-btn" style="background:green" data-color="green" aria-label="Green"></button>
+  <button type="button" class="color-btn" style="background:blue" data-color="blue" aria-label="Blue"></button>
+  <button type="button" class="color-btn" style="background:purple" data-color="purple" aria-label="Purple"></button>
+  <button type="button" class="color-btn" style="background:pink" data-color="pink" aria-label="Pink"></button>
+  <button type="button" class="color-btn" style="background:black" data-color="black" aria-label="Black"></button>
+  <button type="button" class="color-btn" style="background:white" data-color="white" aria-label="White"></button>
   <input type="color" id="gradientPicker" value="#00bfff" title="Custom Color">
 </div>
 
@@ -102,12 +106,12 @@ footer{margin:30px 0 10px;font-size:14px;color:rgba(255,255,255,0.6);}
 
 <div id="templateGallery" style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;"></div>
 
-<canvas id="drawBoard" width="800" height="500"></canvas>
+<canvas id="drawBoard" width="800" height="500" aria-label="AuraInk drawing canvas"></canvas>
 <br>
-<button id="saveBtn">💾 Save Artwork</button>
+<button type="button" id="saveBtn">💾 Save Artwork</button>
 
 <footer>
-  <p>© 2025 MyArtGallery.online • Khaemenes Academy • Bazaar Art • AuraenSpire</p>
+  <p>© 2025 Verve N Veda • Khaemenes Academy • Bazaar Art • Aurora</p>
   <p>This is not a medical device. Creative works produced within are expressions of imagination. <br>All responsibility remains with the user.</p>
 </footer>
 
@@ -125,8 +129,9 @@ function end(){drawing=false;ctx.beginPath();}
 function draw(e){
   if(!drawing)return;
   const r=canvas.getBoundingClientRect();
-  const x=(e.clientX||e.touches[0].clientX)-r.left;
-  const y=(e.clientY||e.touches[0].clientY)-r.top;
+  const point=e.touches?e.touches[0]:e;
+  const x=(point.clientX-r.left)*(canvas.width/r.width);
+  const y=(point.clientY-r.top)*(canvas.height/r.height);
   ctx.lineCap="round";ctx.lineJoin="round";ctx.setLineDash([]);ctx.shadowBlur=0;ctx.globalAlpha=1;ctx.strokeStyle=color;
   if(tool==="brush"){ctx.lineWidth=10;}
   else if(tool==="marker"){ctx.lineWidth=8;ctx.globalAlpha=.6;}
@@ -156,33 +161,34 @@ document.getElementById("saveBtn").onclick=()=>{
 /* ======= Templates ======= */
 const gallery=document.getElementById("templateGallery");
 const templates={
-  nature:[{src:"https://cdn-icons-png.flaticon.com/512/414/414927.png",name:"Mountain"},
-          {src:"https://cdn-icons-png.flaticon.com/512/414/414825.png",name:"Sun"},
-          {src:"https://cdn-icons-png.flaticon.com/512/414/414836.png",name:"Cloud"}],
-  creatures:[{src:"https://cdn-icons-png.flaticon.com/512/616/6164083.png",name:"Butterfly"},
-             {src:"https://cdn-icons-png.flaticon.com/512/616/6164085.png",name:"Bee"}],
-  symbols:[{src:"https://cdn-icons-png.flaticon.com/512/616/616655.png",name:"Heart"},
-           {src:"https://cdn-icons-png.flaticon.com/512/616/616710.png",name:"Circle"}],
-  celestial:[{src:"https://cdn-icons-png.flaticon.com/512/616/616672.png",name:"Star"},
-             {src:"https://cdn-icons-png.flaticon.com/512/616/616688.png",name:"Moon"}],
-  abstract:[{src:"https://cdn-icons-png.flaticon.com/512/616/616660.png",name:"Mandala"},
-            {src:"https://cdn-icons-png.flaticon.com/512/616/616626.png",name:"Swirl"}]
+  nature:[{glyph:"△",name:"Mountain"},{glyph:"☀",name:"Sun"},{glyph:"☁",name:"Cloud"}],
+  creatures:[{glyph:"🦋",name:"Butterfly"},{glyph:"🐝",name:"Bee"}],
+  symbols:[{glyph:"♥",name:"Heart"},{glyph:"○",name:"Circle"}],
+  celestial:[{glyph:"★",name:"Star"},{glyph:"☾",name:"Moon"}],
+  abstract:[{glyph:"✺",name:"Mandala"},{glyph:"∿",name:"Swirl"}]
 };
 document.getElementById("templateCategory").onchange=e=>{
   const cat=e.target.value;gallery.innerHTML="";
   if(!cat)return;
   templates[cat].forEach(t=>{
-    const img=document.createElement("img");
-    img.src=t.src;img.alt=t.name;
-    img.style.width="80px";img.style.height="80px";
-    img.style.borderRadius="10px";img.style.cursor="pointer";
-    img.style.background="#fff";img.style.padding="6px";
-    img.style.boxShadow="0 0 12px rgba(255,255,255,.3)";
-    img.addEventListener("click",()=>{
-      const i=new Image();i.onload=()=>ctx.drawImage(i,Math.random()*600,Math.random()*300,100,100);
-      i.src=t.src;
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="template-btn";
+    button.setAttribute("aria-label",`Add ${t.name} to canvas`);
+    button.innerHTML=`<span class="symbol" aria-hidden="true">${t.glyph}</span><small>${t.name}</small>`;
+    button.addEventListener("click",()=>{
+      ctx.save();
+      ctx.globalAlpha=1;
+      ctx.fillStyle=color;
+      ctx.textAlign="center";
+      ctx.textBaseline="middle";
+      ctx.font="84px Georgia, serif";
+      const x=70+Math.random()*(canvas.width-140);
+      const y=70+Math.random()*(canvas.height-140);
+      ctx.fillText(t.glyph,x,y);
+      ctx.restore();
     });
-    gallery.appendChild(img);
+    gallery.appendChild(button);
   });
 };
 

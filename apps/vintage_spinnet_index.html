@@ -283,6 +283,7 @@ html,body{
   font-size:11px;
   color:#f5f5f5;
   transition:background 0.12s;
+  border:0;
 }
 
 .key.black span{
@@ -377,6 +378,8 @@ html,body{
   color:#e0d6c8;
 }
 </style>
+<link rel="stylesheet" href="../assets/aurora-room.css">
+<script src="../assets/aurora-room-runtime.js"></script>
 </head>
 
 <body>
@@ -422,12 +425,12 @@ html,body{
         <option value="xylophone">Rainbow Xylophone</option>
       </select>
 
-      <button id="recordBtn">⏺ Record</button>
-      <button id="stopBtn" disabled>⏹ Stop</button>
-      <button id="playBtn" disabled>▶ Play</button>
-      <button id="saveBtn" disabled>📤 Export File</button>
-      <button id="sustainBtn">🎵 Sustain</button>
-      <button id="ambientBtn">🌙 Ambient</button>
+      <button type="button" id="recordBtn">⏺ Record</button>
+      <button type="button" id="stopBtn" disabled>⏹ Stop</button>
+      <button type="button" id="playBtn" disabled>▶ Play</button>
+      <button type="button" id="saveBtn" disabled>📤 Export File</button>
+      <button type="button" id="sustainBtn" aria-pressed="false">🎵 Sustain</button>
+      <button type="button" id="ambientBtn" aria-pressed="false">🌙 Ambient</button>
 
       <!-- sound tweaks -->
       <div class="slider-group">
@@ -457,8 +460,6 @@ html,body{
 
 <script>
 // === INSTRUMENT HANDLING ===
-const SF_ROOT = "https://gleitz.github.io/midi-js-soundfonts/FluidR3_GM/";
-
 const INSTRUMENTS = {
   piano:   { id:"piano",   label:"Spinet Piano",   folder:"acoustic_grand_piano-mp3",  modeClass:"mode-piano",   range:"C3–B5", maxMs:3200, lengthMul:1.0, sustainMul:1.0 },
   flute:   { id:"flute",   label:"Silver Flute",   folder:"flute-mp3",                 modeClass:"mode-flute",   range:"C3–B5", maxMs:3200, lengthMul:1.1, sustainMul:1.2 },
@@ -487,20 +488,82 @@ const INSTRUMENTS = {
 
 let currentInstrument = "piano";
 
-function getBaseFolder(){
-  const inst = INSTRUMENTS[currentInstrument] || INSTRUMENTS.piano;
-  return SF_ROOT + inst.folder + "/";
+/* Every instrument is synthesized locally with Web Audio. No sample CDN,
+   account, network connection, or third-party player is required. */
+const TIMBRES={
+  piano:{wave:"triangle",overtone:"sine",mix:.18,filter:3300,attack:.008},
+  flute:{wave:"sine",overtone:"sine",mix:.1,filter:5200,attack:.08},
+  violin:{wave:"sawtooth",overtone:"triangle",mix:.2,filter:2200,attack:.11},
+  guitar:{wave:"triangle",overtone:"sine",mix:.25,filter:2500,attack:.006},
+  clarinet:{wave:"square",overtone:"sine",mix:.08,filter:1700,attack:.06},
+  trumpet:{wave:"sawtooth",overtone:"square",mix:.12,filter:2600,attack:.035},
+  bass:{wave:"triangle",overtone:"sine",mix:.2,filter:1000,attack:.018,octave:-1},
+  marimba:{wave:"sine",overtone:"triangle",mix:.35,filter:4200,attack:.004},
+  musicbox:{wave:"sine",overtone:"sine",mix:.32,filter:6000,attack:.003,detune:1200},
+  harp:{wave:"triangle",overtone:"sine",mix:.16,filter:3800,attack:.004},
+  cello:{wave:"sawtooth",overtone:"triangle",mix:.18,filter:1500,attack:.12,octave:-1},
+  oboe:{wave:"square",overtone:"triangle",mix:.1,filter:1900,attack:.075},
+  horn:{wave:"sawtooth",overtone:"sine",mix:.14,filter:1400,attack:.09},
+  bells:{wave:"sine",overtone:"sine",mix:.4,filter:6500,attack:.003,detune:1900},
+  altosax:{wave:"sawtooth",overtone:"square",mix:.08,filter:1800,attack:.055},
+  tenorsax:{wave:"sawtooth",overtone:"triangle",mix:.1,filter:1450,attack:.06,octave:-1},
+  choir:{wave:"sine",overtone:"triangle",mix:.2,filter:1250,attack:.22,detune:7},
+  piccolo:{wave:"sine",overtone:"triangle",mix:.09,filter:6500,attack:.025,octave:1},
+  xylophone:{wave:"sine",overtone:"triangle",mix:.32,filter:5400,attack:.003,detune:1200}
+};
+
+const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+let audioContext=null;
+let masterGain=null;
+
+function ensureAudio(){
+  if(!AudioContextClass)throw new Error("Web Audio is not supported by this browser.");
+  if(!audioContext){
+    audioContext=new AudioContextClass();
+    masterGain=audioContext.createGain();
+    masterGain.gain.value=MASTER_VOL;
+    masterGain.connect(audioContext.destination);
+  }
+  if(audioContext.state==="suspended")audioContext.resume();
+  return audioContext;
 }
 
-// Convert note names to FluidR3 filenames: sharps -> flats (Db4, Eb4, etc.)
-function toSampleName(note){
-  const m = note.match(/^([A-G])(#?)(\d)$/);
-  if (!m) return note;
-  let [, letter, sharp, octave] = m;
-  if (!sharp) return letter + octave;
-  const SHARP_TO_FLAT = { C: "Db", D: "Eb", F: "Gb", G: "Ab", A: "Bb" };
-  const flat = SHARP_TO_FLAT[letter] || letter;
-  return flat + octave;
+function noteFrequency(note){
+  const midi=noteToIndex(note)+12;
+  return 440*Math.pow(2,(midi-69)/12);
+}
+
+function createVoice(note){
+  const ac=ensureAudio();
+  const timbre=TIMBRES[currentInstrument]||TIMBRES.piano;
+  const now=ac.currentTime;
+  const frequency=noteFrequency(note)*Math.pow(2,timbre.octave||0);
+  const gain=ac.createGain();
+  const filter=ac.createBiquadFilter();
+  const primary=ac.createOscillator();
+  const overtone=ac.createOscillator();
+  const overtoneGain=ac.createGain();
+  const attack=Math.max(.003,timbre.attack||.02);
+
+  filter.type="lowpass";
+  filter.frequency.value=timbre.filter||2800;
+  filter.Q.value=.7;
+  primary.type=timbre.wave||"triangle";
+  primary.frequency.value=frequency;
+  overtone.type=timbre.overtone||"sine";
+  overtone.frequency.value=frequency*2;
+  overtone.detune.value=timbre.detune||0;
+  overtoneGain.gain.value=timbre.mix||.1;
+  gain.gain.setValueAtTime(.0001,now);
+  gain.gain.exponentialRampToValueAtTime(.55,now+attack);
+
+  primary.connect(filter);
+  overtone.connect(overtoneGain).connect(filter);
+  filter.connect(gain).connect(masterGain);
+  primary.start(now);
+  overtone.start(now);
+
+  return {gain,oscillators:[primary,overtone],stopped:false};
 }
 
 /* === GLOBAL SOUND ADJUSTMENTS (SLIDERS) === */
@@ -519,6 +582,9 @@ const sustainTailLabel = document.getElementById("sustainTailLabel");
 function updateMasterVol(){
   const v = parseInt(masterVolInput.value,10) || 0;
   MASTER_VOL = Math.min(1, Math.max(0, v/100));
+  if(masterGain&&audioContext){
+    masterGain.gain.setTargetAtTime(MASTER_VOL,audioContext.currentTime,.02);
+  }
   masterVolLabel.textContent = v + "%";
 }
 
@@ -555,7 +621,7 @@ updateSustainTail();
 
 let sustain = false;
 
-// store entries: {audio, note, tailMs, safeTimer}
+// store entries: {voice, note, tailMs, safeTimer}
 const sustained = new Set();
 
 const piano = document.getElementById("piano");
@@ -599,12 +665,14 @@ const blackMeta = [];
 
 // white key builder
 whiteKeys.forEach(k => {
-  const el = document.createElement("div");
+  const el = document.createElement("button");
+  el.type = "button";
   el.className = "key white";
   el.dataset.note = k.note;
   el.textContent = k.note;
-  el.onmousedown = () => play(k.note);
-  el.ontouchstart = ev => { ev.preventDefault(); play(k.note); };
+  el.setAttribute("aria-label",`Play ${k.note}`);
+  el.onpointerdown = ev => { ev.preventDefault(); play(k.note); };
+  el.onclick = ev => { if(ev.detail===0)play(k.note); };
   piano.appendChild(el);
   noteToWhiteEl[k.note] = el;
 });
@@ -635,16 +703,18 @@ blackKeys.forEach(k => {
   const { prev, next } = findNeighborWhites(k.idx);
   if(!prev || !next) return;
 
-  const el = document.createElement("div");
+  const el = document.createElement("button");
+  el.type = "button";
   el.className = "key black";
   el.dataset.note = k.note;
+  el.setAttribute("aria-label",`Play ${k.note}`);
 
   const span = document.createElement("span");
   span.textContent = prettySharpLabel(k.note);
   el.appendChild(span);
 
-  el.onmousedown = () => play(k.note);
-  el.ontouchstart = ev => { ev.preventDefault(); play(k.note); };
+  el.onpointerdown = ev => { ev.preventDefault(); play(k.note); };
+  el.onclick = ev => { if(ev.detail===0)play(k.note); };
 
   piano.appendChild(el);
 
@@ -680,32 +750,21 @@ window.addEventListener("resize", layoutBlackKeys);
 setTimeout(layoutBlackKeys, 0); // extra safety for iframes
 
 /* === SMOOTH FADE HELPERS === */
-function fadeOut(audio, durationMs=600, stopAtEnd=true){
-  if(!audio) return;
-  const startVol = audio.volume;
-  const startTime = performance.now();
-
-  function step(now){
-    if(audio.paused) return;
-    const elapsed = now - startTime;
-    const t = Math.min(1, elapsed / durationMs);
-    audio.volume = startVol * (1 - t);
-    if(t < 1){
-      requestAnimationFrame(step);
-    } else if(stopAtEnd){
-      audio.pause();
-    }
-  }
-  requestAnimationFrame(step);
+function fadeOut(voice,durationMs=600){
+  if(!voice||voice.stopped||!audioContext)return;
+  voice.stopped=true;
+  const now=audioContext.currentTime;
+  const seconds=Math.max(.03,durationMs/1000);
+  voice.gain.gain.cancelScheduledValues(now);
+  voice.gain.gain.setValueAtTime(Math.max(.0001,voice.gain.gain.value),now);
+  voice.gain.gain.exponentialRampToValueAtTime(.0001,now+seconds);
+  voice.oscillators.forEach(osc=>osc.stop(now+seconds+.04));
 }
 
 /* === PLAY NOTE (per-instrument timings) === */
 function play(note){
   const inst = INSTRUMENTS[currentInstrument] || INSTRUMENTS.piano;
-  const file = toSampleName(note);
-  const a = new Audio(getBaseFolder() + file + ".mp3");
-  a.volume = MASTER_VOL;
-  a.play();
+  const voice=createVoice(note);
 
   const lengthMul  = inst.lengthMul  || 1.0;
   const sustainMul = inst.sustainMul || 1.0;
@@ -730,23 +789,21 @@ function play(note){
   // final emergency cap — uses fade, not click
   const safeCapMs = maxMs + 800;
   const hardCapTimer = setTimeout(()=>{
-    if (!a.paused){
-      fadeOut(a, 400, true);
-    }
+    fadeOut(voice,400);
   }, safeCapMs);
 
   const keyEl = document.querySelector('.key[data-note="'+note+'"]');
 
   if (sustain){
     // store per-note tail and timer
-    const entry = { audio:a, note, tailMs:tailMs, safeTimer:hardCapTimer };
+    const entry = { voice, note, tailMs:tailMs, safeTimer:hardCapTimer };
     sustained.add(entry);
 
     if(keyEl){
       keyEl.classList.add("sustained");
     }
 
-    a.onended = () => {
+    voice.oscillators[0].onended = () => {
       clearTimeout(hardCapTimer);
       sustained.delete(entry);
       if(keyEl){
@@ -755,13 +812,13 @@ function play(note){
     };
   } else {
     // normal (non-sustain) fade path
-    a.onended = () => {
+    voice.oscillators[0].onended = () => {
       clearTimeout(hardCapTimer);
     };
 
     setTimeout(()=>{
-      if (sustain || a.paused) return;
-      fadeOut(a, fadeMs, true);
+      if (sustain || voice.stopped) return;
+      fadeOut(voice,fadeMs);
     }, shortMs);
   }
 
@@ -838,11 +895,9 @@ const sustainBtn = document.getElementById("sustainBtn");
 
 function releaseSustain(){
   sustained.forEach(entry => {
-    const { audio, note, tailMs, safeTimer } = entry;
+    const { voice, note, tailMs, safeTimer } = entry;
     clearTimeout(safeTimer);
-    if (!audio.paused){
-      fadeOut(audio, tailMs, true);
-    }
+    fadeOut(voice,tailMs);
     const keyEl = document.querySelector('.key[data-note="'+note+'"]');
     if(keyEl){
       keyEl.classList.remove("sustained");
@@ -853,29 +908,53 @@ function releaseSustain(){
 
 sustainBtn.onclick = () => {
   sustain = !sustain;
+  sustainBtn.setAttribute("aria-pressed",String(sustain));
   sustainBtn.style.background = sustain ? "#ffe082" : "";
   if (!sustain){
     releaseSustain();
   }
 };
 
-/* === AMBIENT BACKGROUND MUSIC === */
+/* === LOCALLY GENERATED AMBIENT BACKGROUND === */
 const ambientBtn = document.getElementById("ambientBtn");
 let ambient = false;
-let iframe;
+let ambientNodes=[];
 
 ambientBtn.onclick = () => {
   ambient = !ambient;
+  ambientBtn.setAttribute("aria-pressed",String(ambient));
   if (ambient){
-    iframe = document.createElement("iframe");
-    iframe.src = "https://www.youtube.com/embed/5qap5aO4i9A?autoplay=1&loop=1&playlist=5qap5aO4i9A";
-    iframe.style.display = "none";
-    iframe.setAttribute("allow","autoplay");
-    document.body.appendChild(iframe);
+    const ac=ensureAudio();
+    const bed=ac.createGain();
+    const filter=ac.createBiquadFilter();
+    const lfo=ac.createOscillator();
+    const lfoGain=ac.createGain();
+    const tones=[130.81,196,261.63].map((frequency,index)=>{
+      const osc=ac.createOscillator();
+      const gain=ac.createGain();
+      osc.type=index===1?"triangle":"sine";
+      osc.frequency.value=frequency;
+      gain.gain.value=index===0?.18:.08;
+      osc.connect(gain).connect(filter);
+      osc.start();
+      return {osc,gain};
+    });
+    filter.type="lowpass";
+    filter.frequency.value=900;
+    bed.gain.value=.11;
+    lfo.frequency.value=.08;
+    lfoGain.gain.value=.035;
+    lfo.connect(lfoGain).connect(bed.gain);
+    filter.connect(bed).connect(masterGain);
+    lfo.start();
+    ambientNodes=[...tones.map(item=>item.osc),lfo,bed];
     ambientBtn.style.background = "#ffe082";
-  } else if (iframe){
-    iframe.remove();
-    iframe = null;
+  } else if (ambientNodes.length){
+    const now=audioContext.currentTime;
+    const bed=ambientNodes[ambientNodes.length-1];
+    bed.gain.setTargetAtTime(.0001,now,.12);
+    ambientNodes.slice(0,-1).forEach(node=>{try{node.stop(now+.8)}catch{}});
+    ambientNodes=[];
     ambientBtn.style.background = "";
   }
 };

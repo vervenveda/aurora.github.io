@@ -484,6 +484,8 @@
     }
   }
 </style>
+<link rel="stylesheet" href="../assets/aurora-room.css">
+<script src="../assets/aurora-room-runtime.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -540,7 +542,7 @@
           <div class="heading">Memory</div>
           <div class="pagetitle" id="L_title"></div>
           <div class="photo-frame">
-            <img id="L_img" alt="" />
+            <img id="L_img" alt="Left album page photograph" hidden />
             <div class="placeholder" id="L_placeholder" style="display:none;">Blank Page</div>
           </div>
           <div class="body" id="L_body"></div>
@@ -561,7 +563,7 @@
           <div class="heading">Memory</div>
           <div class="pagetitle" id="R_title"></div>
           <div class="photo-frame">
-            <img id="R_img" alt="" />
+            <img id="R_img" alt="Right album page photograph" hidden />
             <div class="placeholder" id="R_placeholder" style="display:none;">Blank Page</div>
           </div>
           <div class="body" id="R_body"></div>
@@ -771,8 +773,8 @@
 
   function fillSide(sideObj, entryIndex, filteredPos){
     if(entryIndex === null){
-      sideObj.img.style.display = "none";
-      sideObj.img.src = "";
+      sideObj.img.hidden = true;
+      sideObj.img.removeAttribute("src");
       sideObj.placeholder.style.display = "flex";
       sideObj.title.textContent = "";
       sideObj.body.textContent = "";
@@ -792,6 +794,7 @@
     sideObj.placeholder.style.display = "none";
     sideObj.img.style.display = "block";
     sideObj.img.src = entry.dataUrl;
+    sideObj.img.hidden = false;
     sideObj.img.alt = entry.title || "Album photo";
 
     sideObj.title.textContent = entry.title || "Untitled";
