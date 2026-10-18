@@ -60,16 +60,54 @@
   const FEATURED=["breath-reset","morning-sanctum","auraink","tiny-triumphs","auraen-tune","gentle-wake"];
   const REST=["gentle-wake","dreamscript","evening-ember","night-prayer","starlight-jar"];
 
+  const RESOURCE_CATEGORIES={
+    foundations:"Whole-person foundations",
+    evidence:"Evidence & safety",
+    mindbody:"Mind–body practices",
+    movement:"Movement & mobility",
+    rest:"Sleep & mental well-being",
+    nutrition:"Food & nutrition",
+    botanicals:"Herbs & supplements",
+    traditions:"Traditional systems"
+  };
+
+  // Twenty-four noncommercial public references: three carefully bounded entry points
+  // across each of eight topics. Content stays local; links open only when chosen.
   const RESOURCES=[
-    {title:"Meditation & Mindfulness",provider:"NIH · NCCIH",url:"https://www.nccih.nih.gov/health/meditation-and-mindfulness-effectiveness-and-safety",desc:"Evidence, possible benefits, research limitations, and safety considerations."},
-    {title:"Yoga: Benefits & Safety",provider:"NIH · NCCIH",url:"https://www.nccih.nih.gov/health/tips/things-you-should-know-about-yoga",desc:"Evidence-aware yoga guidance and safer-practice considerations."},
-    {title:"Move Your Way",provider:"U.S. HHS",url:"https://odphp.health.gov/moveyourway",desc:"Accessible activity ideas and planning tools for everyday movement."},
-    {title:"About Sleep",provider:"CDC",url:"https://www.cdc.gov/sleep/about/index.html",desc:"Age-based sleep guidance, healthy sleep habits, and sleep quality."},
-    {title:"Caring for Your Mental Health",provider:"NIMH",url:"https://www.nimh.nih.gov/health/topics/caring-for-your-mental-health",desc:"Self-care guidance and signs that professional support may be useful."},
-    {title:"Healthy Living",provider:"MedlinePlus",url:"https://medlineplus.gov/healthyliving.html",desc:"Consumer-friendly health information on habits, prevention, and well-being."},
-    {title:"MyPlate",provider:"USDA",url:"https://www.myplate.gov/",desc:"Practical public nutrition guidance across different life stages."},
-    {title:"Mental Health Overview",provider:"WHO",url:"https://www.who.int/health-topics/mental-health",desc:"Global information on mental well-being, care, rights, and public health."}
+    {title:"Whole Person Health",provider:"NIH · NCCIH",category:"foundations",url:"https://www.nccih.nih.gov/health/whole-person-health-what-it-is-and-why-its-important",desc:"An introduction to health as an interconnected set of biological, behavioral, social, and environmental factors.",tags:"holistic whole person integrative health foundations"},
+    {title:"Complementary, Alternative, or Integrative?",provider:"NIH · NCCIH",category:"foundations",url:"https://www.nccih.nih.gov/health/complementary-alternative-or-integrative-health-whats-in-a-name",desc:"Plain-language definitions that distinguish approaches used with conventional care from those used in place of it.",tags:"definitions complementary alternative integrative conventional"},
+    {title:"Global Traditional & Integrative Medicine Report",provider:"World Health Organization",category:"foundations",url:"https://www.who.int/publications/i/item/9789240111387",desc:"A global view of policy, access, quality, safety, regulation, and evidence across traditional medicine systems.",tags:"global report policy traditional complementary integrative medicine"},
+
+    {title:"Know the Science",provider:"NIH · NCCIH",category:"evidence",url:"https://www.nccih.nih.gov/health/know-science",desc:"Interactive tools for reading studies, recognizing health misinformation, and evaluating claims with more confidence.",tags:"evidence research misinformation scientific literacy claims"},
+    {title:"Safe Use of Complementary Practices",provider:"NIH · NCCIH",category:"evidence",url:"https://www.nccih.nih.gov/health/safety",desc:"Safety questions to ask about products, practitioners, children, pregnancy, interactions, and coordinated care.",tags:"safety interactions practitioners pregnancy children coordinated care"},
+    {title:"Natural Does Not Necessarily Mean Safer",provider:"NIH · NCCIH",category:"evidence",url:"https://www.nccih.nih.gov/health/know-science/natural-doesnt-mean-better",desc:"A short evidence guide to a common misconception about natural products and health practices.",tags:"natural safer risk products myths"},
+
+    {title:"Meditation & Mindfulness",provider:"NIH · NCCIH",category:"mindbody",url:"https://www.nccih.nih.gov/health/meditation-and-mindfulness-effectiveness-and-safety",desc:"What research suggests, where evidence is limited, and what is known about possible risks.",tags:"meditation mindfulness attention stress safety"},
+    {title:"Relaxation Techniques",provider:"NIH · NCCIH",category:"mindbody",url:"https://www.nccih.nih.gov/health/relaxation-techniques-what-you-need-to-know",desc:"An evidence-aware overview of relaxation response practices, progressive relaxation, imagery, and breathing exercises.",tags:"relaxation breathing progressive muscle imagery stress"},
+    {title:"Stress: Research & Resources",provider:"NIH · NCCIH",category:"mindbody",url:"https://www.nccih.nih.gov/health/stress",desc:"Public research information on stress, mind–body approaches, healthy coping, and when to seek support.",tags:"stress coping mind body mental health"},
+
+    {title:"Yoga: Effectiveness & Safety",provider:"NIH · NCCIH",category:"movement",url:"https://www.nccih.nih.gov/health/yoga-effectiveness-and-safety",desc:"Current research, practice considerations, injury prevention, and safety guidance for different populations.",tags:"yoga movement flexibility balance safety"},
+    {title:"Tai Chi: What You Need to Know",provider:"NIH · NCCIH",category:"movement",url:"https://www.nccih.nih.gov/health/tai-chi-what-you-need-to-know",desc:"Evidence, safety, instructor standards, and questions to consider before beginning tai chi.",tags:"tai chi movement balance gentle exercise safety"},
+    {title:"Move Your Way",provider:"U.S. Department of Health and Human Services",category:"movement",url:"https://odphp.health.gov/moveyourway",desc:"Inclusive public guidance for building movement into daily life at different ages and ability levels.",tags:"physical activity exercise movement accessibility"},
+
+    {title:"About Sleep",provider:"Centers for Disease Control and Prevention",category:"rest",url:"https://www.cdc.gov/sleep/about/index.html",desc:"Healthy sleep habits, sleep quality, age-based needs, and practical tools such as a sleep diary.",tags:"sleep rest circadian habits diary"},
+    {title:"Caring for Your Mental Health",provider:"National Institute of Mental Health",category:"rest",url:"https://www.nimh.nih.gov/health/topics/caring-for-your-mental-health",desc:"Self-care information and signs that it may be time to seek professional help.",tags:"mental health self care support professional help"},
+    {title:"Mental Health Overview",provider:"World Health Organization",category:"rest",url:"https://www.who.int/health-topics/mental-health",desc:"A global public-health introduction to well-being, care, rights, risks, and support systems.",tags:"mental wellbeing rights care public health"},
+
+    {title:"MyPlate",provider:"U.S. Department of Agriculture",category:"nutrition",url:"https://www.myplate.gov/",desc:"Practical food-group guidance, planning tools, and resources for different life stages.",tags:"food nutrition meals dietary guidance planning"},
+    {title:"Healthy Living",provider:"MedlinePlus · National Library of Medicine",category:"nutrition",url:"https://medlineplus.gov/healthyliving.html",desc:"Consumer-friendly public information on nutrition, prevention, movement, sleep, and everyday health habits.",tags:"healthy living habits nutrition prevention"},
+    {title:"Vitamin & Mineral Fact Sheets",provider:"NIH · Office of Dietary Supplements",category:"nutrition",url:"https://ods.od.nih.gov/factsheets/list-VitaminsMinerals/",desc:"Evidence-reviewed consumer and professional fact sheets covering roles, intake, deficiency, excess, and interactions.",tags:"vitamins minerals nutrients facts deficiency excess"},
+
+    {title:"Herbs at a Glance",provider:"NIH · NCCIH",category:"botanicals",url:"https://www.nccih.nih.gov/health/herbsataglance",desc:"Individual herb fact sheets covering research, cautions, side effects, and potential herb–medicine interactions.",tags:"herbs botanicals interactions side effects research"},
+    {title:"Dietary Supplement Fact Sheets",provider:"NIH · Office of Dietary Supplements",category:"botanicals",url:"https://ods.od.nih.gov/factsheets/list-all/",desc:"A searchable collection of public fact sheets on vitamins, minerals, botanicals, and other supplement ingredients.",tags:"supplements botanicals vitamins minerals facts"},
+    {title:"FDA 101: Dietary Supplements",provider:"U.S. Food & Drug Administration",category:"botanicals",url:"https://www.fda.gov/consumers/consumer-updates/fda-101-dietary-supplements",desc:"How supplements are regulated, what FDA does not preapprove, and how consumers can recognize and report problems.",tags:"supplement regulation fda approval safety reporting"},
+
+    {title:"Ayurvedic Medicine",provider:"NIH · NCCIH",category:"traditions",url:"https://www.nccih.nih.gov/health/ayurvedic-medicine-in-depth",desc:"Research, safety concerns, product-quality issues, and context for this traditional Indian medical system.",tags:"ayurveda indian traditional medicine safety"},
+    {title:"Traditional Chinese Medicine",provider:"NIH · NCCIH",category:"traditions",url:"https://www.nccih.nih.gov/health/traditional-chinese-medicine-what-you-need-to-know",desc:"An overview of traditional Chinese practices with evidence and safety considerations for herbs and practitioners.",tags:"traditional chinese medicine tcm herbs practitioner"},
+    {title:"Acupuncture: Effectiveness & Safety",provider:"NIH · NCCIH",category:"traditions",url:"https://www.nccih.nih.gov/health/acupuncture-effectiveness-and-safety",desc:"Research findings, sterile-needle standards, practitioner questions, risks, and limits of the evidence.",tags:"acupuncture needles pain practitioner safety evidence"}
   ];
+
+  const OFFICIAL_RESOURCE_HOSTS=new Set(["www.nccih.nih.gov","www.who.int","www.cdc.gov","www.nimh.nih.gov","www.myplate.gov","medlineplus.gov","ods.od.nih.gov","www.fda.gov","odphp.health.gov"]);
 
   const NETWORK=[
     ["Verve N Veda","https://vervenveda.com/"],["Medicament Hub","https://vervenveda.com/medicament-hub.github.io/"],["Solanar","https://vervenveda.com/solanar.github.io/"],["Khaemenes Academy","https://vervenveda.com/Khaemenes_Academy.github.io/"],["The Refrain","https://vervenveda.com/the_refrain.github.io/"],["River to Road","https://vervenveda.com/river_to_road.github.io/"],["Bazaar Art","https://vervenveda.com/bazaarart.github.io/"],["ARSHIF","https://vervenveda.com/Arshif.github.io/"]
@@ -101,6 +139,7 @@
     try{const url=new URL(`./apps/${encodeURI(room.file)}`,location.href);url.searchParams.set("v","20261017b");return url.origin===location.origin?url:null}catch{return null}
   }
   function safeExternalURL(value){try{const url=new URL(value);return url.protocol==="https:"&&!url.username&&!url.password?url:null}catch{return null}}
+  function safeResourceURL(value){const url=safeExternalURL(value);return url&&OFFICIAL_RESOURCE_HOSTS.has(url.hostname)?url:null}
 
   function renderJourneys(){
     $("journeyGrid").innerHTML=Object.entries(CATEGORIES).map(([key,item])=>`<article class="journey"><div class="journey-mark" aria-hidden="true">${escapeHtml(item.icon)}</div><h3>${escapeHtml(item.short)}</h3><p>${escapeHtml(item.desc)}</p><button type="button" data-journey="${escapeHtml(key)}">Enter this path</button></article>`).join("");
@@ -162,18 +201,33 @@
   function toggleBreath(){breathRunning=!breathRunning;clearTimeout(breathTimer);if(breathRunning){breathPhase=0;$("breathStart").textContent="Pause";setBreathPhase()}else{$("breathDock").classList.remove("inhale","exhale");$("breathTitle").textContent="Take one unhurried breath";$("breathText").textContent="Inhale gently. Let your shoulders soften.";$("breathStart").textContent="Begin"}}
 
   function renderResources(){
-    $("resourceGrid").innerHTML=RESOURCES.map(item=>{const url=safeExternalURL(item.url);return `<article class="resource"><div class="provider">${escapeHtml(item.provider)}</div><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.desc)}</p>${url?`<a href="${escapeHtml(url.href)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Open official resource ↗</a>`:""}</article>`}).join("");
+    const query=$("resourceSearch").value.trim().toLowerCase();
+    const category=$("resourceCategory").value;
+    const list=RESOURCES.filter(item=>(!category||item.category===category)&&(!query||(item.title+" "+item.provider+" "+item.desc+" "+item.tags+" "+RESOURCE_CATEGORIES[item.category]).toLowerCase().includes(query)));
+    $("resourceGrid").innerHTML=list.map(item=>{const url=safeResourceURL(item.url);return `<article class="resource"><div class="resource-meta"><span>${escapeHtml(RESOURCE_CATEGORIES[item.category])}</span><span>${escapeHtml(item.provider)}</span></div><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.desc)}</p>${url?`<a href="${escapeHtml(url.href)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Visit official source <span aria-hidden="true">↗</span></a>`:""}</article>`}).join("");
+    $("resourceResult").textContent=`${list.length} of ${RESOURCES.length} trusted public references`;
+    $("resourceEmpty").classList.toggle("show",list.length===0);
+  }
+
+  function resetResources(){
+    $("resourceSearch").value="";
+    $("resourceCategory").value="";
+    renderResources();
+    $("resourceSearch").focus();
   }
   function renderNetwork(){
     $("networkLinks").innerHTML=NETWORK.map(([label,value])=>{const url=safeExternalURL(value);return url?`<a href="${escapeHtml(url.href)}">${escapeHtml(label)}</a>`:""}).join("");
   }
 
   function init(){
-    renderJourneys();renderFeatured();renderEvening();renderResources();renderNetwork();
+    renderJourneys();renderFeatured();renderEvening();renderNetwork();
     const roomCount=$("roomCount");if(roomCount)roomCount.textContent=String(ROOMS.length);
     $("categoryFilter").innerHTML='<option value="">All paths</option>'+Object.entries(CATEGORIES).map(([key,item])=>`<option value="${escapeHtml(key)}">${escapeHtml(item.label)}</option>`).join("");
+    $("resourceCategory").innerHTML='<option value="">All eight topics</option>'+Object.entries(RESOURCE_CATEGORIES).map(([key,label])=>`<option value="${escapeHtml(key)}">${escapeHtml(label)}</option>`).join("");
+    renderResources();
     renderLibrary();syncFavoriteToggle();syncVoice();
     $("roomSearch").addEventListener("input",renderLibrary);$("categoryFilter").addEventListener("change",renderLibrary);$("favoritesToggle").addEventListener("click",()=>{favoritesOnly=!favoritesOnly;syncFavoriteToggle();renderLibrary()});
+    $("resourceSearch").addEventListener("input",renderResources);$("resourceCategory").addEventListener("change",renderResources);$("resourceReset").addEventListener("click",resetResources);
     $("voiceToggle").addEventListener("click",toggleVoice);$("breathStart").addEventListener("click",toggleBreath);$("roomClose").addEventListener("click",closeRoom);$("roomRead").addEventListener("click",readRoom);$("roomFrame").addEventListener("load",()=>{$("roomLoading").classList.add("hidden");if(activeRoom)$("roomStatus").textContent=`${activeRoom.title} is ready. Its saved state is isolated from every other Aurora room.`});
     window.addEventListener("message",event=>{if(event.origin!==location.origin||event.source!==$("roomFrame").contentWindow||event.data?.type!=="aurora-room-error")return;$("roomStatus").textContent=`${activeRoom?.title||"This room"} encountered an error. The rest of Aurora remains available.`;toast("This room needs attention. Its error was isolated.")});
     $("roomOverlay").addEventListener("mousedown",event=>{if(event.target===$("roomOverlay"))closeRoom()});

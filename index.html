@@ -13,9 +13,9 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vervenveda.com/aurora.github.io/">
 <link rel="canonical" href="https://vervenveda.com/aurora.github.io/">
-<link rel="stylesheet" href="./assets/aurora-sanctuary.css?v=20261017">
+<link rel="stylesheet" href="./assets/aurora-sanctuary.css?v=20261018">
 <title>Aurora — A Peaceful Verve N Veda Studio</title>
-<script src="./assets/aurora-sanctuary.js?v=20261017" defer></script>
+<script src="./assets/aurora-sanctuary.js?v=20261018" defer></script>
 <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 </head>
 <body>
@@ -174,11 +174,47 @@
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Trusted public references</p>
-        <h2 id="resourceTitle">Wellness information, with boundaries.</h2>
-        <p>Aurora's original rooms are reflective and creative tools. When you want evidence-based health information, these links lead directly to public institutions.</p>
+        <h2 id="resourceTitle">Natural &amp; holistic health, explored carefully.</h2>
+        <p>A calm research library for whole-person health, complementary practices, movement, rest, food, herbs, supplements, and traditional systems—without miracle claims or product promotion.</p>
       </div>
-      <div class="resource-grid" id="resourceGrid"></div>
-      <div class="wellness-note"><strong>Important:</strong> Aurora is not medical, psychological, psychiatric, or therapeutic treatment. Breathing, reflection, creativity, and rest practices can be meaningful personal tools, but they do not replace professional care, diagnosis, or emergency support.</div>
+
+      <div class="resource-principles" aria-label="A grounded approach to holistic health">
+        <article>
+          <span aria-hidden="true">01</span>
+          <h3>Begin with the whole person</h3>
+          <p>Health can include physical, emotional, social, behavioral, and environmental dimensions. The evidence for each practice still deserves its own careful review.</p>
+        </article>
+        <article>
+          <span aria-hidden="true">02</span>
+          <h3>Use “natural” with care</h3>
+          <p>Natural does not automatically mean harmless. Herbs, supplements, movement practices, and hands-on approaches can have risks, interactions, or limits.</p>
+        </article>
+        <article>
+          <span aria-hidden="true">03</span>
+          <h3>Complement, do not conceal</h3>
+          <p>Share supplements and complementary practices with a licensed clinician or pharmacist, especially during pregnancy, before surgery, or when using medicines.</p>
+        </article>
+      </div>
+
+      <div class="resource-library" aria-label="Trusted natural and integrative health resource library">
+        <div class="resource-controls">
+          <label class="sr-only" for="resourceSearch">Search trusted health references</label>
+          <input class="control" id="resourceSearch" type="search" placeholder="Search herbs, meditation, sleep, yoga…" autocomplete="off">
+          <label class="sr-only" for="resourceCategory">Filter references by topic</label>
+          <select class="control" id="resourceCategory"></select>
+          <button class="resource-reset" id="resourceReset" type="button">Clear</button>
+        </div>
+        <div class="resource-result" id="resourceResult" role="status" aria-live="polite"></div>
+        <div class="resource-grid" id="resourceGrid"></div>
+        <div class="resource-empty" id="resourceEmpty">No trusted references match that search. Try another word or clear the filter.</div>
+      </div>
+
+      <details class="source-standard">
+        <summary>How Aurora chooses a trusted public reference</summary>
+        <p>Sources must be public, noncommercial, attributable to a recognized health or public-health institution, clear about evidence and uncertainty, and free of product sales. A listing is a research doorway—not an endorsement of every practice it discusses.</p>
+      </details>
+
+      <div class="wellness-note"><strong>Important:</strong> Aurora is educational and reflective, not medical, psychological, psychiatric, or therapeutic treatment. Do not use these materials to diagnose yourself, replace prescribed care, or delay urgent or professional help. For questions about a practice, herb, or supplement, speak with a licensed health professional or pharmacist who knows your medicines and health history.</div>
     </div>
   </section>
 

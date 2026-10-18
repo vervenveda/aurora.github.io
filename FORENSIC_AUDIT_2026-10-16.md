@@ -8,6 +8,8 @@ The production architecture remains a static GitHub Pages application. Node.js i
 
 The follow-up 2026-10-17 room isolation audit verified the presentation and representative execution path of all 44 tools. See `FORENSIC_ROOM_AUDIT_2026-10-17.md` for the app-by-app matrix and repairs.
 
+The 2026-10-18 evidence and presentation pass added a searchable library of **24 official public-health references across eight topics**. It also removed the remaining room-level control collision caused by fixed Beta badges and replaced mid-word breaking with centered, whole-word responsive flow.
+
 ## Material findings and remediation
 
 | Severity | Finding | Resolution |
@@ -24,6 +26,9 @@ The follow-up 2026-10-17 room isolation audit verified the presentation and repr
 | Medium | Corrupted local JSON could prevent Daily Journal or Inspiration Mosaic from loading. | Added guarded parsing, type validation, and safe defaults. |
 | Low | Remote font, PDF, and audio CDNs weakened predictable rendering and privacy boundaries. | Removed them; PDF output now uses the browser's print/save flow and the letter chime is generated locally. |
 | Low | The hero artwork used a blurred SVG glow and the previous layout felt visually busy. | Rebuilt the entrance around system fonts, restrained 7 px geometry, calm CSS color fields, and reduced motion. Temporary illustrations were removed on 2026-10-17 so the landing remains art-free until original artwork is ready. |
+| Medium | A fixed Beta badge overlapped bottom-right controls in Spire and The Village and could obscure other app features. | Room badges now participate in normal document flow when rooms are opened directly and are hidden inside Aurora's iframe, where the sanctuary already supplies the shared Beta doorway. |
+| Medium | The shared room stylesheet used `overflow-wrap:anywhere`, which could split titles and control labels mid-word. | Restored whole-word wrapping, normal word breaks, flexible controls, and centered responsive flow across all 44 rooms. |
+| Medium | The public-reference area offered only eight static wellness links and did not deeply cover natural or integrative health. | Added 24 noncommercial references from NIH, NCCIH, ODS, NLM, FDA, CDC, USDA, HHS, NIMH, and WHO with local search, topic filtering, source standards, and explicit safety boundaries. |
 
 ## Verification coverage
 
@@ -40,6 +45,8 @@ The follow-up 2026-10-17 room isolation audit verified the presentation and repr
 - unaudited service-worker registration;
 - missing reduced-motion or wellness-boundary text;
 - references to the retired temporary landing-page illustrations.
+- trusted-reference count, topic balance, approved public-institution hosts, and required search/filter controls;
+- room word-flow and non-overlapping Beta-doorway contracts.
 
 ## Residual boundaries
 

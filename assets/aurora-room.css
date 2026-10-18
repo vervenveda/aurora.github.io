@@ -18,7 +18,9 @@ html{
 
 body{
   min-width:0;
-  overflow-wrap:anywhere;
+  word-break:normal;
+  overflow-wrap:normal;
+  hyphens:none;
 }
 
 img,
@@ -38,7 +40,44 @@ input,
 select,
 textarea,
 [tabindex]{
+  min-width:0;
+  max-width:100%;
   font:inherit;
+}
+
+button,
+a,
+label,
+h1,
+h2,
+h3,
+h4,
+p,
+span{
+  word-break:normal;
+  overflow-wrap:normal;
+  hyphens:none;
+}
+
+button{
+  white-space:normal;
+}
+
+/* The app-level beta doorway belongs after the app, not over its controls. */
+.aurora-room-beta{
+  position:relative!important;
+  inset:auto!important;
+  display:block!important;
+  width:max-content!important;
+  max-width:calc(100% - 24px)!important;
+  margin:18px auto 12px!important;
+  text-align:center!important;
+  white-space:normal!important;
+}
+
+/* Aurora's viewer already supplies the shared beta doorway outside the iframe. */
+html.aurora-embedded .aurora-room-beta{
+  display:none!important;
 }
 
 :where(button,a,input,select,textarea,[tabindex]):focus-visible{

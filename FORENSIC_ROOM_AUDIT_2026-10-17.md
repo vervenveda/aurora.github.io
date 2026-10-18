@@ -18,6 +18,8 @@ Every room now receives:
 - runtime error containment and a visible, accessible failure message;
 - same-origin error reporting to the Aurora viewer;
 - an iframe sandbox, no-referrer policy, and explicit capability allowlist in the landing page.
+- whole-word responsive text flow without mid-word splitting;
+- a non-overlapping app-level Beta doorway that is suppressed inside Aurora's viewer, where the shared sanctuary doorway remains available.
 
 ## Material repairs
 
@@ -31,6 +33,8 @@ Every room now receives:
 | Medium | Aurora Inspiration | A `100vw` body created scrollbar-width overflow and sharing still named a retired art domain. | Switched to contained width, updated the title, and routed sharing to Aurora. |
 | Medium | Multiple creative rooms | Share/credit URLs referenced the retired `myartgallery.online` domain. | Reconnected creative pathways to Aurora and Bazaar Art. |
 | Medium | All rooms | Local-storage keys shared one origin across the Verve N Veda network. | Added per-room namespacing without discarding existing browser data. |
+| Medium | Spire Mindful Breathing and The Village | Fixed app-level Beta links occupied the same bottom-right interaction plane as app controls. | Moved direct-page links into document flow and suppress duplicates inside Aurora's isolated viewer. |
+| Medium | All rooms | The shared emergency wrapping rule could divide labels and titles inside words. | Replaced it with normal, centered whole-word wrapping and flexible control widths. |
 
 ## Room-by-room release matrix
 

@@ -15,6 +15,8 @@ The landing page presents 44 original, self-contained rooms across six paths:
 - Reflection & Growth
 - Sound & Atmosphere
 
+It also includes a searchable, static-only public research library with 24 references across eight natural, complementary, integrative, and whole-person health topics. The library uses only approved public-institution destinations and does not sell or recommend products.
+
 The complete room registry is in `assets/aurora-sanctuary.js`. The corresponding discovery metadata is in `mentor-manifest.json`. The audit requires those inventories to match every non-utility `apps/*_index.html` file exactly.
 
 ## Design system
@@ -50,7 +52,7 @@ Aurora is a reflection, creativity, and wellness-support environment. It is **no
 
 ## Accessibility
 
-The sanctuary entrance includes keyboard-visible focus states, a skip link, responsive layouts, reduced-motion support, keyboard dismissal and focus containment for room dialogs, text labels alongside decorative symbols, and an opt-in browser speech feature.
+The sanctuary entrance includes keyboard-visible focus states, a skip link, responsive layouts, reduced-motion support, keyboard dismissal and focus containment for room dialogs, text labels alongside decorative symbols, whole-word wrapping, and an opt-in browser speech feature.
 
 ## Forensic audit
 
@@ -60,7 +62,7 @@ Run the repository-wide check with:
 python scripts/audit_aurora.py
 ```
 
-The audit verifies all 46 HTML documents (the landing page, 44 rooms, and the contribution utility), every local file reference, required metadata, unique and referenced DOM IDs, inline JavaScript syntax, room isolation assets, registry/manifest parity, unresolved placeholders, forbidden remote dependencies, sandbox policy, and the wellness boundary. GitHub Actions runs the same command on pushes and pull requests to `main`.
+The audit verifies all 46 HTML documents (the landing page, 44 rooms, and the contribution utility), every local file reference, required metadata, unique and referenced DOM IDs, inline JavaScript syntax, room isolation assets, registry/manifest parity, the 24-source official reference library, unresolved placeholders, forbidden remote dependencies, sandbox policy, and the wellness boundary. GitHub Actions runs the same command on pushes and pull requests to `main`.
 
 The repository-wide findings are in `FORENSIC_AUDIT_2026-10-16.md`. The room-by-room isolation and execution record is in `FORENSIC_ROOM_AUDIT_2026-10-17.md`.
 

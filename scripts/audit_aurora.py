@@ -16,6 +16,8 @@ ROOT = Path(__file__).resolve().parents[1]
 APPS = ROOT / "apps"
 UTILITY_PAGES = {"contribute_index.html"}
 EXPECTED_ROOMS = 44
+EXPECTED_PUBLIC_RESOURCES = 24
+EXPECTED_RESOURCE_CATEGORIES = 8
 PLACEHOLDERS = ("YOUR_GAME_URL_HERE", "YOUR_API_KEY", "CHANGEME", "TODO_URL")
 FORBIDDEN_REMOTE = (
     "fonts.googleapis.com",
@@ -197,6 +199,48 @@ def main() -> int:
         stale = sorted(set(registered_files) - actual_rooms)
         fail(f"Room registry mismatch; unregistered={missing}, stale={stale}", errors)
 
+    resource_match = re.search(r"const RESOURCES=\[(.*?)\n  \];", js, re.S)
+    resource_rows = (
+        re.findall(
+            r'\{title:"[^"]+",provider:"[^"]+",category:"([^"]+)",url:"([^"]+)"',
+            resource_match.group(1),
+        )
+        if resource_match
+        else []
+    )
+    if len(resource_rows) != EXPECTED_PUBLIC_RESOURCES:
+        fail(
+            f"Expected {EXPECTED_PUBLIC_RESOURCES} trusted public references, "
+            f"found {len(resource_rows)}",
+            errors,
+        )
+    resource_categories = {category for category, _ in resource_rows}
+    if len(resource_categories) != EXPECTED_RESOURCE_CATEGORIES:
+        fail(
+            f"Expected {EXPECTED_RESOURCE_CATEGORIES} resource topics, "
+            f"found {len(resource_categories)}",
+            errors,
+        )
+    for category in resource_categories:
+        count = sum(1 for value, _ in resource_rows if value == category)
+        if count != 3:
+            fail(f"Resource topic {category!r} must contain exactly 3 references, found {count}", errors)
+    approved_resource_hosts = {
+        "www.nccih.nih.gov",
+        "www.who.int",
+        "www.cdc.gov",
+        "www.nimh.nih.gov",
+        "www.myplate.gov",
+        "medlineplus.gov",
+        "ods.od.nih.gov",
+        "www.fda.gov",
+        "odphp.health.gov",
+    }
+    for _, resource_url in resource_rows:
+        parsed = urlsplit(resource_url)
+        if parsed.scheme != "https" or parsed.hostname not in approved_resource_hosts:
+            fail(f"Unapproved trusted-resource destination: {resource_url}", errors)
+
     try:
         manifest = json.loads((ROOT / "mentor-manifest.json").read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
@@ -219,6 +263,9 @@ def main() -> int:
         ('href="https://vervenveda.com/aurora.github.io/"', "canonical public URL"),
         ("Skip to main content", "skip link"),
         ("not medical, psychological, psychiatric, or therapeutic treatment", "wellness boundary"),
+        ('id="resourceSearch"', "trusted-resource search"),
+        ('id="resourceCategory"', "trusted-resource topic filter"),
+        ('id="resourceResult"', "trusted-resource result status"),
     ]:
         if requirement not in index:
             fail(f"Landing page is missing {message}", errors)
@@ -227,6 +274,11 @@ def main() -> int:
     room_css = (ROOT / "assets" / "aurora-room.css").read_text(encoding="utf-8")
     if "prefers-reduced-motion:reduce" not in room_css:
         fail("Room stylesheet is missing reduced-motion support", errors)
+    if "overflow-wrap:anywhere" in room_css:
+        fail("Room stylesheet can still split words mid-word", errors)
+    room_runtime = (ROOT / "assets" / "aurora-room-runtime.js").read_text(encoding="utf-8")
+    if "aurora-room-beta" not in room_css or "aurora-room-beta" not in room_runtime:
+        fail("Room beta doorway is missing its non-overlapping presentation contract", errors)
     if 'sandbox="allow-scripts allow-same-origin' not in index:
         fail("Room viewer is missing its sandbox policy", errors)
     if 'referrerpolicy="no-referrer"' not in index:
@@ -242,7 +294,8 @@ def main() -> int:
         return 1
 
     print(
-        f"Aurora audit passed: {EXPECTED_ROOMS} rooms, {len(pages)} HTML pages, "
+        f"Aurora audit passed: {EXPECTED_ROOMS} rooms, {EXPECTED_PUBLIC_RESOURCES} trusted references, "
+        f"{len(pages)} HTML pages, "
         "complete registry/manifest coverage, isolated storage, sandboxed viewing, "
         "local references, unique DOM IDs, responsive guardrails, and JavaScript syntax."
     )

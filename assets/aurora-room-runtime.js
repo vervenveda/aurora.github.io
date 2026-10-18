@@ -71,6 +71,16 @@
 
   document.addEventListener("DOMContentLoaded",()=>{
     document.documentElement.dataset.auroraRoom=roomSlug;
+    const embedded=window.self!==window.top;
+    document.documentElement.classList.toggle("aurora-embedded",embedded);
+
+    document.querySelectorAll('a[aria-label*="Beta Program"],a[href="https://vervenveda.com/beta/"]').forEach(link=>{
+      link.classList.add("aurora-room-beta");
+      if(embedded){
+        link.setAttribute("aria-hidden","true");
+        link.tabIndex=-1;
+      }
+    });
 
     document.querySelectorAll("button:not([type])").forEach(button=>{
       if(!button.closest("form"))button.type="button";
