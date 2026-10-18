@@ -274,7 +274,7 @@ def main() -> int:
         ('id="resourceResult"', "trusted-resource result status"),
         ('id="languageSelect"', "language selector"),
         ('data-aurora-language-select', "shared language control contract"),
-        ('src="./assets/aurora-language.js?v=20261018c"', "local multilingual runtime"),
+        ('src="./assets/aurora-language.js?v=20261018d"', "local multilingual runtime"),
     ]:
         if requirement not in index:
             fail(f"Landing page is missing {message}", errors)
