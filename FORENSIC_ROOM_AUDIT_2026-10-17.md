@@ -20,6 +20,7 @@ Every room now receives:
 - an iframe sandbox, no-referrer policy, and explicit capability allowlist in the landing page.
 - whole-word responsive text flow without mid-word splitting;
 - a non-overlapping app-level Beta doorway that is suppressed inside Aurora's viewer, where the shared sanctuary doorway remains available.
+- an explicit shared-asset version on every room so presentation and isolation repairs cannot be delayed by an older browser cache.
 
 ## Material repairs
 

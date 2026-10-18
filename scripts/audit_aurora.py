@@ -28,8 +28,8 @@ FORBIDDEN_REMOTE = (
     "gleitz.github.io/midi-js-soundfonts",
     "myartgallery.online",
 )
-ROOM_STYLE = "../assets/aurora-room.css"
-ROOM_RUNTIME = "../assets/aurora-room-runtime.js"
+ROOM_STYLE = "../assets/aurora-room.css?v=20261018"
+ROOM_RUNTIME = "../assets/aurora-room-runtime.js?v=20261018"
 
 
 class PageParser(HTMLParser):
