@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-vnv-support-off>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -17,17 +17,29 @@
 <title>Aurora — A Peaceful Verve N Veda Studio</title>
 <script src="./assets/aurora-language.js?v=20261018d" defer></script>
 <script src="./assets/aurora-sanctuary.js?v=20261018d" defer></script>
-<script async src="https://js.stripe.com/v3/buy-button.js"></script>
 </head>
-<body>
+<body id="top">
 <a class="skip" href="#main">Skip to main content</a>
 
 <header class="site-header">
   <div class="wrap nav">
-    <a class="brand" href="./" aria-label="Aurora home">
-      <span class="brand-mark" aria-hidden="true">A</span>
-      <span class="brand-copy"><strong>Aurora</strong><small>Verve N Veda Sanctuary</small></span>
-    </a>
+    <div class="nav-top">
+      <a class="brand" href="./" aria-label="Aurora home">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span class="brand-copy"><strong>Aurora</strong><small>Verve N Veda Sanctuary</small></span>
+      </a>
+
+      <div class="nav-utilities" aria-label="Aurora page utilities">
+        <div class="language-control" data-i18n-ignore>
+          <label for="languageSelect" data-aurora-language-label>Language</label>
+          <select id="languageSelect" data-aurora-language-select aria-label="Language"></select>
+        </div>
+        <button class="voice-toggle" id="voiceToggle" type="button" aria-pressed="false">Aurora Voice · Off</button>
+        <a class="support-door" href="#support">Support Free Access</a>
+        <span class="sr-only" id="languageStatus" role="status" aria-live="polite"></span>
+      </div>
+    </div>
+
     <nav class="nav-links" aria-label="Primary navigation">
       <a href="#journeys">Practices</a>
       <a href="#featured">Featured</a>
@@ -35,15 +47,36 @@
       <a href="#library">Library</a>
       <a href="#continuum">Creative Continuum</a>
       <a href="#resources">Resources</a>
-      <div class="language-control" data-i18n-ignore>
-        <label for="languageSelect" data-aurora-language-label>Language</label>
-        <select id="languageSelect" data-aurora-language-select aria-label="Language"></select>
-      </div>
-      <button class="voice-toggle" id="voiceToggle" type="button" aria-pressed="false">Aurora Voice · Off</button>
-      <span class="sr-only" id="languageStatus" role="status" aria-live="polite"></span>
     </nav>
   </div>
 </header>
+
+<div class="aurora-ticker" aria-label="Aurora application shortcuts">
+  <div class="aurora-ticker-viewport">
+    <div class="aurora-ticker-track">
+      <div class="aurora-ticker-set">
+        <span class="aurora-ticker-label">Aurora Rooms</span>
+        <a href="./apps/AuraInk_index.html">AuraInk</a>
+        <a href="./apps/breath_reset_index.html">Breath &amp; Reset</a>
+        <a href="./apps/daily_journal_index.html">Daily Journal</a>
+        <a href="./apps/morning_sanctum_index.html">Morning Sanctum</a>
+        <a href="./apps/Aurora_Inspiration_index.html">Aurora Inspiration</a>
+        <a href="./apps/Breath_evening_index.html">Gentle Wake</a>
+        <a class="ticker-support" href="#support">Support Aurora</a>
+      </div>
+      <div class="aurora-ticker-set" aria-hidden="true">
+        <span class="aurora-ticker-label">Aurora Rooms</span>
+        <a tabindex="-1" href="./apps/AuraInk_index.html">AuraInk</a>
+        <a tabindex="-1" href="./apps/breath_reset_index.html">Breath &amp; Reset</a>
+        <a tabindex="-1" href="./apps/daily_journal_index.html">Daily Journal</a>
+        <a tabindex="-1" href="./apps/morning_sanctum_index.html">Morning Sanctum</a>
+        <a tabindex="-1" href="./apps/Aurora_Inspiration_index.html">Aurora Inspiration</a>
+        <a tabindex="-1" href="./apps/Breath_evening_index.html">Gentle Wake</a>
+        <a class="ticker-support" tabindex="-1" href="#support">Support Aurora</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <main id="main">
   <section class="hero" aria-labelledby="heroTitle">
@@ -224,21 +257,18 @@
     </div>
   </section>
 
-  <section class="section compact" id="support" aria-labelledby="supportTitle">
-    <div class="wrap support-grid">
-      <article class="support-card">
-        <p class="eyebrow">A gentle contribution doorway</p>
-        <h2 id="supportTitle">Help keep Aurora open.</h2>
-        <p>Aurora remains open to browse without an account. Contributions help support maintenance, accessibility, original creative tools, and independent infrastructure across the wider Verve N Veda ecosystem.</p>
-        <p class="support-note">Support for Aurora / Verve N Veda development is separate from political campaign contributions. No charitable or tax-deductible status is implied.</p>
-      </article>
-      <aside class="support-card support-stripe" aria-label="Contribute through Stripe">
-        <div>
-          <p class="eyebrow">Contribute</p>
-          <p>Thank you for helping the work continue.</p>
-          <stripe-buy-button buy-button-id="buy_btn_1TtUqXJv39zQCMS1skiXSbvP" publishable-key="pk_live_51RpGqiJv39zQCMS1Gms5qklNYpH8haeue2dSLG76KHSims5CbWbitNjqlwhxDvjewGefNyrh24zNMsdQSk5m3mbE00Ajsji1iw"></stripe-buy-button>
+  <section class="section compact aurora-support-section" id="support" aria-labelledby="supportTitle">
+    <div class="wrap">
+      <article class="support-card aurora-support-card">
+        <p class="eyebrow">Support free access</p>
+        <h2 id="supportTitle">Help keep Aurora open, quiet, and free.</h2>
+        <p>Aurora and the wider Verve N Veda ecosystem remain free to explore. If this sanctuary, its original rooms, or its creative tools are useful to you, voluntary support helps with maintenance, accessibility, hosting, research, and continued independent development.</p>
+        <div class="support-actions">
+          <a class="btn primary" href="https://buy.stripe.com/aFa8wQ5xf9Scf65caT4AU0s" target="_blank" rel="noopener noreferrer">Support Aurora with Stripe ↗</a>
+          <a class="btn secondary" href="#top" aria-label="Return to the top of Aurora">Return to Aurora ↑</a>
         </div>
-      </aside>
+        <p class="support-note">Contributions are voluntary and are never required for access. Aurora / Verve N Veda support is separate from political campaign contributions. No charitable or tax-deductible status is represented.</p>
+      </article>
     </div>
   </section>
 </main>
@@ -280,6 +310,5 @@
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="https://vervenveda.com/assets/vnv-support.js" defer></script>
 </body>
 </html>
