@@ -80,6 +80,17 @@ html.aurora-embedded .aurora-room-beta{
   display:none!important;
 }
 
+/* Language direction follows the shared Aurora/Khaemenes preference. */
+html[dir="rtl"] body{
+  direction:rtl;
+}
+
+html[dir="rtl"] input:not([type="range"]),
+html[dir="rtl"] textarea,
+html[dir="rtl"] select{
+  text-align:right;
+}
+
 :where(button,a,input,select,textarea,[tabindex]):focus-visible{
   outline:3px solid var(--aurora-focus);
   outline-offset:3px;

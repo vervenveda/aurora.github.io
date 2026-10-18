@@ -117,6 +117,9 @@
   const VOICE_KEY="aurora_voice_v2";
   const $=id=>document.getElementById(id);
   const escapeHtml=value=>String(value).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]));
+  const i18n=()=>window.AuroraLanguage;
+  const t=value=>i18n()?.translate?.(value)||String(value);
+  const message=(key,values)=>i18n()?.message?.(key,values)||"";
   const storage={
     get(key,fallback){try{const v=localStorage.getItem(key);return v===null?fallback:JSON.parse(v)}catch{return fallback}},
     set(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true}catch{return false}}
@@ -133,47 +136,47 @@
 
   function toast(message){const el=$("toast");if(!el)return;el.textContent=message;el.classList.add("show");clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove("show"),2000)}
   function roomById(id){return ROOMS.find(room=>room.id===id)||null}
-  function categoryName(key){return CATEGORIES[key]?.label||key}
+  function categoryName(key){return t(CATEGORIES[key]?.label||key)}
   function internalRoomURL(room){
     if(!room||!/^[A-Za-z0-9 _.'()&+-]+_index\.html$/.test(room.file))return null;
-    try{const url=new URL(`./apps/${encodeURI(room.file)}`,location.href);url.searchParams.set("v","20261017b");return url.origin===location.origin?url:null}catch{return null}
+    try{const url=new URL(`./apps/${encodeURI(room.file)}`,location.href);url.searchParams.set("v","20261018c");const lang=i18n()?.getLanguage?.();if(lang&&lang!=="en")url.searchParams.set("lang",lang);return url.origin===location.origin?url:null}catch{return null}
   }
   function safeExternalURL(value){try{const url=new URL(value);return url.protocol==="https:"&&!url.username&&!url.password?url:null}catch{return null}}
   function safeResourceURL(value){const url=safeExternalURL(value);return url&&OFFICIAL_RESOURCE_HOSTS.has(url.hostname)?url:null}
 
   function renderJourneys(){
-    $("journeyGrid").innerHTML=Object.entries(CATEGORIES).map(([key,item])=>`<article class="journey"><div class="journey-mark" aria-hidden="true">${escapeHtml(item.icon)}</div><h3>${escapeHtml(item.short)}</h3><p>${escapeHtml(item.desc)}</p><button type="button" data-journey="${escapeHtml(key)}">Enter this path</button></article>`).join("");
+    $("journeyGrid").innerHTML=Object.entries(CATEGORIES).map(([key,item])=>`<article class="journey"><div class="journey-mark" aria-hidden="true">${escapeHtml(item.icon)}</div><h3>${escapeHtml(t(item.short))}</h3><p>${escapeHtml(t(item.desc))}</p><button type="button" data-journey="${escapeHtml(key)}">${escapeHtml(t("Enter this path"))}</button></article>`).join("");
     document.querySelectorAll("[data-journey]").forEach(btn=>btn.addEventListener("click",()=>{const key=btn.dataset.journey;$("categoryFilter").value=key;favoritesOnly=false;syncFavoriteToggle();renderLibrary();$("library").scrollIntoView({behavior:"smooth",block:"start"})}));
   }
 
-  function featureMarkup(room){return `<article class="feature-card"><div class="feature-mark" aria-hidden="true">${escapeHtml(room.icon)}</div><div class="meta">${escapeHtml(categoryName(room.category))}</div><h3>${escapeHtml(room.title)}</h3><p>${escapeHtml(room.desc)}</p><button type="button" data-open-room="${escapeHtml(room.id)}">Open room</button></article>`}
+  function featureMarkup(room){return `<article class="feature-card"><div class="feature-mark" aria-hidden="true">${escapeHtml(room.icon)}</div><div class="meta">${escapeHtml(categoryName(room.category))}</div><h3>${escapeHtml(t(room.title))}</h3><p>${escapeHtml(t(room.desc))}</p><button type="button" data-open-room="${escapeHtml(room.id)}">${escapeHtml(t("Open room"))}</button></article>`}
   function renderFeatured(){$("featuredGrid").innerHTML=FEATURED.map(roomById).filter(Boolean).map(featureMarkup).join("");wireOpenButtons($("featuredGrid"))}
 
   function renderEvening(){
-    $("restList").innerHTML=REST.map(roomById).filter(Boolean).map(room=>`<button class="rest-link" type="button" data-open-room="${escapeHtml(room.id)}"><span aria-hidden="true">${escapeHtml(room.icon)}</span><span><strong>${escapeHtml(room.title)}</strong><small>${escapeHtml(room.subtitle)}</small></span></button>`).join("");
+    $("restList").innerHTML=REST.map(roomById).filter(Boolean).map(room=>`<button class="rest-link" type="button" data-open-room="${escapeHtml(room.id)}"><span aria-hidden="true">${escapeHtml(room.icon)}</span><span><strong>${escapeHtml(t(room.title))}</strong><small>${escapeHtml(t(room.subtitle))}</small></span></button>`).join("");
     wireOpenButtons($("restList"));
   }
 
-  function roomCard(room){const fav=favorites.has(room.id);return `<article class="room-card"><div class="room-top"><span class="room-icon" aria-hidden="true">${escapeHtml(room.icon)}</span><button type="button" class="favorite" aria-label="${fav?"Remove from":"Add to"} favorites: ${escapeHtml(room.title)}" aria-pressed="${fav}" data-favorite="${escapeHtml(room.id)}">${fav?"★":"☆"}</button></div><div class="category">${escapeHtml(categoryName(room.category))}</div><h3>${escapeHtml(room.title)}</h3><p>${escapeHtml(room.desc)}</p><button type="button" class="open-room" data-open-room="${escapeHtml(room.id)}">Open quietly</button></article>`}
+  function roomCard(room){const fav=favorites.has(room.id);return `<article class="room-card"><div class="room-top"><span class="room-icon" aria-hidden="true">${escapeHtml(room.icon)}</span><button type="button" class="favorite" aria-label="${escapeHtml(t(fav?"Remove from favorites":"Add to favorites"))}: ${escapeHtml(t(room.title))}" aria-pressed="${fav}" data-favorite="${escapeHtml(room.id)}">${fav?"★":"☆"}</button></div><div class="category">${escapeHtml(categoryName(room.category))}</div><h3>${escapeHtml(t(room.title))}</h3><p>${escapeHtml(t(room.desc))}</p><button type="button" class="open-room" data-open-room="${escapeHtml(room.id)}">${escapeHtml(t("Open quietly"))}</button></article>`}
 
   function renderLibrary(){
     const query=$("roomSearch").value.trim().toLowerCase();
     const category=$("categoryFilter").value;
-    const list=ROOMS.filter(room=>(!category||room.category===category)&&(!favoritesOnly||favorites.has(room.id))&&(!query||(room.title+" "+room.subtitle+" "+room.desc+" "+room.tags).toLowerCase().includes(query)));
+    const list=ROOMS.filter(room=>(!category||room.category===category)&&(!favoritesOnly||favorites.has(room.id))&&(!query||(room.title+" "+room.subtitle+" "+room.desc+" "+room.tags+" "+categoryName(room.category)+" "+t(CATEGORIES[room.category]?.short||"")).toLowerCase().includes(query)));
     $("roomGrid").innerHTML=list.map(roomCard).join("");
     $("roomEmpty").classList.toggle("show",list.length===0);
-    $("resultLine").textContent=`${list.length} of ${ROOMS.length} Aurora rooms`;
+    $("resultLine").textContent=message("rooms",{shown:list.length,total:ROOMS.length})||`${list.length} of ${ROOMS.length} Aurora rooms`;
     wireOpenButtons($("roomGrid"));
     document.querySelectorAll("[data-favorite]").forEach(btn=>btn.addEventListener("click",()=>{const id=btn.dataset.favorite;if(favorites.has(id))favorites.delete(id);else favorites.add(id);storage.set(FAVORITES_KEY,[...favorites]);renderLibrary()}));
   }
 
-  function syncFavoriteToggle(){const btn=$("favoritesToggle");btn.setAttribute("aria-pressed",String(favoritesOnly));btn.textContent=favoritesOnly?"★ Favorites only":"☆ Favorites"}
+  function syncFavoriteToggle(){const btn=$("favoritesToggle");btn.setAttribute("aria-pressed",String(favoritesOnly));btn.textContent=t(favoritesOnly?"★ Favorites only":"☆ Favorites")}
   function wireOpenButtons(root=document){root.querySelectorAll("[data-open-room]").forEach(btn=>btn.addEventListener("click",()=>openRoom(roomById(btn.dataset.openRoom))))}
 
   function openRoom(room){
     const url=internalRoomURL(room);if(!room||!url){toast("That Aurora room could not be opened safely.");return}
     activeRoom=room;lastFocus=document.activeElement;
-    $("roomTitle").textContent=room.title;$("roomMeta").textContent=room.subtitle;$("roomMark").textContent=room.icon;$("roomStatus").textContent="Aurora is opening this room in its own isolated viewer.";$("roomFrame").title=room.title;$("roomLoading").classList.remove("hidden");$("roomFrame").src=url.href;
+    $("roomTitle").textContent=t(room.title);$("roomMeta").textContent=t(room.subtitle);$("roomMark").textContent=room.icon;$("roomStatus").textContent=t("Aurora is opening this room in its own isolated viewer.");$("roomFrame").title=t(room.title);$("roomLoading").classList.remove("hidden");$("roomFrame").src=url.href;
     $("roomOverlay").classList.add("open");$("roomOverlay").setAttribute("aria-hidden","false");document.body.classList.add("room-open");$("roomClose").focus();
   }
   function closeRoom(){
@@ -186,9 +189,9 @@
     if(!nodes.length)return;const first=nodes[0],last=nodes[nodes.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}
   }
 
-  function preferredVoice(){if(!("speechSynthesis" in window))return null;const voices=speechSynthesis.getVoices();return voices.find(v=>/^en/i.test(v.lang)&&/samantha|victoria|karen|moira|serena|ava|allison/i.test(v.name))||voices.find(v=>/^en/i.test(v.lang))||voices[0]||null}
+  function preferredVoice(){if(!("speechSynthesis" in window))return null;const voices=speechSynthesis.getVoices();const lang=i18n()?.getLanguage?.()||"en";return voices.find(v=>v.lang?.toLowerCase().startsWith(lang.toLowerCase()))||voices.find(v=>/^en/i.test(v.lang))||voices[0]||null}
   function speak(text){if(!voiceEnabled||!("speechSynthesis" in window)||!text)return;speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(text.slice(0,3600));const voice=preferredVoice();if(voice)utterance.voice=voice;utterance.rate=.86;utterance.pitch=.96;speechSynthesis.speak(utterance)}
-  function syncVoice(){const btn=$("voiceToggle");btn.setAttribute("aria-pressed",String(voiceEnabled));btn.textContent=voiceEnabled?"Aurora Voice · On":"Aurora Voice · Off"}
+  function syncVoice(){const btn=$("voiceToggle");btn.setAttribute("aria-pressed",String(voiceEnabled));btn.textContent=t(voiceEnabled?"Aurora Voice · On":"Aurora Voice · Off")}
   function toggleVoice(){if(!("speechSynthesis" in window)){toast("Voice is not available in this browser.");return}voiceEnabled=!voiceEnabled;storage.set(VOICE_KEY,voiceEnabled);syncVoice();if(voiceEnabled)speak("Aurora voice is on. I will only speak when you choose to hear me.");else speechSynthesis.cancel()}
   function readRoom(){if(!activeRoom){return}try{const doc=$("roomFrame").contentDocument;const root=doc?.querySelector("main")||doc?.body;if(!root){toast("This room is still opening.");return}const clone=root.cloneNode(true);clone.querySelectorAll("script,style,noscript,nav,footer,button,input,select,textarea,iframe").forEach(n=>n.remove());const text=(clone.innerText||clone.textContent||"").replace(/\s+/g," ").trim();if(!text){toast("There is no readable room text yet.");return}speak(text)}catch{toast("This room could not be read aloud.")}}
 
@@ -197,15 +200,15 @@
     {name:"Rest",copy:"Let the breath be still for a moment.",className:"",ms:2000},
     {name:"Exhale",copy:"Release slowly. Let the shoulders soften.",className:"exhale",ms:6000}
   ];
-  function setBreathPhase(){if(!breathRunning)return;const phase=phases[breathPhase%phases.length],dock=$("breathDock");dock.classList.remove("inhale","exhale");if(phase.className)dock.classList.add(phase.className);$("breathTitle").textContent=phase.name;$("breathText").textContent=phase.copy;breathTimer=setTimeout(()=>{breathPhase++;setBreathPhase()},phase.ms)}
-  function toggleBreath(){breathRunning=!breathRunning;clearTimeout(breathTimer);if(breathRunning){breathPhase=0;$("breathStart").textContent="Pause";setBreathPhase()}else{$("breathDock").classList.remove("inhale","exhale");$("breathTitle").textContent="Take one unhurried breath";$("breathText").textContent="Inhale gently. Let your shoulders soften.";$("breathStart").textContent="Begin"}}
+  function setBreathPhase(){if(!breathRunning)return;const phase=phases[breathPhase%phases.length],dock=$("breathDock");dock.classList.remove("inhale","exhale");if(phase.className)dock.classList.add(phase.className);$("breathTitle").textContent=t(phase.name);$("breathText").textContent=t(phase.copy);breathTimer=setTimeout(()=>{breathPhase++;setBreathPhase()},phase.ms)}
+  function toggleBreath(){breathRunning=!breathRunning;clearTimeout(breathTimer);if(breathRunning){breathPhase=0;$("breathStart").textContent=t("Pause");setBreathPhase()}else{$("breathDock").classList.remove("inhale","exhale");$("breathTitle").textContent=t("Take one unhurried breath");$("breathText").textContent=t("Inhale gently. Let your shoulders soften.");$("breathStart").textContent=t("Begin")}}
 
   function renderResources(){
     const query=$("resourceSearch").value.trim().toLowerCase();
     const category=$("resourceCategory").value;
     const list=RESOURCES.filter(item=>(!category||item.category===category)&&(!query||(item.title+" "+item.provider+" "+item.desc+" "+item.tags+" "+RESOURCE_CATEGORIES[item.category]).toLowerCase().includes(query)));
-    $("resourceGrid").innerHTML=list.map(item=>{const url=safeResourceURL(item.url);return `<article class="resource"><div class="resource-meta"><span>${escapeHtml(RESOURCE_CATEGORIES[item.category])}</span><span>${escapeHtml(item.provider)}</span></div><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.desc)}</p>${url?`<a href="${escapeHtml(url.href)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Visit official source <span aria-hidden="true">↗</span></a>`:""}</article>`}).join("");
-    $("resourceResult").textContent=`${list.length} of ${RESOURCES.length} trusted public references`;
+    $("resourceGrid").innerHTML=list.map(item=>{const url=safeResourceURL(item.url);return `<article class="resource"><div class="resource-meta"><span>${escapeHtml(t(RESOURCE_CATEGORIES[item.category]))}</span><span>${escapeHtml(item.provider)}</span></div><h3>${escapeHtml(t(item.title))}</h3><p>${escapeHtml(t(item.desc))}</p>${url?`<a href="${escapeHtml(url.href)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">${escapeHtml(t("Visit official source"))} <span aria-hidden="true">↗</span></a>`:""}</article>`}).join("");
+    $("resourceResult").textContent=message("references",{shown:list.length,total:RESOURCES.length})||`${list.length} of ${RESOURCES.length} trusted public references`;
     $("resourceEmpty").classList.toggle("show",list.length===0);
   }
 
@@ -218,20 +221,28 @@
   function renderNetwork(){
     $("networkLinks").innerHTML=NETWORK.map(([label,value])=>{const url=safeExternalURL(value);return url?`<a href="${escapeHtml(url.href)}">${escapeHtml(label)}</a>`:""}).join("");
   }
+  function syncFilterOptions(){
+    const roomValue=$("categoryFilter").value;
+    const resourceValue=$("resourceCategory").value;
+    $("categoryFilter").innerHTML=`<option value="">${escapeHtml(t("All paths"))}</option>`+Object.entries(CATEGORIES).map(([key,item])=>`<option value="${escapeHtml(key)}">${escapeHtml(t(item.label))}</option>`).join("");
+    $("resourceCategory").innerHTML=`<option value="">${escapeHtml(t("All eight topics"))}</option>`+Object.entries(RESOURCE_CATEGORIES).map(([key,label])=>`<option value="${escapeHtml(key)}">${escapeHtml(t(label))}</option>`).join("");
+    $("categoryFilter").value=roomValue;
+    $("resourceCategory").value=resourceValue;
+  }
 
   function init(){
     renderJourneys();renderFeatured();renderEvening();renderNetwork();
     const roomCount=$("roomCount");if(roomCount)roomCount.textContent=String(ROOMS.length);
-    $("categoryFilter").innerHTML='<option value="">All paths</option>'+Object.entries(CATEGORIES).map(([key,item])=>`<option value="${escapeHtml(key)}">${escapeHtml(item.label)}</option>`).join("");
-    $("resourceCategory").innerHTML='<option value="">All eight topics</option>'+Object.entries(RESOURCE_CATEGORIES).map(([key,label])=>`<option value="${escapeHtml(key)}">${escapeHtml(label)}</option>`).join("");
+    syncFilterOptions();
     renderResources();
     renderLibrary();syncFavoriteToggle();syncVoice();
     $("roomSearch").addEventListener("input",renderLibrary);$("categoryFilter").addEventListener("change",renderLibrary);$("favoritesToggle").addEventListener("click",()=>{favoritesOnly=!favoritesOnly;syncFavoriteToggle();renderLibrary()});
     $("resourceSearch").addEventListener("input",renderResources);$("resourceCategory").addEventListener("change",renderResources);$("resourceReset").addEventListener("click",resetResources);
-    $("voiceToggle").addEventListener("click",toggleVoice);$("breathStart").addEventListener("click",toggleBreath);$("roomClose").addEventListener("click",closeRoom);$("roomRead").addEventListener("click",readRoom);$("roomFrame").addEventListener("load",()=>{$("roomLoading").classList.add("hidden");if(activeRoom)$("roomStatus").textContent=`${activeRoom.title} is ready. Its saved state is isolated from every other Aurora room.`});
+    $("voiceToggle").addEventListener("click",toggleVoice);$("breathStart").addEventListener("click",toggleBreath);$("roomClose").addEventListener("click",closeRoom);$("roomRead").addEventListener("click",readRoom);$("roomFrame").addEventListener("load",()=>{$("roomLoading").classList.add("hidden");if(activeRoom){const lang=i18n()?.getLanguage?.()||"en";$("roomFrame").contentWindow?.postMessage?.({type:"aurora-language",language:lang},location.origin);$("roomStatus").textContent=message("ready",{title:t(activeRoom.title)})||`${activeRoom.title} is ready. Its saved state is isolated from every other Aurora room.`}});
     window.addEventListener("message",event=>{if(event.origin!==location.origin||event.source!==$("roomFrame").contentWindow||event.data?.type!=="aurora-room-error")return;$("roomStatus").textContent=`${activeRoom?.title||"This room"} encountered an error. The rest of Aurora remains available.`;toast("This room needs attention. Its error was isolated.")});
     $("roomOverlay").addEventListener("mousedown",event=>{if(event.target===$("roomOverlay"))closeRoom()});
     document.addEventListener("keydown",event=>{if(event.key==="Escape")closeRoom();trapRoomFocus(event);if(event.key==="/"&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||"")){event.preventDefault();$("roomSearch").focus()}});
+    document.addEventListener("aurora:language-change",event=>{syncFilterOptions();renderJourneys();renderFeatured();renderEvening();renderLibrary();renderResources();syncFavoriteToggle();syncVoice();const lang=event.detail?.language||"en";if(activeRoom)$("roomFrame").contentWindow?.postMessage?.({type:"aurora-language",language:lang},location.origin)});
     $("year").textContent=String(new Date().getFullYear());
   }
 

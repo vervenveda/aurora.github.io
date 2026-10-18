@@ -10,6 +10,8 @@ The follow-up 2026-10-17 room isolation audit verified the presentation and repr
 
 The 2026-10-18 evidence and presentation pass added a searchable library of **24 official public-health references across eight topics**. It also removed the remaining room-level control collision caused by fixed Beta badges and replaced mid-word breaking with centered, whole-word responsive flow.
 
+The 2026-10-18 multilingual pass adapted the Khaemenes Academy language contract to Aurora: 13 local interface languages, a shared first-party preference, `?lang=` continuity across Verve N Veda repositories, dynamic-text handling, Arabic RTL, and explicit English fallback. Unlike the Academy's optional completion path, Aurora's runtime performs no online translation and sends no page or visitor text to a third party.
+
 ## Material findings and remediation
 
 | Severity | Finding | Resolution |
@@ -29,6 +31,7 @@ The 2026-10-18 evidence and presentation pass added a searchable library of **24
 | Medium | Fixed Beta badges could overlap bottom-right controls or page content, including in Spire and The Village. | Room badges now participate in normal document flow when opened directly, duplicates are hidden inside Aurora's iframe, and the sanctuary doorway now rests in the footer instead of floating over content. |
 | Medium | The shared room stylesheet used `overflow-wrap:anywhere`, which could split titles and control labels mid-word. | Restored whole-word wrapping, normal word breaks, flexible controls, and centered responsive flow across all 44 rooms. |
 | Medium | The public-reference area offered only eight static wellness links and did not deeply cover natural or integrative health. | Added 24 noncommercial references from NIH, NCCIH, ODS, NLM, FDA, CDC, USDA, HHS, NIMH, and WHO with local search, topic filtering, source standards, and explicit safety boundaries. |
+| Medium | Aurora did not inherit the Academy ecosystem's multilingual preference or first-party language handoff. | Added a sovereign 13-language interface layer, shared `vnv_language_v1` persistence, Arabic RTL, dynamic UI translation, iframe language messaging, localized speech-voice selection, and safe English fallback without a translation API. |
 
 ## Verification coverage
 
@@ -47,6 +50,7 @@ The 2026-10-18 evidence and presentation pass added a searchable library of **24
 - references to the retired temporary landing-page illustrations.
 - trusted-reference count, topic balance, approved public-institution hosts, and required search/filter controls;
 - room word-flow and non-overlapping Beta-doorway contracts.
+- multilingual runtime syntax, all 13 Academy language codes, shared preference/URL contracts, Arabic RTL, and the absence of translation-network calls.
 
 ## Residual boundaries
 

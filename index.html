@@ -13,9 +13,10 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vervenveda.com/aurora.github.io/">
 <link rel="canonical" href="https://vervenveda.com/aurora.github.io/">
-<link rel="stylesheet" href="./assets/aurora-sanctuary.css?v=20261018b">
+<link rel="stylesheet" href="./assets/aurora-sanctuary.css?v=20261018c">
 <title>Aurora — A Peaceful Verve N Veda Studio</title>
-<script src="./assets/aurora-sanctuary.js?v=20261018" defer></script>
+<script src="./assets/aurora-language.js?v=20261018c" defer></script>
+<script src="./assets/aurora-sanctuary.js?v=20261018c" defer></script>
 <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 </head>
 <body>
@@ -34,7 +35,12 @@
       <a href="#library">Library</a>
       <a href="#continuum">Creative Continuum</a>
       <a href="#resources">Resources</a>
+      <div class="language-control" data-i18n-ignore>
+        <label for="languageSelect" data-aurora-language-label>Language</label>
+        <select id="languageSelect" data-aurora-language-select aria-label="Language"></select>
+      </div>
       <button class="voice-toggle" id="voiceToggle" type="button" aria-pressed="false">Aurora Voice · Off</button>
+      <span class="sr-only" id="languageStatus" role="status" aria-live="polite"></span>
     </nav>
   </div>
 </header>
@@ -257,6 +263,10 @@
         <span><strong id="roomTitle">Aurora Room</strong><small id="roomMeta">Original room</small></span>
       </div>
       <div class="room-actions">
+        <div class="room-language" data-i18n-ignore>
+          <label class="sr-only" for="roomLanguageSelect" data-aurora-language-label>Language</label>
+          <select id="roomLanguageSelect" data-aurora-language-select aria-label="Language"></select>
+        </div>
         <button class="room-btn" id="roomRead" type="button">Read room</button>
         <button class="room-close" id="roomClose" type="button" aria-label="Close Aurora room">×</button>
       </div>

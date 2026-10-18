@@ -28,8 +28,9 @@ FORBIDDEN_REMOTE = (
     "gleitz.github.io/midi-js-soundfonts",
     "myartgallery.online",
 )
-ROOM_STYLE = "../assets/aurora-room.css?v=20261018"
-ROOM_RUNTIME = "../assets/aurora-room-runtime.js?v=20261018"
+ROOM_STYLE = "../assets/aurora-room.css?v=20261018c"
+ROOM_LANGUAGE = "../assets/aurora-language.js?v=20261018c"
+ROOM_RUNTIME = "../assets/aurora-room-runtime.js?v=20261018c"
 
 
 class PageParser(HTMLParser):
@@ -141,6 +142,8 @@ def audit_html(page: Path, errors: list[str]) -> None:
     if page.parent == APPS and page.name not in UTILITY_PAGES:
         if f'href="{ROOM_STYLE}"' not in text:
             fail(f"{rel}: missing shared room presentation guardrails", errors)
+        if f'src="{ROOM_LANGUAGE}"' not in text:
+            fail(f"{rel}: missing shared sovereign language runtime", errors)
         if f'src="{ROOM_RUNTIME}"' not in text:
             fail(f"{rel}: missing shared room isolation runtime", errors)
 
@@ -164,6 +167,7 @@ def main() -> int:
         ROOT / "index.html",
         ROOT / "assets" / "aurora-sanctuary.css",
         ROOT / "assets" / "aurora-sanctuary.js",
+        ROOT / "assets" / "aurora-language.js",
         ROOT / "assets" / "aurora-room.css",
         ROOT / "assets" / "aurora-room-runtime.js",
         ROOT / "mentor-manifest.json",
@@ -180,6 +184,8 @@ def main() -> int:
     js_path = ROOT / "assets" / "aurora-sanctuary.js"
     js = js_path.read_text(encoding="utf-8")
     check_javascript(js, "assets/aurora-sanctuary.js", errors)
+    language_runtime = (ROOT / "assets" / "aurora-language.js").read_text(encoding="utf-8")
+    check_javascript(language_runtime, "assets/aurora-language.js", errors)
     check_javascript(
         (ROOT / "assets" / "aurora-room-runtime.js").read_text(encoding="utf-8"),
         "assets/aurora-room-runtime.js",
@@ -266,6 +272,9 @@ def main() -> int:
         ('id="resourceSearch"', "trusted-resource search"),
         ('id="resourceCategory"', "trusted-resource topic filter"),
         ('id="resourceResult"', "trusted-resource result status"),
+        ('id="languageSelect"', "language selector"),
+        ('data-aurora-language-select', "shared language control contract"),
+        ('src="./assets/aurora-language.js?v=20261018c"', "local multilingual runtime"),
     ]:
         if requirement not in index:
             fail(f"Landing page is missing {message}", errors)
@@ -283,6 +292,38 @@ def main() -> int:
         fail("Room viewer is missing its sandbox policy", errors)
     if 'referrerpolicy="no-referrer"' not in index:
         fail("Room viewer is missing its referrer policy", errors)
+    expected_languages = ('"en"', '"es"', '"fr"', '"ar"', '"zh"', '"de"', '"ru"', '"pt"', '"hi"', '"ja"', '"ko"', '"it"', '"bn"')
+    for code in expected_languages:
+        if f"code:{code}" not in language_runtime:
+            fail(f"Language runtime is missing Academy language {code}", errors)
+    for requirement, message in [
+        ('const KEY="vnv_language_v1"', "shared Khaemenes language preference"),
+        ('const PARAM="lang"', "first-party language handoff"),
+        ('dir:"rtl"', "Arabic right-to-left direction"),
+        ('network:"never"', "sovereign no-network coverage declaration"),
+        ('window.AuroraLanguage', "public language runtime API"),
+    ]:
+        if requirement not in language_runtime:
+            fail(f"Language runtime is missing {message}", errors)
+    if re.search(r"\b(?:fetch|XMLHttpRequest|WebSocket)\s*\(", language_runtime):
+        fail("Language runtime must not send page text to a network service", errors)
+    rows_match = re.search(r"const ROWS=(\[[\s\S]*?\n  \]);\n\n  const EXTENDED=", language_runtime)
+    extended_match = re.search(r"const EXTENDED=Object\.freeze\((\{[\s\S]*?\})\);\n\n  const MESSAGES=", language_runtime)
+    try:
+        translation_rows = json.loads(rows_match.group(1)) if rows_match else []
+        extended_rows = json.loads(extended_match.group(1)) if extended_match else {}
+    except json.JSONDecodeError as exc:
+        fail(f"Language dictionaries are not valid static JSON ({exc})", errors)
+        translation_rows, extended_rows = [], {}
+    if len(translation_rows) < 90:
+        fail(f"Expected at least 90 curated Aurora translation rows, found {len(translation_rows)}", errors)
+    if any(len(row) != 7 for row in translation_rows):
+        fail("Every primary Aurora translation row must contain English plus six translations", errors)
+    source_phrases = [row[0] for row in translation_rows if row]
+    if len(source_phrases) != len(set(source_phrases)):
+        fail("Aurora translation dictionary contains duplicate English source phrases", errors)
+    if any(len(values) != 6 for values in extended_rows.values()):
+        fail("Every extended Aurora translation row must contain six translations", errors)
     for temporary_art in ("aurora-meadow.svg", "aurora-evening.svg"):
         if temporary_art in index or temporary_art in css:
             fail(f"Landing page reintroduced temporary artwork: {temporary_art}", errors)
@@ -297,7 +338,7 @@ def main() -> int:
         f"Aurora audit passed: {EXPECTED_ROOMS} rooms, {EXPECTED_PUBLIC_RESOURCES} trusted references, "
         f"{len(pages)} HTML pages, "
         "complete registry/manifest coverage, isolated storage, sandboxed viewing, "
-        "local references, unique DOM IDs, responsive guardrails, and JavaScript syntax."
+        "local references, unique DOM IDs, responsive guardrails, 13-language sovereign i18n, and JavaScript syntax."
     )
     return 0
 

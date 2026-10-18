@@ -42,6 +42,8 @@ The optional contribution doorway loads Stripe's official browser component. Use
 
 Favorites, saved reflections, room entries, and the optional voice setting stay in the visitor's browser when local storage is available. The landing page does not send those values to Aurora.
 
+Aurora also shares the Khaemenes Academy language preference key (`vnv_language_v1`) and `?lang=` handoff contract. Visitors can choose among 13 interface languages; locally curated Aurora phrases are used when available and English remains visible as the fail-safe fallback. Arabic sets the document to right-to-left. The local language runtime makes no translation-service requests and never uploads page text or visitor writing.
+
 Each room uses a path-derived storage namespace, so similarly named keys in different tools cannot overwrite one another. Existing pre-isolation values are imported once for continuity.
 
 Saved user text is restored as text or through narrow allowlist sanitization. Saved media addresses are limited to credential-free `http` or `https` URLs before they can become links, audio sources, or YouTube embeds.
@@ -52,7 +54,7 @@ Aurora is a reflection, creativity, and wellness-support environment. It is **no
 
 ## Accessibility
 
-The sanctuary entrance includes keyboard-visible focus states, a skip link, responsive layouts, reduced-motion support, keyboard dismissal and focus containment for room dialogs, text labels alongside decorative symbols, whole-word wrapping, and an opt-in browser speech feature.
+The sanctuary entrance includes keyboard-visible focus states, a skip link, responsive layouts, reduced-motion support, keyboard dismissal and focus containment for room dialogs, text labels alongside decorative symbols, whole-word wrapping, a 13-language local interface with Arabic RTL support, and an opt-in browser speech feature that prefers a voice matching the selected language when the browser provides one.
 
 ## Forensic audit
 
@@ -62,7 +64,7 @@ Run the repository-wide check with:
 python scripts/audit_aurora.py
 ```
 
-The audit verifies all 46 HTML documents (the landing page, 44 rooms, and the contribution utility), every local file reference, required metadata, unique and referenced DOM IDs, inline JavaScript syntax, room isolation assets, registry/manifest parity, the 24-source official reference library, unresolved placeholders, forbidden remote dependencies, sandbox policy, and the wellness boundary. GitHub Actions runs the same command on pushes and pull requests to `main`.
+The audit verifies all 46 HTML documents (the landing page, 44 rooms, and the contribution utility), every local file reference, required metadata, unique and referenced DOM IDs, inline JavaScript syntax, room isolation assets, registry/manifest parity, the 24-source official reference library, all 13 Academy language codes, shared language persistence, Arabic RTL, the no-network translation boundary, unresolved placeholders, forbidden remote dependencies, sandbox policy, and the wellness boundary. GitHub Actions runs the same command on pushes and pull requests to `main`.
 
 The repository-wide findings are in `FORENSIC_AUDIT_2026-10-16.md`. The room-by-room isolation and execution record is in `FORENSIC_ROOM_AUDIT_2026-10-17.md`.
 
@@ -70,7 +72,8 @@ The repository-wide findings are in `FORENSIC_AUDIT_2026-10-16.md`. The room-by-
 
 ```text
 index.html                         public studio entrance
-assets/                            local design system and landing logic
+assets/aurora-language.js         sovereign 13-language interface layer
+assets/                            remaining local design system and landing logic
 apps/                              44 rooms plus contribution utility
 mentor-manifest.json               discovery and safety metadata
 scripts/audit_aurora.py            fail-closed repository audit
