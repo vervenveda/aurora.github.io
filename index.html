@@ -84,21 +84,7 @@
     </nav>
   </div>
 </header>
-
-<div class="aurora-ticker" aria-label="Aurora application shortcuts">
-  <div class="aurora-ticker-viewport">
-    <div class="aurora-ticker-track">
-      <div class="aurora-ticker-set">
-        <span class="aurora-ticker-label">Aurora Rooms</span>
-        <a href="./apps/AuraInk_index.html">AuraInk</a>
-        <a href="./apps/breath_reset_index.html">Breath &amp; Reset</a>
-        <a href="./apps/daily_journal_index.html">Daily Journal</a>
-        <a href="./apps/morning_sanctum_index.html">Morning Sanctum</a>
-        <a href="./apps/Aurora_Inspiration_index.html">Aurora Inspiration</a>
-        <a href="./apps/Breath_evening_index.html">Gentle Wake</a>
-        <a class="ticker-support" href="#support">Support Aurora</a>
-      </div>
-      <div class="aurora-ticker-set" aria-hidden="true">
+<div class="aurora-ticker-set" aria-hidden="true">
         <span class="aurora-ticker-label">Aurora Rooms</span>
         <a tabindex="-1" href="./apps/AuraInk_index.html">AuraInk</a>
         <a tabindex="-1" href="./apps/breath_reset_index.html">Breath &amp; Reset</a>
@@ -346,6 +332,10 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="https://vervenveda.com/assets/vnv-ecosystem-menu.js" defer></script>
 <script defer src="https://vervenveda.com/assets/vnv-external-landing.js"></script>
+
+<script src="https://vervenveda.com/assets/vnv-333-ticker.js"></script>
+<script src="https://vervenveda.com/assets/vnv-ticker-autopopulate.js" data-vnv-ticker-autopopulate></script>
+<script>VNV_TICKER.autoPopulate({label:"Aurora Quick Links",max:14});</script>
 <script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js" defer data-vnv-ecosystem-toolbar="1"></script>
 </body>
 </html>
